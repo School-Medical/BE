@@ -2,6 +2,7 @@
 School Medical Management System: Back-end, write by .NET
 1. 🚧 Quy Ước Đặt Tên Nhánh (Branch Naming Convention)
 	<type>/<scope>_<author>
+ 
 Trong đó: 
 - type: Loại công việc (feature, bugfix, hotfix, refactor, chore). Nhiều như vậy nhưng mình xài feature (để phát triển tính năng là chủ yếu).
 - scope: Phạm vi chức năng (ví dụ: auth, order, product, dashboard...)
@@ -10,6 +11,7 @@ Trong đó:
 
 2. 📝 Quy Ước Commit Message (Commit Message Convention)
 	<type>(<scope>): <short-description>
+ 
  Trong đó:
 - type:
   + Add: Thêm mới tính năng
