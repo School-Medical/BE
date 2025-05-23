@@ -7,6 +7,7 @@ Trong đó:
 - type: Loại công việc (feature, bugfix, hotfix, refactor, chore). Nhiều như vậy nhưng mình xài feature (để phát triển tính năng là chủ yếu).
 - scope: Phạm vi chức năng (ví dụ: auth, order, product, dashboard...)
 - author: Tên người thực hiện viết thường, không dấu, có thể dùng dấu gạch ngang (trungnt, duytv...)
+  
   Ví dụ: feature/auth_trungnt
 
 2. 📝 Quy Ước Commit Message (Commit Message Convention)
@@ -21,6 +22,7 @@ Trong đó:
   + Delete: Xóa bỏ tính năng
 - scope: Phạm vi ảnh hưởng
 - short-description: Mô tả ngắn, tiếng Anh
+  
   Ví dụ: Add(auth): implement jwt authentication
   
 3. 🌐 Quy Ước Đặt Tên API (API Naming Convention)
