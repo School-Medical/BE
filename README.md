@@ -33,7 +33,7 @@ type/scope_author
 - `chore`: Công việc phụ trợ (cấu hình, script...)
 
 📌 **scope**: Chức năng cụ thể (auth, student, health-record...)  
-📌 **author**: Tên viết thường, không dấu (ví dụ: `trungnt`, `duytv`)
+📌 **author**: Tên viết thường, không dấu (ví dụ: `trungnt`, `tinht`)
 
 🔹 **Ví dụ**:
 ```bash
@@ -106,7 +106,7 @@ PATCH  /health-records/{id}/approve
 
 - **.NET 8**
 - **Entity Framework Core**
-- **SQL Server**
+- **MySQL**
 - **JWT Authentication**
 - **Swagger** (API documentation)
 - **Clean Architecture** Pattern
@@ -117,14 +117,14 @@ PATCH  /health-records/{id}/approve
 
 1. Clone project:
    ```bash
-   git clone https://github.com/<your-org>/school-medical-management-system.git
+   git clone https://github.com/School-Medical/BE.git
    ```
 
 2. Cấu hình `appsettings.Development.json` tại dự án Web API:
    ```json
    {
      "ConnectionStrings": {
-       "DefaultConnection": "Server=localhost;Database=SchoolMedicalDb;Trusted_Connection=True;"
+       "DefaultConnection": "Server=aiven;Database=school-medical;Trusted_Connection=True;"
      },
      "Jwt": {
        "Key": "your-secret-key",
@@ -146,13 +146,13 @@ PATCH  /health-records/{id}/approve
 
 5. Mở Swagger UI:
    ```
-   http://localhost:<port>/swagger
+   http://localhost:8080/swagger
    ```
 
 ---
 
 ## 📬 Contact
 
-Mọi thắc mắc vui lòng liên hệ team backend qua Slack hoặc Email nội bộ.
+Mọi thắc mắc vui lòng liên hệ team backend: Thế Trung, Quốc Cường, Minh Thiện, Trung Tín
 
 ---
