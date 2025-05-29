@@ -12,6 +12,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
-        Task<Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction> GetCurrentTransactionAsync();
+        Task<ITransaction?> GetCurrentTransactionAsync();
     }
 }
