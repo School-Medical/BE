@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolMedicalSystem.Api", "SchoolMedicalSystem\SchoolMedicalSystem.Api.csproj", "{C423575C-8D43-4549-8669-549667612E91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolMedicalSystem", "SchoolMedicalSystem\SchoolMedicalSystem.csproj", "{C423575C-8D43-4549-8669-549667612E91}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolMedicalSystem.Application", "SchoolMedicalSystem.Application\SchoolMedicalSystem.Application.csproj", "{3639DEEA-A983-4EE4-8740-5CE5135E2C8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolMedicalSystem.Domain", "SchoolMedicalSystem.Domain\SchoolMedicalSystem.Domain.csproj", "{73DD8F99-AE56-42A5-9DC2-C0E489837751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolMedicalSystem.Infrastructure", "SchoolMedicalSystem.Infacstructure\SchoolMedicalSystem.Infrastructure.csproj", "{FFE20DCA-476D-405E-8E3F-2C2EA4B9D01A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolMedicalSystem.Infrastructure", "SchoolMedicalSystem.Infrastructure\SchoolMedicalSystem.Infrastructure.csproj", "{FFE20DCA-476D-405E-8E3F-2C2EA4B9D01A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
