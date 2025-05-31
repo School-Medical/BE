@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SchoolMedicalSystem.Application.DTO.Response;
-using System.ComponentModel.DataAnnotations;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Unicode;
 
 
 namespace SchoolMedicalSystem.Application.ExceptionHandler
@@ -64,12 +66,12 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
                     ErrorResponse.Create(ex.Message, "NOT_FOUND")
                 ),
 
-                DbUpdateException ex => HandleDbUpdateException(ex),
+                //DbUpdateException ex => HandleDbUpdateException(ex),
 
-                UnauthorizedAccessException ex => (
-                    StatusCodes.Status401Unauthorized,
-                    ErrorResponse.Create(ex.Message, "UNAUTHORIZED")
-                ),
+                //UnauthorizedAccessException ex => (
+                //    StatusCodes.Status401Unauthorized,
+                //    ErrorResponse.Create(ex.Message, "UNAUTHORIZED")
+                //),
 
                 ArgumentNullException ex => (
                     StatusCodes.Status400BadRequest,
@@ -94,7 +96,15 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
 
             context.Response.StatusCode = statusCode;
 
-            await context.Response.WriteAsJsonAsync(response);
+            var options = new JsonSerializerOptions
+            {
+                Encoder = JavaScriptEncoder.Create(UnicodeRanges.All),
+                WriteIndented = true
+            };
+
+            string json = JsonSerializer.Serialize(response, options);
+
+            await context.Response.WriteAsync(json);
         }
 
         /// <summary>
@@ -102,21 +112,21 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
         /// </summary>
         /// <param name="ex">The DbUpdateException that was thrown.</param>
         /// <returns>A tuple containing the status code and error response.</returns>
-        private static (int StatusCode, ErrorResponse Response) HandleDbUpdateException(DbUpdateException ex)
-        {
-            var (message, errorCode) = ex.InnerException switch
-            {
-                SqlException sqlEx => sqlEx.Number switch
-                {
-                    547 => ("Không thể xóa dữ liệu do ràng buộc khóa ngoại", "DB_FOREIGN_KEY_ERROR"),
-                    2601 or 2627 => ("Dữ liệu bị trùng lặp", "DB_DUPLICATE_ERROR"),
-                    _ => ("Lỗi thao tác với cơ sở dữ liệu", "DB_ERROR")
-                },
-                _ => ("Lỗi thao tác với cơ sở dữ liệu", "DB_ERROR")
-            };
+        //private static (int StatusCode, ErrorResponse Response) HandleDbUpdateException(DbUpdateException ex)
+        //{
+        //    var (message, errorCode) = ex.InnerException switch
+        //    {
+        //        SqlException sqlEx => sqlEx.Number switch
+        //        {
+        //            547 => ("Không thể xóa dữ liệu do ràng buộc khóa ngoại", "DB_FOREIGN_KEY_ERROR"),
+        //            2601 or 2627 => ("Dữ liệu bị trùng lặp", "DB_DUPLICATE_ERROR"),
+        //            _ => ("Lỗi thao tác với cơ sở dữ liệu", "DB_ERROR")
+        //        },
+        //        _ => ("Lỗi thao tác với cơ sở dữ liệu", "DB_ERROR")
+        //    };
 
-            return (StatusCodes.Status400BadRequest, ErrorResponse.Create(message, errorCode));
-        }
+        //    return (StatusCodes.Status400BadRequest, ErrorResponse.Create(message, errorCode));
+        //}
 
         /// <summary>
         /// Creates an internal server error response.
