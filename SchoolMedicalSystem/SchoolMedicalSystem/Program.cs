@@ -1,4 +1,11 @@
 
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using SchoolMedicalSystem.Application.ExceptionHandler;
+using SchoolMedicalSystem.Infrastructure.Data;
+using System;
+
 namespace SchoolMedicalSystem
 {
     public class Program
@@ -14,7 +21,21 @@ namespace SchoolMedicalSystem
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // Use Autofac as the DI container
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+            {
+                containerBuilder.RegisterModule(new ServiceRegistration(builder.Configuration));
+            });
+
             var app = builder.Build();
+
+            // Configure middleware handle global exception
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
+  
+
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
