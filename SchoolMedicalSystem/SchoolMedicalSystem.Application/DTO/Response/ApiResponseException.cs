@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.DTO.Response
 {
-    public class ApiResponse
+    public class ApiResponseException
     {
-        public bool IsSuccess { get; set; }
         public string Message { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }
