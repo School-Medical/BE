@@ -26,6 +26,7 @@ namespace SchoolMedicalSystem
 
             //Add mapper as the DI (It will seek all asembly have in mapper)
             builder.Services.AddAutoMapper(typeof(MedicalIncidentProfile));
+            builder.Services.AddAutoMapper(typeof(HealthProfileProfile));
 
             // Use Autofac as the DI container
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
