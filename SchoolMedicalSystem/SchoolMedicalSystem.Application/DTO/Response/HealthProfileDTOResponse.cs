@@ -35,8 +35,6 @@ namespace SchoolMedicalSystem.Application.DTO.Response
 
         public DateOnly? update_at { get; set; }
 
-        public int? student_id { get; set; }
-
         public string? student_name { get; set; }
     }
 }

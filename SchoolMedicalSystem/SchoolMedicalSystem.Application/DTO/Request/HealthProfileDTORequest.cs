@@ -32,8 +32,5 @@ namespace SchoolMedicalSystem.Application.DTO.Request
         public DateOnly? update_at { get; set; }
 
         public int? student_id { get; set; }
-
-        public virtual Student? student { get; set; }
-
     }
 }

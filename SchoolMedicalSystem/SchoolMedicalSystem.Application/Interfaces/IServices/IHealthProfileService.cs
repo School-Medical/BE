@@ -1,4 +1,5 @@
 ﻿using SchoolMedicalSystem.Application.DTO.Request;
+using SchoolMedicalSystem.Application.DTO.Response;
 using SchoolMedicalSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
 {
     public interface IHealthProfileService
     {
-        Task<List<HealthProfile>> GetAllAsync();
+        Task<List<HealthProfileDTOResponse>> GetAllAsync();
         Task<HealthProfile?> GetByIdAsync(int id);
 
         Task<HealthProfile?> GetByStudentNameAsync(string studentName);
