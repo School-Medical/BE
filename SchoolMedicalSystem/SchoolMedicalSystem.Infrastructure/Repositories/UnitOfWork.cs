@@ -1,13 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using SchoolMedicalSystem.Application.Interfaces.IReposervices;
-using SchoolMedicalSystem.Domain.Entities;
 using SchoolMedicalSystem.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Infrastructure.Repositories
 {
@@ -23,7 +17,12 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _context = context;
             _logger = logger;
             MedicalIncidents = new MedicalIncidentRepository(_context);
+            Medication = new MedicationRepository(_context);
         }
+
+        public IMedicalIncidentRepository MedicalIncidents { get; private set; }
+
+        public IMedicationRepository Medication { get; private set; }
 
         public async Task<int> SaveChangesAsync()
         {
@@ -78,8 +77,5 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return Task.FromResult<ITransaction?>(new EfTransaction(_transaction));
         }
 
-        public IMedicalIncidentRepository MedicalIncidents {  get; private set; }
-
-        public IMedicationRepository Medication { get; private set; }
     }
 }

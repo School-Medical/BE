@@ -38,11 +38,8 @@ namespace SchoolMedicalSystem.Controllers
         }
 
         [HttpPut("{name}")]
-        public async Task<IActionResult> Update(string name, [FromBody] MedicationRequest request)
+        public async Task<IActionResult> Update([FromBody] MedicationRequest request)
         {
-            if (!string.Equals(name, request.MedicineName, StringComparison.OrdinalIgnoreCase))
-                return BadRequest("Tên trong URL và request body không khớp.");
-
             var updated = await _medicationService.UpdateAsync(request);
             return Ok(updated);
         }
