@@ -2,12 +2,15 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SchoolMedicalSystem.Application.ExceptionHandler;
 using SchoolMedicalSystem.Application.Mappers;
 using SchoolMedicalSystem.Infrastructure.Data;
 using System;
+using System.Text;
 
 namespace SchoolMedicalSystem
 {
@@ -33,6 +36,24 @@ namespace SchoolMedicalSystem
             {
                 containerBuilder.RegisterModule(new ServiceRegistration(builder.Configuration));
             });
+
+            // Add Authentication
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]!);
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ClockSkew = TimeSpan.Zero 
+                    };
+                });
+            builder.Services.AddAuthorization();
 
             //Add Swagger document with Bearer to Authentication and Authorization
             builder.Services.AddSwaggerGen(opt =>
@@ -92,8 +113,8 @@ namespace SchoolMedicalSystem
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.MapControllers();
 

@@ -30,12 +30,16 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
                 return new SchoolMedicalDbContext(optionsBuilder.Options);
             }).InstancePerLifetimeScope();
 
+
             // Register repository and service
 
             //builder.RegisterType<JwtService>().As<IJwtService>().InstancePerLifetimeScope();
-            //builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<AuthService>().As<IAuthService>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();    
-            builder.RegisterType<MedicalIncidentService>().As<IMedicalIncidentService>().InstancePerLifetimeScope();    
+            builder.RegisterType<MedicalIncidentService>().As<IMedicalIncidentService>().InstancePerLifetimeScope();
+            builder.RegisterType<StudentRepository>().As<IStudentRepository>().InstancePerLifetimeScope();
+
+
         }
     }
 }

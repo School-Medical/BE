@@ -20,8 +20,11 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<User?> GetByAccountAsync(string account)
         {
-            return await _dbContext.Users.Include(u => u.role)
-                                         .FirstOrDefaultAsync(u => u.account.Equals(account));
+            var list = await _dbContext.Users.Select(u => u.account).ToListAsync();
+            var result = await _dbContext.Users
+                .Include(u => u.role)
+                .FirstOrDefaultAsync(u => u.account.Equals(account));
+            return result;
         }
     }
 }

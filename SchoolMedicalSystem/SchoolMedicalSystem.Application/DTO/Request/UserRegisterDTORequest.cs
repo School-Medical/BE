@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SchoolMedicalSystem.Application.Services
+namespace SchoolMedicalSystem.Application.DTO.Request
 {
-    public class UserService
+    public class UserRegisterDTORequest
     {
-
     }
 }

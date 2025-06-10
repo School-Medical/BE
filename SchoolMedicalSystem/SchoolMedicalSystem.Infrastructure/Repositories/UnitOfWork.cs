@@ -23,6 +23,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _context = context;
             _logger = logger;
             MedicalIncidents = new MedicalIncidentRepository(_context);
+            Users = new UserRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()
@@ -79,5 +80,6 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         }
 
         public IMedicalIncidentRepository MedicalIncidents {  get; private set; }
+        public IUserRepository Users { get; private set; }
     }
 }
