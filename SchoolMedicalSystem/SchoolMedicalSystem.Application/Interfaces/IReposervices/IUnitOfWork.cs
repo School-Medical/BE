@@ -8,6 +8,8 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
 {
     public interface IUnitOfWork
     {
+        IMedicationRepository Medication { get; }
+
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();

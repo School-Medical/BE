@@ -79,5 +79,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         }
 
         public IMedicalIncidentRepository MedicalIncidents {  get; private set; }
+
+        public IMedicationRepository Medication { get; private set; }
     }
 }
