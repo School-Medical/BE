@@ -20,5 +20,22 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         {
             return await _dbContext.Students.FirstOrDefaultAsync(s => s.student_id.Equals(id));
         }
+
+        public async Task<Student?> GetStudentByStudentCode(string studentCode)
+        {
+            return await _dbContext.Students.FirstOrDefaultAsync(s => s.student_code!.Equals(studentCode));
+        }
+
+        // Nếu tên học sinh mà có dấu thì chưa làm được
+        public async Task<List<Student?>> GetStudentByStudentName(string studentName)
+        {
+            if (string.IsNullOrWhiteSpace(studentName)) return null;
+
+            var normalizedName = studentName.Trim().ToLower();
+
+            return await _dbContext.Students!
+                .Where(s => (s.last_name + " " + s.first_name).ToLower().Contains(normalizedName)).ToListAsync();
+        }
+
     }
 }

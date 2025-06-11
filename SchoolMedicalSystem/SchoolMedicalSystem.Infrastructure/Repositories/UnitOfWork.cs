@@ -22,7 +22,10 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         {
             _context = context;
             _logger = logger;
+
+            // Repository initialization using Dependency Injection
             MedicalIncidents = new MedicalIncidentRepository(_context);
+            Students = new StudentRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()
@@ -77,7 +80,9 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
             return Task.FromResult<ITransaction?>(new EfTransaction(_transaction));
         }
+        //This place to start progress dependency injection
+        public IMedicalIncidentRepository MedicalIncidents { get; private set; }
 
-        public IMedicalIncidentRepository MedicalIncidents {  get; private set; }
+        public IStudentRepository Students { get; private set; }
     }
 }

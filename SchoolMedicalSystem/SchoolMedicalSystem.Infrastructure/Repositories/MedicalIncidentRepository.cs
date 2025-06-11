@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SchoolMedicalSystem.Application.DTO.Request;
+using SchoolMedicalSystem.Application.DTO.Response;
 using SchoolMedicalSystem.Application.Interfaces.IReposervices;
 using SchoolMedicalSystem.Domain.Entities;
 using SchoolMedicalSystem.Infrastructure.Data;
@@ -25,29 +27,51 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public async Task<bool> DeleteAsync(int id)
         {
             var medicalIncident = await _dbContext.MedicalIncidents.FindAsync(id);
-            if(medicalIncident == null)
+            if (medicalIncident == null)
             {
                 return false;
-                throw new Exception("Medical Incident not found");
             }
             _dbContext.Remove(medicalIncident);
             return true;
         }
 
-        public async Task<List<MedicalIncident>> GetAllAsync()
+        #region
+
+        /// <summary>
+        /// Sử dụng IQueryable để tối ưu hiệu năng khi truy vấn dữ liệu lớn từ database.
+        /// Phương thức trả về IQueryable, cho phép tiếp tục lọc, phân trang, sắp xếp trực tiếp trên database,
+        /// thay vì lấy toàn bộ dữ liệu lên bộ nhớ rồi mới xử lý.
+        /// </summary>
+        /// <returns>IQueryable để xây dựng truy vấn LINQ trên database</returns>
+        private IQueryable<MedicalIncident> GetPagedAsync()
         {
-            return await _dbContext.MedicalIncidents.Include(m => m.nurse).Include(m => m.student).ToListAsync();
+            return _dbContext.MedicalIncidents.AsQueryable();
+        }
+
+        #endregion
+
+        public async Task<List<MedicalIncident>> GetPagedAsync(int pageSize, int pageNumber)
+        {
+            return await _dbContext.MedicalIncidents.Include(m => m.student).Include(m => m.nurse)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task<MedicalIncident?> GetByIdAsync(int id)
         {
-            return await _dbContext.MedicalIncidents.FirstOrDefaultAsync(x => x.medical_incident_id == id);
+            return await _dbContext.MedicalIncidents.Include(m => m.student).Include(m => m.nurse).FirstOrDefaultAsync(m => m.medical_incident_id == id);
         }
 
-        public  async Task<bool> UpdateAsync(MedicalIncident entity)
+        public async Task<MedicalIncident?> GetByStudentIdAsync(int studentId)
         {
+            return await _dbContext.MedicalIncidents.FirstOrDefaultAsync(m => m.student_id == studentId);
+        }
+
+        public async Task<MedicalIncident> UpdateAsync(MedicalIncident entity)
+        {          
             _dbContext.Update(entity);
-            return true;
+            return entity;
         }
     }
 }
