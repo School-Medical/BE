@@ -8,7 +8,7 @@ using SchoolMedicalSystem.Models;
 
 namespace SchoolMedicalSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/medical-supplies")]
     [ApiController]
     public class MedicalSuppliesController : ControllerBase
     {
@@ -19,7 +19,7 @@ namespace SchoolMedicalSystem.Controllers
         }
 
 
-        // GET: api/<MedicalSuppliesController>
+        
 
         [HttpGet]
         public async Task<IActionResult> GetAllMedicalSupplies()
