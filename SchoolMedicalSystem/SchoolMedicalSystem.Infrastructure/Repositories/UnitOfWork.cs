@@ -23,6 +23,8 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _context = context;
             _logger = logger;
             MedicalIncidents = new MedicalIncidentRepository(_context);
+            MedicalSupplies = new MedicalSuppliesRepository(_context);
+            Batch = new BatchRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()
@@ -79,5 +81,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         }
 
         public IMedicalIncidentRepository MedicalIncidents {  get; private set; }
+        public IMedicalSuppliesRepository MedicalSupplies { get; private set; }
+        public IBatchRepository Batch { get; private set; }
     }
 }

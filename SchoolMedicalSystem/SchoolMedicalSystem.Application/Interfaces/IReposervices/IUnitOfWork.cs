@@ -14,5 +14,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task RollbackTransactionAsync();
         Task<ITransaction?> GetCurrentTransactionAsync();
         IMedicalIncidentRepository MedicalIncidents {  get; }
+        IMedicalSuppliesRepository MedicalSupplies { get; }
+        IBatchRepository Batch { get; }
     }
 }
