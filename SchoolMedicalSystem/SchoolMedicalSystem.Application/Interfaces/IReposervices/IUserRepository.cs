@@ -10,5 +10,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
     public interface IUserRepository
     {
         Task<User?> GetByAccountAsync(string account);
+        Task<User?> CreatedAccountAsync(User user);
     }
 }

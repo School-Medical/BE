@@ -14,9 +14,11 @@ namespace SchoolMedicalSystem.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
-        public AuthController(IAuthService authService)
+        private readonly IJWTService _jwtService;
+        public AuthController(IAuthService authService, IJWTService jwtService)
         {
             _authService = authService;
+            _jwtService = jwtService;
         }
 
         [HttpPost("login")]
@@ -31,7 +33,7 @@ namespace SchoolMedicalSystem.Controllers
             {
                 return Unauthorized("Invalid account or password.");
             }   
-            user.Token = _authService.GenerateJwtToken(user);
+            user.Token = _jwtService.GenerateJwtToken(user);
             return Ok(new ApiResponse<UserLoginDTOResponse>("Login success fully!",user));
         }
     }

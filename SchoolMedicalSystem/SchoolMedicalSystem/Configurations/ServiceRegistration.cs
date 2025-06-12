@@ -33,7 +33,7 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
 
             // Register repository and service
 
-            //builder.RegisterType<JwtService>().As<IJwtService>().InstancePerLifetimeScope();
+            builder.RegisterType<JWTService>().As<IJWTService>().InstancePerLifetimeScope();
             builder.RegisterType<AuthService>().As<IAuthService>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();    
             builder.RegisterType<MedicalIncidentService>().As<IMedicalIncidentService>().InstancePerLifetimeScope();

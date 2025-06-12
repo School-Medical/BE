@@ -19,13 +19,11 @@ namespace SchoolMedicalSystem.Application.Services
     {
         
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IConfiguration _config;
         private readonly IMapper _mapper;
 
-        public AuthService(IUnitOfWork unitOfWork, IConfiguration config, IMapper mapper)
+        public AuthService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
-            _config = config;
             _mapper = mapper;
         }
 
@@ -39,29 +37,6 @@ namespace SchoolMedicalSystem.Application.Services
             return _mapper.Map<UserLoginDTOResponse>(result);
         }
 
-        public string GenerateJwtToken(UserLoginDTOResponse user)
-        {
-            var key = Encoding.UTF8.GetBytes(_config["Jwt:SecretKey"]!);
 
-            var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            new Claim(ClaimTypes.Name, user.LastName ?? ""),
-            new Claim(ClaimTypes.Role, user.RoleName ?? "User")
-        };
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
     }
 }

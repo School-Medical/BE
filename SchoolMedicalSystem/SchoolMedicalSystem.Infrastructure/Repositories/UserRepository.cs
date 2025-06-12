@@ -18,6 +18,12 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<User?> CreatedAccountAsync(User user)
+        {
+            await _dbContext.Users.AddAsync(user);
+            return user;
+        }
+
         public async Task<User?> GetByAccountAsync(string account)
         {
             var list = await _dbContext.Users.Select(u => u.account).ToListAsync();
