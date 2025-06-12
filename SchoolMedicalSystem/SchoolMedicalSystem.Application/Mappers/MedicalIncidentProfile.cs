@@ -26,7 +26,8 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.medicine_type))
                 .ForMember(dest => dest.ExpiryDate, opt => opt.MapFrom(src => src.expiry_date))
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.image_url))
-                .ForMember(dest => dest.BatchId, opt => opt.MapFrom(src => src.batch_id));
+                .ForMember(dest => dest.BatchId, opt => opt.MapFrom(src => src.batch_id))
+                .ForMember(dest => dest.MedicalSupplyId, opt => opt.MapFrom(src => src.medicine_id));
 
             CreateMap<MedicalSuppliesDTORequest, Medicine>()
                 .ForMember(dest => dest.medicine_name, opt => opt.MapFrom(src => src.Name))
@@ -34,8 +35,7 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.medicine_usage, opt => opt.MapFrom(src => src.Usage))
                 .ForMember(dest => dest.medicine_type, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dest => dest.expiry_date, opt => opt.MapFrom(src => src.ExpiryDate))
-                .ForMember(dest => dest.image_url, opt => opt.MapFrom(src => src.ImageUrl))
-                .ForMember(dest => dest.medicine_id, opt => opt.Ignore());
+                .ForMember(dest => dest.image_url, opt => opt.MapFrom(src => src.ImageUrl));
 
 
         }

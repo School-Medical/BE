@@ -22,7 +22,7 @@ namespace SchoolMedicalSystem.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<Medicine> AddAsync(MedicalSuppliesDTORequest dto, int userId)
+        public async Task<MedicalSuppliesDTOResponse> AddAsync(MedicalSuppliesDTORequest dto, int userId)
         {
             var batch = new Batch
             {
@@ -40,7 +40,7 @@ namespace SchoolMedicalSystem.Application.Services
             mappedEntity.batch_id = batchResult.batch_id;
             var result = await _unitOfWork.MedicalSupplies.AddAsync(mappedEntity);
             await _unitOfWork.SaveChangesAsync();
-            return result;
+            return _mapper.Map<MedicalSuppliesDTOResponse>(result);
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -83,7 +83,7 @@ namespace SchoolMedicalSystem.Application.Services
             return result;
         }
 
-        public async Task<bool> UpdateAsync(int id, MedicalSuppliesDTORequest dto)
+        public async Task<MedicalSuppliesDTOResponse> UpdateAsync(int id, MedicalSuppliesDTORequest dto)
         {
             var existingEntity = await _unitOfWork.MedicalSupplies.GetByIdAsync(id);
             if (existingEntity == null)
@@ -93,7 +93,7 @@ namespace SchoolMedicalSystem.Application.Services
             _mapper.Map(dto, existingEntity);
             var result = await _unitOfWork.MedicalSupplies.UpdateAsync(existingEntity);
             await _unitOfWork.SaveChangesAsync();
-            return result;
+            return _mapper.Map<MedicalSuppliesDTOResponse>(result);
         }
     }
 }

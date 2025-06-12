@@ -12,7 +12,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<List<Medicine>> GetAllasync();
         Task<Medicine?> GetByIdAsync(int id);
         Task<Medicine> AddAsync(Medicine entity);
-        Task<bool> UpdateAsync(Medicine entity);
+        Task<Medicine> UpdateAsync(Medicine entity);
         Task<bool> DeleteAsync(int id);
         Task<List<Medicine>> GetMedicinesByCategoryAsync(string category);
     }

@@ -19,7 +19,7 @@ namespace SchoolMedicalSystem.Controllers
         }
 
 
-        
+
 
         [HttpGet]
         public async Task<IActionResult> GetAllMedicalSupplies()
@@ -45,22 +45,22 @@ namespace SchoolMedicalSystem.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ApiResponse<string>("Error when accessing medical supply.", new List<string> { "Something went wrong." }, 500));
+                return StatusCode(500, new ApiResponse<string>("Error when accessing medical supply.", ex.Message , 500));
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMedicalSupplies([FromQuery] int userId,[FromBody] MedicalSuppliesDTORequest medicalSuppliesDTORequest)
+        public async Task<IActionResult> AddMedicalSupplies([FromQuery] int userId, [FromBody] MedicalSuppliesDTORequest medicalSuppliesDTORequest)
         {
             try
             {
                 if (userId <= 0) return BadRequest(new ApiResponse<string>("Invalid userId", new List<string> { "User ID is required." }, 400));
                 var result = await _medicalSuppliesService.AddAsync(medicalSuppliesDTORequest, userId);
-                return CreatedAtAction(nameof(GetMedicalSuppliesById), new { id = result.medicine_id }, new ApiResponse<MedicalSuppliesDTORequest>("Add medical supply successfully!", medicalSuppliesDTORequest, 201));
+                return CreatedAtAction(nameof(GetMedicalSuppliesById), new { id = result.MedicalSupplyId }, new ApiResponse<MedicalSuppliesDTOResponse>("Add medical supply successfully!", result, 201));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ApiResponse<string>("Error when adding medical supply.", new List<string> { "Something went wrong." }, 500));
+                return StatusCode(500, new ApiResponse<string>("Error when adding medical supply.", ex.Message , 500));
             }
         }
 
@@ -70,15 +70,11 @@ namespace SchoolMedicalSystem.Controllers
             try
             {
                 var result = await _medicalSuppliesService.UpdateAsync(id, medicalSuppliesDTORequest);
-                if (result)
-                {
-                    return Ok(new ApiResponse<MedicalSuppliesDTORequest>("Update medical supply successfully!", medicalSuppliesDTORequest, 200));
-                }
-                return NotFound(new ApiResponse<string>("Error when updating medical supply.", new List<string> { "Something went wrong." }, 404));
+                return Ok(new ApiResponse<MedicalSuppliesDTOResponse>("Update medical supply successfully!", result, 200));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ApiResponse<string>("Error when updating medical supply.", new List<string> { "Something went wrong." }, 500));
+                return StatusCode(500, new ApiResponse<string>("Error when updating medical supply.", ex.Message, 500));
             }
         }
 
@@ -96,7 +92,7 @@ namespace SchoolMedicalSystem.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ApiResponse<string>("Error when deleting medical supply.", new List<string> { "Something went wrong." }, 500));
+                return StatusCode(500, new ApiResponse<string>("Error when deleting medical supply.", ex.Message, 500));
             }
         }
     }

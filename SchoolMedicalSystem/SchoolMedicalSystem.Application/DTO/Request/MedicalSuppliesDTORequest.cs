@@ -8,7 +8,6 @@ namespace SchoolMedicalSystem.Application.DTO.Request
 {
     public class MedicalSuppliesDTORequest
     {
-        public int Id { get; set; }
         public string? Name { get; set; }
         public string? Effect { get; set; }
         public string? Usage { get; set; }

@@ -13,8 +13,8 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
     {
         Task<List<MedicalSuppliesDTOResponse>> GetAllAsync();
         Task<MedicalSuppliesDTOResponse> GetByIdAsync(int id);
-        Task<Medicine> AddAsync(MedicalSuppliesDTORequest dto, int userId);
-        Task<bool> UpdateAsync(int id, MedicalSuppliesDTORequest dto);
+        Task<MedicalSuppliesDTOResponse> AddAsync(MedicalSuppliesDTORequest dto, int userId);
+        Task<MedicalSuppliesDTOResponse> UpdateAsync(int id, MedicalSuppliesDTORequest dto);
         Task<bool> DeleteAsync(int id);
         Task<List<Medicine>> GetMedicinesByCategoryAsync(string category);
     }

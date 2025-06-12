@@ -36,12 +36,12 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<List<Medicine>> GetAllasync()
         {
-            return await _context.Set<Medicine>().ToListAsync();
+            return await _context.Set<Medicine>().Where(x => x.category == "supply").ToListAsync();
         }
 
         public Task<Medicine?> GetByIdAsync(int id)
         {
-            return _context.Set<Medicine>().FirstOrDefaultAsync(x => x.medicine_id == id);
+            return _context.Set<Medicine>().Where(s => s.category == "supply").FirstOrDefaultAsync(x => x.medicine_id == id);
         }
 
         public Task<List<Medicine>> GetMedicinesByCategoryAsync(string category)
@@ -51,10 +51,10 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<bool> UpdateAsync(Medicine entity)
+        public async Task<Medicine> UpdateAsync(Medicine entity)
         {
             _context.Medicines.Update(entity);
-            return true;
+            return entity;
         }
     }
 }
