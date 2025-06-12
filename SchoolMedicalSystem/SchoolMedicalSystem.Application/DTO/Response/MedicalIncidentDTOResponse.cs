@@ -8,24 +8,17 @@ namespace SchoolMedicalSystem.Application.DTO.Response
 {
     public class MedicalIncidentDTOResponse
     {
-        public string? type { get; set; }
+        public int MedicalIncidentId { get; set; }
+        public string? Type { get; set; }
+        public string? Symptom { get; set; }
+        public string? Diagnosis { get; set; }
+        public string? Treatment { get; set; }
+        public int? SeverityLevel { get; set; }
+        public ulong? FollowUp { get; set; }
+        public string? Message { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public string? StudentName { get; set; }
+        public string? NurseName { get; set; }
 
-        public string? symptom { get; set; }
-
-        public string? diagnosis { get; set; }
-
-        public string? treatment { get; set; }
-
-        public int? severity_level { get; set; }
-
-        public ulong? follow_up { get; set; }
-
-        public string? message { get; set; }
-
-        public DateTime? create_at { get; set; }
-
-        public string? student_name { get; set; }
-
-        public string? nurse_name { get; set; }
     }
 }

@@ -10,5 +10,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
     public interface IStudentRepository
     {
         Task<Student?> GetStudentById(int id);
+        Task<Student?> GetStudentByStudentCode(string studentCode);
+        Task<List<Student?>> GetStudentByStudentName(string studentName);
     }
 }

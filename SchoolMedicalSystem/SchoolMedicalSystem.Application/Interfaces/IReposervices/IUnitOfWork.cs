@@ -16,5 +16,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         IMedicalIncidentRepository MedicalIncidents {  get; }
         IMedicalSuppliesRepository MedicalSupplies { get; }
         IBatchRepository Batch { get; }
+        IStudentRepository Students { get; }
+
     }
 }
