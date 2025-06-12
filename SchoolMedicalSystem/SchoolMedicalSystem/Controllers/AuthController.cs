@@ -36,5 +36,20 @@ namespace SchoolMedicalSystem.Controllers
             user.Token = _jwtService.GenerateJwtToken(user);
             return Ok(new ApiResponse<UserLoginDTOResponse>("Login success fully!",user));
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] UserRegisterDTORequest request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.Account) || string.IsNullOrEmpty(request.HashPassword))
+            {
+                return BadRequest("Invalid registration request.");
+            }
+            var user = await _authService.CreatedAccountAsync(request);
+            if (user == null)
+            {
+                return BadRequest("Account already exists or registration failed.");
+            }
+            return Ok(new ApiResponse<UserRegisterDTOResponse>("Registration success fully!", user));
+        }
     }
 }
