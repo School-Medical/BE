@@ -39,6 +39,14 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return await _dbContext.HealthProfiles.Include(h => h.student).ToListAsync();
         }
 
+        public async Task<List<HealthProfile>> GetPagedAsync(int pageSize, int pageNumber)
+        {
+            return await _dbContext.HealthProfiles.Include(h => h.student)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
         public async Task<HealthProfile?> GetByIdAsync(int id)
         {
             return await _dbContext.HealthProfiles.FirstOrDefaultAsync(x => x.health_profile_id == id);

@@ -15,7 +15,7 @@ namespace SchoolMedicalSystem.Application.Mappers
         public MedicalIncidentProfile()
         {
 
-            
+
             CreateMap<MedicalIncidentDTORequest, MedicalIncident>();
             CreateMap<Medicine, MedicalSuppliesDTOResponse>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.medicine_name))

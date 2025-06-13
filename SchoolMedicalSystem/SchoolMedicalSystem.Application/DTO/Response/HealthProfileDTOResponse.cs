@@ -9,32 +9,32 @@ namespace SchoolMedicalSystem.Application.DTO.Response
 {
     public class HealthProfileDTOResponse
     {
-        public decimal? weight_index { get; set; }
+        public decimal? WeightIndex { get; set; }
 
-        public decimal? height_index { get; set; }
+        public decimal? HeightIndex { get; set; }
 
-        public int? vision_index { get; set; }
+        public int? VisionIndex { get; set; }
 
-        public int? hearing_index { get; set; }
+        public int? HearingIndex { get; set; }
 
-        public int? blood_pressure_index { get; set; }
+        public int? BloodPressureIndex { get; set; }
 
-        public string? allergy_list { get; set; }
+        public string? AllergyList { get; set; }
 
-        public string? chronic_disease { get; set; }
+        public string? ChronicDisease { get; set; }
 
-        public string? medical_history { get; set; }
+        public string? MedicalHistory { get; set; }
 
-        public string? medication_in_use { get; set; }
+        public string? MedicationInUse { get; set; }
 
-        public string? blood_group { get; set; }
+        public string? BloodGroup { get; set; }
 
-        public ulong? gender { get; set; }
+        public ulong? Gender { get; set; }
 
-        public DateOnly? birthday { get; set; }
+        public DateOnly? Birthday { get; set; }
 
-        public DateOnly? update_at { get; set; }
+        public DateOnly? UpdateAt { get; set; }
 
-        public string? student_name { get; set; }
+        public string? StudentName { get; set; }
     }
 }
