@@ -10,6 +10,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
     public interface IHealthProfileRepository
     {
         Task<List<HealthProfile>> GetAllAsync();
+        Task<List<HealthProfile>> GetPagedAsync(int pageSize, int pageNumber);
         Task<HealthProfile?> GetByIdAsync(int id);
         Task<HealthProfile> AddAsync(HealthProfile entity);
         Task<bool> UpdateAsync(HealthProfile entity);

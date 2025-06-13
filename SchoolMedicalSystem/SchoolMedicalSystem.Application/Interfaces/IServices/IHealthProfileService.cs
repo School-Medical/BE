@@ -11,14 +11,14 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
 {
     public interface IHealthProfileService
     {
-        Task<List<HealthProfileDTOResponse>> GetAllAsync();
-        Task<HealthProfile?> GetByIdAsync(int id);
+        Task<PaginatedResponse<HealthProfileDTOResponse>> GetAllAsync(int pageSize, int pageNumber);
+        Task<HealthProfileDTOResponse?> GetByIdAsync(int id);
 
         Task<HealthProfile?> GetByStudentNameAsync(string studentName);
 
-        Task<HealthProfileDTORequest> AddAsync(HealthProfileDTORequest healthProfile);
+        Task<HealthProfileDTOResponse> AddAsync(HealthProfileDTORequest dto);
 
-        Task<bool> UpdateAsync(HealthProfile entity);
+        Task<HealthProfileDTOResponse> UpdateAsync(int healthProfileId, HealthProfileDTORequest dto);
 
         Task<bool> DeleteAsync(int id);
     }
