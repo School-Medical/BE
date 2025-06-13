@@ -137,7 +137,7 @@ namespace SchoolMedicalSystem.Application.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error finding medical incident for student {Name}", studentName);
+                _logger.LogError(ex, "Error finding medical incident for student {Name}", studentCode);
                 throw;
             }
         }
