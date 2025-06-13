@@ -19,8 +19,16 @@ namespace SchoolMedicalSystem.Controllers
         [HttpPost("send")]
         public async Task<IActionResult> SendMedication([FromBody] MedicationRequest request)
         {
-            var result = await _medicationService.AddAsync(request);
-            return CreatedAtAction(nameof(GetByName), new { name = result.MedicineName }, result);
+            try
+            {
+                var result = await _medicationService.AddAsync(request);
+                return CreatedAtAction(nameof(GetByName), new { name = result.MedicineName }, result);
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex.Message); // tạm
+            }
+            
         }
 
         [HttpGet]
