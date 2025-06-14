@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
 {
-    public interface IStudentRepository
+    public interface IBatchRepository
     {
-        Task<Student?> GetStudentById(int id);
-        Task<Student?> GetStudentByStudentCode(string studentCode);
-        Task<List<Student?>> GetStudentByStudentName(string studentName);
+        Task<Batch> AddBatchAsync(Batch entity);
+        Task<bool> DeleteBatchAsync(int id);
     }
 }

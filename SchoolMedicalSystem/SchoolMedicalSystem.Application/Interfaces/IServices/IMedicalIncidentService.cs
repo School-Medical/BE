@@ -1,4 +1,5 @@
 ﻿using SchoolMedicalSystem.Application.DTO.Request;
+using SchoolMedicalSystem.Application.DTO.Response;
 using SchoolMedicalSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
 {
     public interface IMedicalIncidentService
     {
-        Task<List<MedicalIncident>> GetAllAsync();
-        Task<MedicalIncident?> GetByIdAsync(int id);
-        Task<MedicalIncident?> GetByStudentNameAsync(string studentName);
-        Task<MedicalIncidentDTORequest> AddAsync(MedicalIncidentDTORequest medicalIncidentDTO);
-        Task<bool> UpdateAsync(MedicalIncident entity);
+        Task<PaginatedResponse<MedicalIncidentDTOResponse>> GetAllAsync(int pageSize, int pageNumber);
+        Task<MedicalIncidentDTOResponse?> GetByIdAsync(int id);
+        Task<MedicalIncidentDTOResponse> AddAsync(MedicalIncidentDTORequest medicalIncidentDTO);
+        Task<MedicalIncidentDTOResponse> UpdateAsync(int medicalIncidentId, MedicalIncidentDTORequest dto);
         Task<bool> DeleteAsync(int id);
+        Task<MedicalIncidentDTOResponse?> GetByStudentCodeOrByNameAsync(string studentCode);
     }
 }
