@@ -11,5 +11,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
     {
         Task<User?> GetByAccountAsync(string account);
         Task<User?> CreatedAccountAsync(User user);
+        Task<User?> GetByIdAsync(int userId);
     }
 }

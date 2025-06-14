@@ -32,5 +32,13 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .FirstOrDefaultAsync(u => u.account.Equals(account));
             return result;
         }
+
+        public async Task<User?> GetByIdAsync(int userId)
+        {
+            var result = await _dbContext.Users
+                .Include(u => u.role)
+                .FirstOrDefaultAsync(u => u.user_id == userId);
+            return result;
+        }
     }
 }

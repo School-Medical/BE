@@ -24,10 +24,9 @@ namespace SchoolMedicalSystem.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDTORequest request)
         {
-            if (request == null || string.IsNullOrEmpty(request.Account) || string.IsNullOrEmpty(request.Password))
-            {
-                return BadRequest("Invalid login request.");
-            }
+            var (isValid, error) = UserValidationHelper.ValidateLogin(request);
+            if (!isValid)
+                return BadRequest(error);
             var user = await _authService.ValidateUserAsync(request.Account, request.Password);
             if (user == null)
             {
@@ -40,10 +39,9 @@ namespace SchoolMedicalSystem.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserRegisterDTORequest request)
         {
-            if (request == null || string.IsNullOrEmpty(request.Account) || string.IsNullOrEmpty(request.HashPassword))
-            {
-                return BadRequest("Invalid registration request.");
-            }
+            var (isValid, error) = UserValidationHelper.ValidateRegister(request);
+            if (!isValid)
+                return BadRequest(error);
             var user = await _authService.CreatedAccountAsync(request);
             if (user == null)
             {

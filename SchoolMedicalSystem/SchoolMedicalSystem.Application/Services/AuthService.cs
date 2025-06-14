@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,26 +29,29 @@ namespace SchoolMedicalSystem.Application.Services
             _mapper = mapper;
         }
 
-
-
         public async Task<UserLoginDTOResponse?> ValidateUserAsync(string account, string password)
         {
             var user = await _unitOfWork.Users.GetByAccountAsync(account);
             if (user == null) return null;
 
-            //var result = (user.hash_password == password) ? user : null;
-            //return _mapper.Map<UserLoginDTOResponse>(result);
             return VerifyPassword(password, user.hash_password) ? _mapper.Map<UserLoginDTOResponse>(user) : null;
         }
 
         public async Task<UserRegisterDTOResponse?> CreatedAccountAsync(UserRegisterDTORequest user)
         {
-            var userEntity = _mapper.Map<User>(user);
-            userEntity.hash_password = EncryptPassword(user.HashPassword);
-            var result = await _unitOfWork.Users.CreatedAccountAsync(userEntity);
-            await _unitOfWork.SaveChangesAsync();
-            return _mapper.Map<UserRegisterDTOResponse>(result) ;
+
+            var userEntity = await _unitOfWork.Users.GetByAccountAsync(user.Account);
+            if (userEntity == null)
+            {
+                userEntity = _mapper.Map<User>(user);
+                userEntity.hash_password = EncryptPassword(user.HashPassword);
+                var result = await _unitOfWork.Users.CreatedAccountAsync(userEntity);
+                await _unitOfWork.SaveChangesAsync();
+                return _mapper.Map<UserRegisterDTOResponse>(result);
+            }
+            return null;
         }
+        
 
         public string EncryptPassword(string password)
         {

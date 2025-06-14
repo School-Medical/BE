@@ -13,6 +13,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
     {
         Task<UserLoginDTOResponse?> ValidateUserAsync(string account, string password);
         Task<UserRegisterDTOResponse?> CreatedAccountAsync(UserRegisterDTORequest user);
+
         bool VerifyPassword (string password, string hashPassword);
         string EncryptPassword(string password);
     }
