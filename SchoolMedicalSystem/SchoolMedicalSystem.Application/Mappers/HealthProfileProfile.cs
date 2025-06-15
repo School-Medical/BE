@@ -15,11 +15,25 @@ namespace SchoolMedicalSystem.Application.Mappers
         public HealthProfileProfile()
         {
             CreateMap<HealthProfile, HealthProfileDTOResponse>()
-
+                .ForMember(dest => dest.WeightIndex, opt => opt.MapFrom(src => src.weight_index))
+                .ForMember(dest => dest.HeightIndex, opt => opt.MapFrom(src => src.height_index))
+                .ForMember(dest => dest.VisionIndex, opt => opt.MapFrom(src => src.vision_index))
+                .ForMember(dest => dest.HearingIndex, opt => opt.MapFrom(src => src.hearing_index))
+                .ForMember(dest => dest.BloodPressureIndex, opt => opt.MapFrom(src => src.blood_pressure_index))
+                .ForMember(dest => dest.AllergyList, opt => opt.MapFrom(src => src.allergy_list))
+                .ForMember(dest => dest.ChronicDisease, opt => opt.MapFrom(src => src.chronic_disease))
+                .ForMember(dest => dest.MedicalHistory, opt => opt.MapFrom(src => src.medical_history))
+                .ForMember(dest => dest.MedicationInUse, opt => opt.MapFrom(src => src.medication_in_use))
+                .ForMember(dest => dest.BloodGroup, opt => opt.MapFrom(src => src.blood_group))
+                .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.gender))
+                .ForMember(dest => dest.Birthday, opt => opt.MapFrom(src => src.birthday))
+                .ForMember(dest => dest.UpdateAt, opt => opt.MapFrom(src => src.update_at))
                 .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.student!.last_name + " " + src.student.first_name));
 
             CreateMap<HealthProfileDTORequest, HealthProfile>()
                 .ForMember(dest => dest.weight_index, opt => opt.MapFrom(src => src.WeightIndex))
+                .ForMember(dest => dest.height_index, opt => opt.MapFrom(src => src.HeightIndex))
+                .ForMember(dest => dest.vision_index, opt => opt.MapFrom(src => src.VisionIndex))
                 .ForMember(dest => dest.hearing_index, opt => opt.MapFrom(src => src.HearingIndex))
                 .ForMember(dest => dest.blood_pressure_index, opt => opt.MapFrom(src => src.BloodPressureIndex))
                 .ForMember(dest => dest.allergy_list, opt => opt.MapFrom(src => src.AllergyList))

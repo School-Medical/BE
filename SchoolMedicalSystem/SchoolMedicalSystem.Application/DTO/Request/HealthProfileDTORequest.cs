@@ -11,6 +11,10 @@ namespace SchoolMedicalSystem.Application.DTO.Request
     {
         public decimal? WeightIndex { get; set; }
 
+        public decimal? HeightIndex { get; set; }
+
+        public int? VisionIndex { get; set; }
+
         public int? HearingIndex { get; set; }
 
         public int? BloodPressureIndex { get; set; }
