@@ -49,7 +49,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<HealthProfile?> GetByIdAsync(int id)
         {
-            return await _dbContext.HealthProfiles.FirstOrDefaultAsync(x => x.health_profile_id == id);
+            return await _dbContext.HealthProfiles.Include(h => h.student).FirstOrDefaultAsync(x => x.health_profile_id == id);
         }
 
         public async Task<bool> UpdateAsync(HealthProfile entity)
