@@ -23,8 +23,6 @@ namespace SchoolMedicalSystem.Application.DTO.Response
 
         public string? RoleName { get; set; }
 
-        public virtual ICollection<StudentParent> StudentParents { get; set; } = new List<StudentParent>();
-
         public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 
     }

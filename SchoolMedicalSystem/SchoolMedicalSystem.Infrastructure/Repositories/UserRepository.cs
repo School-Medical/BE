@@ -45,7 +45,6 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         {
             return await _dbContext.Users
                 .Include(u => u.role)
-                .Include(u => u.StudentParents)
                 .Include(u => u.Students)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
