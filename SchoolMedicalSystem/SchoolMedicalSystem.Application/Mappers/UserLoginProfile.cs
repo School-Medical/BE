@@ -16,6 +16,7 @@ namespace SchoolMedicalSystem.Application.Mappers
             CreateMap<User, UserLoginDTOResponse>()
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.user_id))
                 .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.role.role_name))
+                .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.role.role_id))
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.first_name))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.last_name));
         }
