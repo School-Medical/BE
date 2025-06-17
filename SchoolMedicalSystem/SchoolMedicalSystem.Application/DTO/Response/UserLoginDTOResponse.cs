@@ -14,6 +14,8 @@ namespace SchoolMedicalSystem.Application.DTO.Response
             public string? LastName { get; set; }
             public string Token { get; set; } = null!;
             public string? RoleName { get; set; }
+            public int? RoleId { get; set; }
+
 
     }
 }
