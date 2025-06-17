@@ -31,14 +31,14 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
             }).InstancePerLifetimeScope();
 
 
-            // Register repository and service
+            // Register service
 
             builder.RegisterType<JWTService>().As<IJWTService>().InstancePerLifetimeScope();
             builder.RegisterType<AuthService>().As<IAuthService>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();    
             builder.RegisterType<MedicalIncidentService>().As<IMedicalIncidentService>().InstancePerLifetimeScope();
-            builder.RegisterType<StudentRepository>().As<IStudentRepository>().InstancePerLifetimeScope();
-
+            builder.RegisterType<MedicalSuppliesService>().As<IMedicalSuppliesService>().InstancePerLifetimeScope();
+            builder.RegisterType<HealthProfileService>().As<IHealthProfileService>().InstancePerLifetimeScope();
 
         }
     }
