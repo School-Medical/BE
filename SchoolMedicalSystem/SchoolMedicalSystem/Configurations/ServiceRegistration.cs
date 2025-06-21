@@ -40,6 +40,7 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
             builder.RegisterType<MedicalSuppliesService>().As<IMedicalSuppliesService>().InstancePerLifetimeScope();
             builder.RegisterType<HealthProfileService>().As<IHealthProfileService>().InstancePerLifetimeScope();
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<StudentService>().As<IStudentService>().InstancePerLifetimeScope();
         }
     }
 }
