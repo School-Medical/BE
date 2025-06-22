@@ -13,10 +13,10 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<StudentDTOResponse> GetStudentByIdAsync(int id);
         Task<StudentDTOResponse> GetStudentByStudentCodeAsync(string studentCode);
         Task<List<StudentDTOResponse>> GetStudentByStudentNameAsync(string studentName);
-        Task<List<StudentDTOResponse>> GetStudentsByClassIdAsync(int classId);
+        Task<PaginatedResponse<StudentDTOResponse>> GetStudentsByClassIdAsync(int classId, int pageSize, int pageNumber);
         Task<PaginatedResponse<StudentDTOResponse>> GetAllStudentsAsync(int pageSize, int pageNumber);
-        Task<StudentDTOResponse> AddStudentAsync(StudentDTORequest student);
-        Task<StudentDTOResponse> UpdateStudentAsync(int id, StudentDTORequest student);
-        Task<List<StudentDTOResponse>> AddStudentsToClassAsync(List<StudentDTORequest> students, int classId);
+        Task<StudentDTOResponse> AddStudentAsync(StudentAddDTORequest student);
+        Task<StudentDTOResponse> UpdateStudentAsync(int id, StudentUpdateDTORequest student);
+        Task<List<StudentDTOResponse>> AddStudentsToClassAsync(List<StudentAddDTORequest> students, int classId);
     }
 }
