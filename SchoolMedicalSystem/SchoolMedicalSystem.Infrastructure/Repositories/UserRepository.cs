@@ -41,15 +41,20 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<List<User>> GetPagedAsync(int pageSize, int pageNumber)
+        public async Task<(List<User> users, int totalItems)> GetPagedAsync(int pageSize, int pageNumber)
         {
-            return await _dbContext.Users
-                .Include(u => u.role)
-                .Include(u => u.Students)
+            var query = _dbContext.Users.Include(u => u.role).Include(u => u.Students);
+
+            var totalItems = await query.CountAsync();
+
+            var users = await query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            return (users, totalItems);
         }
+
 
         public async Task<User> UpdateAsync(User user)
         {
