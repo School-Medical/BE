@@ -24,7 +24,7 @@ namespace SchoolMedicalSystem.Application.Services
             _mapper = mapper;
             _logger = logger;
         }
-        public async Task<StudentDTOResponse> AddStudentAsync(StudentDTORequest student)
+        public async Task<StudentDTOResponse> AddStudentAsync(StudentAddDTORequest student)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace SchoolMedicalSystem.Application.Services
             }
         }
 
-        public async Task<List<StudentDTOResponse>> AddStudentsToClassAsync(List<StudentDTORequest> students, int classId)
+        public async Task<List<StudentDTOResponse>> AddStudentsToClassAsync(List<StudentAddDTORequest> students, int classId)
         {
             try
             {
@@ -171,7 +171,7 @@ namespace SchoolMedicalSystem.Application.Services
             }
         }
 
-        public async Task<List<StudentDTOResponse>> GetStudentsByClassIdAsync(int classId)
+        public async Task<PaginatedResponse<StudentDTOResponse>> GetStudentsByClassIdAsync(int classId, int pageSize, int pageNumber)
         {
             try
             {
@@ -180,10 +180,35 @@ namespace SchoolMedicalSystem.Application.Services
                 if (students == null || students.Count == 0)
                 {
                     _logger.LogWarning("No students found for class ID: {ClassId}", classId);
-                    return new List<StudentDTOResponse>();
+                    return new PaginatedResponse<StudentDTOResponse>
+                    {
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        TotalItems = 0,
+                        TotalPages = 0,
+                        Items = new List<StudentDTOResponse>(),
+                        HasPreviousPage = false,
+                        HasNextPage = false
+                    };
                 }
 
-                return _mapper.Map<List<StudentDTOResponse>>(students);
+                var totalItems = students.Count;
+                var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+                var pagedStudents = students
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+
+                return new PaginatedResponse<StudentDTOResponse>
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalItems = totalItems,
+                    TotalPages = totalPages,
+                    Items = _mapper.Map<List<StudentDTOResponse>>(pagedStudents),
+                    HasPreviousPage = pageNumber > 1,
+                    HasNextPage = pageNumber < totalPages
+                };
             }
             catch (Exception ex)
             {
@@ -192,7 +217,8 @@ namespace SchoolMedicalSystem.Application.Services
             }
         }
 
-        public async Task<StudentDTOResponse> UpdateStudentAsync(int id, StudentDTORequest student)
+
+        public async Task<StudentDTOResponse> UpdateStudentAsync(int id, StudentUpdateDTORequest student)
         {
             try
             {
@@ -209,7 +235,10 @@ namespace SchoolMedicalSystem.Application.Services
                     throw new KeyNotFoundException($"Student with ID {id} not found");
                 }
 
-                await _unitOfWork.Students.UpdateStudent(_mapper.Map<Student>(student));
+                // Map vào thực thể đã tồn tại (để giữ nguyên student_code)
+                _mapper.Map(student, existingStudent);
+
+                await _unitOfWork.Students.UpdateStudent(existingStudent);
                 await _unitOfWork.SaveChangesAsync();
 
                 return _mapper.Map<StudentDTOResponse>(existingStudent);
@@ -219,5 +248,6 @@ namespace SchoolMedicalSystem.Application.Services
                 _logger.LogError(ex, "Error updating student with ID: {Id}", id);
                 throw;
             }
+        }
     }
 }
