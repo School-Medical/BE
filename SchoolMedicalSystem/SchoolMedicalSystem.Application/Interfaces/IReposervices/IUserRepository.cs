@@ -12,7 +12,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<User?> GetByAccountAsync(string account);
         Task<User?> CreatedAccountAsync(User user);
         Task<User?> GetByIdAsync(int userId);
-        Task<List<User>> GetPagedAsync(int pageSize, int pageNumber);
+        Task<(List<User> users, int totalItems)> GetPagedAsync(int pageSize, int pageNumber);
         Task<User> UpdateAsync(User user);
     }
 }

@@ -27,21 +27,24 @@ namespace SchoolMedicalSystem.Application.Services
 
         public async Task<PaginatedResponse<UserDTOResponse>> GetAllAsync(int pageSize, int pageNumber)
         {
-            var list = await _unitOfWork.Users.GetPagedAsync(pageSize, pageNumber);
-            var result = _mapper.Map<List<UserDTOResponse>>(list);
-            var totalPage = (int)Math.Ceiling(result.Count / (double)pageSize);
+            var (users, totalItems) = await _unitOfWork.Users.GetPagedAsync(pageSize, pageNumber);
+
+            var result = _mapper.Map<List<UserDTOResponse>>(users);
+
+            var totalPage = (int)Math.Ceiling(totalItems / (double)pageSize);
 
             return new PaginatedResponse<UserDTOResponse>
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                TotalItems = result.Count,
+                TotalItems = totalItems,
                 TotalPages = totalPage,
                 Items = result,
                 HasPreviousPage = pageNumber > 1,
                 HasNextPage = pageNumber < totalPage
             };
         }
+
 
         public async Task<UserDTOResponse?> GetByIdAsync(int userId)
         {
