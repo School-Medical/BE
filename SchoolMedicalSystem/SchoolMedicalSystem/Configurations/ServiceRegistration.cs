@@ -39,6 +39,11 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
             builder.RegisterType<MedicalIncidentService>().As<IMedicalIncidentService>().InstancePerLifetimeScope();
             builder.RegisterType<MedicalSuppliesService>().As<IMedicalSuppliesService>().InstancePerLifetimeScope();
             builder.RegisterType<HealthProfileService>().As<IHealthProfileService>().InstancePerLifetimeScope();
+            builder.RegisterType<VaccinCampaignService>().As<IVaccinCampaignService>().InstancePerLifetimeScope();
+            builder.RegisterType<VaccinConfirmationService>().As<IVaccinConfirmationService>().InstancePerLifetimeScope();
+            builder.RegisterType<VaccinDocumentService>().As<IVaccinDocumentService>().InstancePerLifetimeScope();
+            builder.RegisterType<BlogService>().As<IBlogService>().InstancePerLifetimeScope();
+
 
         }
     }

@@ -16,5 +16,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<MedicalIncident> AddAsync(MedicalIncident entity);
         Task<MedicalIncident> UpdateAsync(MedicalIncident entity);
         Task<bool> DeleteAsync(int id);
+        Task<int> CountAsync();
     }
 }

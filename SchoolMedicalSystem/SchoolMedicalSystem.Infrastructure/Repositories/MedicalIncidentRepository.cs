@@ -35,7 +35,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return true;
         }
 
-        #region
+        #region AsQueryable
 
         /// <summary>
         /// Sử dụng IQueryable để tối ưu hiệu năng khi truy vấn dữ liệu lớn từ database.
@@ -60,7 +60,11 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<MedicalIncident?> GetByIdAsync(int id)
         {
-            return await _dbContext.MedicalIncidents.Include(m => m.student).Include(m => m.nurse).FirstOrDefaultAsync(m => m.medical_incident_id == id);
+            return await _dbContext.MedicalIncidents
+                                    .Include(m => m.student)
+                                    .Include(m => m.nurse)
+                                    .Include(m => m.Prescriptions)
+                                    .FirstOrDefaultAsync(m => m.medical_incident_id == id);
         }
 
         public async Task<MedicalIncident?> GetByStudentIdAsync(int studentId)
@@ -69,9 +73,14 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         }
 
         public async Task<MedicalIncident> UpdateAsync(MedicalIncident entity)
-        {          
+        {
             _dbContext.Update(entity);
             return entity;
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await _dbContext.MedicalIncidents.CountAsync();
         }
     }
 }
