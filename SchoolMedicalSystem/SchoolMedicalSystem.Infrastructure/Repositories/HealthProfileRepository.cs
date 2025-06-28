@@ -57,5 +57,10 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _dbContext.Update(entity);
             return true;
         }
+
+        public async Task<int> CountAsync()
+        {
+            return await _dbContext.HealthProfiles.CountAsync();
+        }
     }
 }

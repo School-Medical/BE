@@ -48,64 +48,69 @@ namespace SchoolMedicalSystem.Application.Services
         }
 
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int medicalIncidentID)
         {
             try
             {
-                var result = await _unitOfWork.MedicalIncidents.DeleteAsync(id);
+                // Lấy đơn thuốc của sự cố y tế
+                var prescription = await _unitOfWork.Prescriptions.GetByMedicalIncidentIdAsync(medicalIncidentID);
+                if (prescription != null)
+                {
+                    // Xóa tất cả thuốc trong đơn
+                    await _unitOfWork.PrescriptionMedicines.DeleteByPrescriptionIdAsync(prescription.prescription_id);
+
+                    // Xóa đơn thuốc
+                    await _unitOfWork.Prescriptions.DeleteByMedicalIncidentIdAsync(medicalIncidentID);
+                }
+
+                // Xóa medical incident
+                var result = await _unitOfWork.MedicalIncidents.DeleteAsync(medicalIncidentID);
                 if (result)
                 {
                     await _unitOfWork.SaveChangesAsync();
-                    //_logger.LogInformation("Successfully deleted MedicalIncident with ID: {Id}", id);
                     return true;
                 }
-                _logger.LogWarning("MedicalIncident with ID: {Id} not found for deletion", id);
+
+                _logger.LogWarning("MedicalIncident with ID: {Id} not found for deletion", medicalIncidentID);
                 return false;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error deleting MedicalIncident with ID: {Id}", id);
+                _logger.LogError(ex, "Error deleting MedicalIncident with ID: {Id}", medicalIncidentID);
                 throw;
             }
         }
 
-
         public async Task<PaginatedResponse<MedicalIncidentDTOResponse>> GetAllAsync(int pageSize, int pageNumber)
         {
-            /*var query =  _unitOfWork.MedicalIncidents.GetAll();
-            var pagedQuery = query.Skip((pageNumber - 1) * numberSize).Take(numberSize);
-            var result =  pagedQuery.ToList();
-            return _mapper.Map<List<MedicalIncidentDTORequest>>(result);*/
 
-            var result = _mapper.Map<List<MedicalIncidentDTOResponse>>(
-                await _unitOfWork.MedicalIncidents.GetPagedAsync(pageSize, pageNumber)
-                );
+            int totalItems = await _unitOfWork.MedicalIncidents.CountAsync();
+            var pagedEntities = await _unitOfWork.MedicalIncidents.GetPagedAsync(pageSize, pageNumber);
+            var result = _mapper.Map<List<MedicalIncidentDTOResponse>>(pagedEntities);
 
-            var totalPages = (int)Math.Ceiling(result.Count / (double)pageSize);
+            int totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
             return new PaginatedResponse<MedicalIncidentDTOResponse>
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                TotalItems = result.Count,              //TotalItem của cái gì? khác TotalCount là gì
+                TotalItems = totalItems,
                 TotalPages = totalPages,
-                Items = result,
-                HasPreviousPage = pageNumber > 1,
-                HasNextPage = pageNumber < totalPages
+                Items = result
             };
+
         }
 
-
-        public async Task<MedicalIncidentDTOResponse?> GetByIdAsync(int id)
+        public async Task<MedicalIncidentDTOResponse?> GetByIdAsync(int medicalIncidentID)
         {
             try
             {
-                var entity = await _unitOfWork.MedicalIncidents.GetByIdAsync(id);
+                var entity = await _unitOfWork.MedicalIncidents.GetByIdAsync(medicalIncidentID);
                 return _mapper.Map<MedicalIncidentDTOResponse>(entity);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error getting MedicalIncident with ID: {Id}", id);
+                _logger.LogError(ex, "Error getting MedicalIncident with ID: {Id}", medicalIncidentID);
                 throw;
             }
         }

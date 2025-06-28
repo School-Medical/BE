@@ -68,20 +68,19 @@ namespace SchoolMedicalSystem.Application.Services
         {
             try
                 {
+                int totalItems = await _unitOfWork.HealthProfiles.CountAsync();
                 var healthProfiles = await _unitOfWork.HealthProfiles.GetPagedAsync(pageSize, pageNumber);
                 var result = _mapper.Map<List<HealthProfileDTOResponse>>(healthProfiles);
 
-                var totalPages = (int)Math.Ceiling(result.Count / (double)pageSize);
+                var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
 
                 return new PaginatedResponse<HealthProfileDTOResponse>
                 {
                     Items = result,
                     PageSize = pageSize,
                     PageNumber = pageNumber,
-                    TotalItems = result.Count,
-                    TotalPages = totalPages,
-                    HasPreviousPage = pageNumber > 1,
-                    HasNextPage = pageNumber < totalPages
+                    TotalItems = totalItems,
+                    TotalPages = totalPages
                 };
             }
             catch (Exception ex)
