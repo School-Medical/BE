@@ -16,5 +16,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<bool> DeleteAsync(int id);
         Task<int> CountAsync();
         Task<IEnumerable<VaccinCampaign>> GetAllWithPagingAsync(int pageSize, int pageNumber);
+        Task<VaccinCampaign?> GetCurrentCampaignAsync();
     }
 }

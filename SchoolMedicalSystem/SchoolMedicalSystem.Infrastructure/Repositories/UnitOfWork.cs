@@ -37,6 +37,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             Prescriptions = new PrescriptionRepository(_context);
             PrescriptionMedicines = new PrescriptionMedicineRepository(_context);
             StudentParents = new StudentParentsRepository(_context);
+            HealthCheckConfirmations = new HealthCheckConfirmationRepository(_context);
         }
 
         public async Task<int> SaveChangesAsync()
@@ -110,5 +111,6 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public IPrescriptionRepository Prescriptions { get; private set; }
         public IPrescriptionMedicineRepository PrescriptionMedicines { get; private set; }
         public IStudentParentsRepository StudentParents { get; private set; }
+        public IHealthCheckConfirmationRepository HealthCheckConfirmations { get; private set; }
     }
 }

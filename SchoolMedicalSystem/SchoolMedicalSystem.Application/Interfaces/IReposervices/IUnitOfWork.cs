@@ -27,5 +27,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         IPrescriptionRepository Prescriptions { get; }
         IPrescriptionMedicineRepository PrescriptionMedicines { get; }
         IStudentParentsRepository StudentParents { get; }
+        IHealthCheckConfirmationRepository HealthCheckConfirmations { get; }
     }
 }

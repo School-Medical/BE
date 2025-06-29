@@ -18,5 +18,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<int> CountAsync();
         Task<StudentParent?> GetStudentParentByStudentIdAsync(int studentId);
         Task<bool> CheckParentValid(int studentId, int parentId);
+        Task<List<StudentParent>> GetStudentParentsByParentIdAsync(int parentId);
     }
 }

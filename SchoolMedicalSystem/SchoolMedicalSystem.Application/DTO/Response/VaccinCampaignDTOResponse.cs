@@ -31,5 +31,6 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public ulong? Status { get; set; }
 
         public string? VaccinNotice { get; set; } = string.Empty;
+        public List<StudentVaccinStatusDTO> StudentVaccinStatuses { get; set; } = new List<StudentVaccinStatusDTO>();
     }
 }

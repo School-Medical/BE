@@ -18,5 +18,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<int> CountAsync();
         Task<VaccinConfirmation?> GetVaccinConfirmationByStudentIdAsync(int studentId);
         Task<VaccinConfirmation?> GetVaccinConfirmationByParentIdAsync(int parentId);
+        Task<VaccinConfirmation?> GetVaccinConfirmationByStudentAndCampaignIdAsync(int studentId, int campaignId);
     }
 }

@@ -111,20 +111,49 @@ namespace SchoolMedicalSystem.Application.Services
         /// <param name="parentId"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<VaccinConfirmationDTOResponse?> GetVaccinConfirmationByParentIdAsync(int parentId)
+        public async Task<VaccinCampaignDTOResponse> GetVaccinConfirmationsByParentIdAsync(int parentId)
         {
-            var entity = await _unitOfWork.VaccinConfirmations.GetVaccinConfirmationByParentIdAsync(parentId);
-            if (entity == null)
+            var campaign = await _unitOfWork.VaccinCampaigns.GetCurrentCampaignAsync();
+
+            var students = await _unitOfWork.StudentParents.GetStudentParentsByParentIdAsync(parentId);
+
+            var studentStatusList = new List<StudentVaccinStatusDTO>();
+
+            foreach (var student in students)
             {
-                _logger.LogError("Parent with ID {ParentId} has not filled out the Vaccin Confirmation form", parentId);
-                throw new ArgumentException($"Parent with ID {parentId} has not filled out the Vaccin Confirmation form");
+                var confirmation = await _unitOfWork.VaccinConfirmations
+                    .GetVaccinConfirmationByStudentAndCampaignIdAsync(student.student_id!.Value, campaign.vaccin_campaign_id);
+
+                var studentStatus = new StudentVaccinStatusDTO
+                {
+                    StudentId = student.student_id!.Value,
+                    StudentCode = student.student!.student_code ?? "",
+                    StudentName = $"{student.student!.first_name} {student.student!.last_name}",
+                    SubmitAt = confirmation?.submit_at,
+                    StatusConfirm = confirmation?.status == 1
+                };
+
+                studentStatusList.Add(studentStatus);
             }
 
-            var confirmationDto = _mapper.Map<VaccinConfirmationDTOResponse>(entity);
-
-            _logger.LogInformation("Parent with ID {ParentId} has filled out the Vaccin Confirmation form", parentId);
-            return confirmationDto;
-
+            return new VaccinCampaignDTOResponse
+            {
+                VaccinCampaignId = campaign.vaccin_campaign_id,
+                CampaignName = campaign.campaign_name,
+                CampaignDescription = campaign.campaign_description,
+                StartAt = campaign.start_at,
+                EndAt = campaign.end_at,
+                Location = campaign.location,
+                VaccinName = campaign.vaccin_name,
+                VaccinDescription = campaign.vaccin_description,
+                RegisterStart = campaign.register_start,
+                RegisterClose = campaign.register_close,
+                Status = campaign.status,
+                VaccinNotice = campaign.vaccin_notice,
+                StudentVaccinStatuses = studentStatusList
+            };
         }
+
+        
     }
 }

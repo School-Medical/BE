@@ -51,7 +51,9 @@ namespace SchoolMedicalSystem
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
                         ValidateAudience = true,
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
 
