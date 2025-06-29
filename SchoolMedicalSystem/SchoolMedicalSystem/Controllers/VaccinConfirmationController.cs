@@ -101,5 +101,20 @@ namespace SchoolMedicalSystem.Controllers
             var result = await _vaccinConfirmationService.GetAllVaccinConfirmationsWithPagingAsync(pageSize, pageNumber);
             return Ok(new ApiResponse<PaginatedResponse<VaccinConfirmationDTOResponse>>("Data retrieved successfully", result));
         }
-    }
+
+        [HttpGet("parent/{parentId}")]
+        public async Task<IActionResult> GetVaccinConfirmationByParentId()
+        {
+            var idClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (!int.TryParse(idClaim, out int parentId) || parentId <= 0)
+            {
+                return BadRequest(new ApiResponse<object>("You must login by parent account", null, 400));
+            }
+            var result = await _vaccinConfirmationService.GetVaccinConfirmationByParentIdAsync(parentId);
+            if (result == null)
+            {
+                return NotFound(new ApiResponse<object>("No confirmation found for this parent", null, 404));
+            }
+            return Ok(new ApiResponse<VaccinConfirmationDTOResponse>("Data retrieved successfully", result));
+        }
 }
