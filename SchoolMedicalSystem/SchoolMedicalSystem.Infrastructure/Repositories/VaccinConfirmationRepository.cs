@@ -13,7 +13,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
     public class VaccinConfirmationRepository : IVaccinConfirmationRepository
     {
         private readonly SchoolMedicalDbContext _dbContext;
-        
+
         public VaccinConfirmationRepository(SchoolMedicalDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -40,7 +40,9 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<IEnumerable<VaccinConfirmation>> GetAllWithPagingAsync(int pageSize, int pageNumber)
         {
-            return await _dbContext.VaccinConfirmations.Include(v => v.student).Include(v => v.parent).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return await _dbContext.VaccinConfirmations
+                .Include(v => v.student)
+                .Include(v => v.parent).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<VaccinConfirmation?> GetByIdAsync(int id)
@@ -48,10 +50,10 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return await _dbContext.VaccinConfirmations.FindAsync(id);
         }
 
-        public async Task<bool> UpdateAsync(VaccinConfirmation campaign)
+        public async Task<VaccinConfirmation> UpdateAsync(VaccinConfirmation confirmation)
         {
-            _dbContext.VaccinConfirmations.Update(campaign);
-            return true;
+            _dbContext.VaccinConfirmations.Update(confirmation);
+            return confirmation;
         }
 
         public async Task<int> CountAsync()
@@ -65,5 +67,13 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .Where(v => v.student_id == studentId)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<VaccinConfirmation?> GetVaccinConfirmationByParentIdAsync(int parentId)
+        {
+            return await _dbContext.VaccinConfirmations
+                .Where(v => v.parent_id == parentId)
+                .FirstOrDefaultAsync();
+        }
+
     }
 }

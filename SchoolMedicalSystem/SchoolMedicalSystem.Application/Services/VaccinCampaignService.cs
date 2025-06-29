@@ -43,30 +43,51 @@ namespace SchoolMedicalSystem.Application.Services
             return _mapper.Map<VaccinCampaignDTOResponse>(createdVaccinCampaign);
         }
 
-        public async Task<bool> UpdateVaccinCampaignAsync(int id, VaccinCampaignDTORequest vaccinCampaign)
+        public async Task<VaccinCampaignDTOResponse> UpdateVaccinCampaignAsync(int id, VaccinCampaignDTORequest vaccinCampaign)
         {
             var existingCampaign = await _unitOfWork.VaccinCampaigns.GetByIdAsync(id);
             if (existingCampaign == null)
             {
                 _logger.LogWarning("Vaccin Campaign with ID {Id} not found for update", id);
-                return false;
+                throw new KeyNotFoundException($"Vaccin Campaign with ID {id} not found.");
             }
-            var updated = await _unitOfWork.VaccinCampaigns.UpdateAsync(_mapper.Map<VaccinCampaign>(vaccinCampaign));
-            if (updated)
-            {
-                await _unitOfWork.SaveChangesAsync();
-            }
-            return updated;
+            _mapper.Map(vaccinCampaign, existingCampaign);
+            var updated = await _unitOfWork.VaccinCampaigns.UpdateAsync(existingCampaign);
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<VaccinCampaignDTOResponse>(updated);
         }
 
         public async Task<bool> DeleteVaccinCampaignAsync(int id)
         {
+            var existingCampaign = await _unitOfWork.VaccinCampaigns.GetByIdAsync(id);
+            if (existingCampaign == null)
+            {
+                _logger.LogWarning("Vaccin Campaign with ID {Id} not found for deletion", id);
+                return false;
+            }
             var deleted = await _unitOfWork.VaccinCampaigns.DeleteAsync(id);
             if (deleted)
             {
                 await _unitOfWork.SaveChangesAsync();
             }
             return deleted;
+        }
+
+        public async Task<PaginatedResponse<VaccinCampaignDTOResponse>> GetVaccinCampaignsPaginatedAsync(int pageSize, int pageNumber)
+        {
+            var totalCount = await _unitOfWork.VaccinCampaigns.CountAsync();
+            var items = await _unitOfWork.VaccinCampaigns.GetAllWithPagingAsync(pageSize, pageNumber);
+            var mappedItems = _mapper.Map<IEnumerable<VaccinCampaignDTOResponse>>(items);
+            return new PaginatedResponse<VaccinCampaignDTOResponse>
+            {
+                TotalCount = totalCount,
+                Items = mappedItems,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+            };
         }
     }
 }

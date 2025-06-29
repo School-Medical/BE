@@ -14,7 +14,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<IEnumerable<VaccinDocumentDTOResponse>> GetAllVaccinDocumentsAsync();
         Task<VaccinDocumentDTOResponse?> GetVaccinDocumentByIdAsync(int id);
         Task<VaccinDocumentDTOResponse> CreateVaccinDocumentAsync(VaccinDocumentDTORequest vaccinDocument);
-        Task<bool> UpdateVaccinDocumentAsync(int id, VaccinDocumentDTORequest vaccinDocument);
+        Task<VaccinDocumentDTOResponse> UpdateVaccinDocumentAsync(int id, VaccinDocumentDTORequest vaccinDocument);
         Task<bool> DeleteVaccinDocumentAsync(int id);
         Task<PaginatedResponse<VaccinDocumentDTOResponse>> GetAllVaccinDocumentsWithPagingAsync(int pageSize, int pageNumber);
         Task<VaccinDocument> GetVaccinDocumentByStudentIdAsync(int studentId);

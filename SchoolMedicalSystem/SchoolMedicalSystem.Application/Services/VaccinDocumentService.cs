@@ -49,8 +49,8 @@ namespace SchoolMedicalSystem.Application.Services
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         public async Task<VaccinDocumentDTOResponse> CreateVaccinDocumentAsync(VaccinDocumentDTORequest vaccinDocument)
-        {            
-            if(vaccinDocument == null)
+        {
+            if (vaccinDocument == null)
             {
                 _logger.LogError("Vaccin Document creation failed: request is null");
                 throw new ArgumentNullException(nameof(vaccinDocument), "Vaccin Document request cannot be null.");
@@ -69,20 +69,20 @@ namespace SchoolMedicalSystem.Application.Services
             return _mapper.Map<VaccinDocumentDTOResponse>(createdVaccinDocument);
         }
 
-        public async Task<bool> UpdateVaccinDocumentAsync(int id, VaccinDocumentDTORequest vaccinDocument)
+        public async Task<VaccinDocumentDTOResponse> UpdateVaccinDocumentAsync(int id, VaccinDocumentDTORequest vaccinDocument)
         {
             var existingDocument = await _unitOfWork.VaccinDocuments.GetByIdAsync(id);
             if (existingDocument == null)
             {
                 _logger.LogWarning("Vaccin Document with ID {Id} not found for update", id);
-                return false;
+                throw new KeyNotFoundException($"Vaccin Document with ID {id} not found.");
             }
-            var updated = await _unitOfWork.VaccinDocuments.UpdateAsync(_mapper.Map<VaccinDocument>(vaccinDocument));
-            if (updated)
-            {
-                await _unitOfWork.SaveChangesAsync();
-            }
-            return updated;
+            _mapper.Map(vaccinDocument, existingDocument);
+            var updated = await _unitOfWork.VaccinDocuments.UpdateAsync(existingDocument);
+
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<VaccinDocumentDTOResponse>(updated);
         }
 
         public async Task<bool> DeleteVaccinDocumentAsync(int id)

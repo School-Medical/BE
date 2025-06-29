@@ -49,11 +49,12 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return await _dbContext.VaccinCampaigns.FindAsync(id);
         }
 
-        public async Task<bool> UpdateAsync(VaccinCampaign campaign)
+        public async Task<VaccinCampaign> UpdateAsync(VaccinCampaign campaign)
         {
             _dbContext.VaccinCampaigns.Update(campaign);
-            return true;
+            return campaign;
         }
+
         public async Task<int> CountAsync()
         {
             return await _dbContext.VaccinCampaigns.CountAsync();

@@ -35,11 +35,11 @@ namespace SchoolMedicalSystem.Application.Services
             return _mapper.Map<VaccinConfirmationDTOResponse>(await _unitOfWork.VaccinConfirmations.GetByIdAsync(id));
         }
 
-        public async Task<VaccinConfirmationDTOResponse> CreateVaccinConfirmationAsync(int parentId,VaccinConfirmationDTORequest vaccinConfirmation)
+        public async Task<VaccinConfirmationDTOResponse> CreateVaccinConfirmationAsync(int parentId, VaccinConfirmationDTORequest vaccinConfirmation)
         {
             //Chỉ cho phép phụ huynh có ID hợp lệ tạo Vaccin Confirmation
             var parentValid = await _unitOfWork.StudentParents.CheckParentValid(parentId, vaccinConfirmation.StudentId!.Value);
-            if(!parentValid)
+            if (!parentValid)
             {
                 _logger.LogError("Parent with ID {ParentId} is not valid for Student ID {StudentId}", parentId, vaccinConfirmation.StudentId);
                 throw new ArgumentException($"Parent with ID {parentId} is not valid for Student ID {vaccinConfirmation.StudentId}");
@@ -49,20 +49,19 @@ namespace SchoolMedicalSystem.Application.Services
             return _mapper.Map<VaccinConfirmationDTOResponse>(createdVaccinConfirmation);
         }
 
-        public async Task<bool> UpdateVaccinConfirmationAsync(int id, VaccinConfirmationDTORequest vaccinConfirmation)
+        public async Task<VaccinConfirmationDTOResponse> UpdateVaccinConfirmationAsync(int id, VaccinConfirmationDTORequest vaccinConfirmation)
         {
             var existingConfirmation = await _unitOfWork.VaccinConfirmations.GetByIdAsync(id);
             if (existingConfirmation == null)
             {
                 _logger.LogWarning("Vaccin Confirmation with ID {Id} not found for update", id);
-                return false;
+                throw new KeyNotFoundException($"Vaccin Confirmation with ID {id} not found.");
             }
-            var updated = await _unitOfWork.VaccinConfirmations.UpdateAsync(_mapper.Map<VaccinConfirmation>(vaccinConfirmation));
-            if (updated)
-            {
-                await _unitOfWork.SaveChangesAsync();
-            }
-            return updated;
+            _mapper.Map(vaccinConfirmation, existingConfirmation);
+            var updated = await _unitOfWork.VaccinConfirmations.UpdateAsync(existingConfirmation);
+            await _unitOfWork.SaveChangesAsync();
+
+            return _mapper.Map<VaccinConfirmationDTOResponse>(updated);
         }
 
         public async Task<bool> DeleteVaccinConfirmationAsync(int id)
@@ -104,6 +103,28 @@ namespace SchoolMedicalSystem.Application.Services
         public async Task<VaccinConfirmationDTOResponse?> GetVaccinConfirmationByStudentIdAsync(int studentId)
         {
             return _mapper.Map<VaccinConfirmationDTOResponse>(await _unitOfWork.VaccinConfirmations.GetVaccinConfirmationByStudentIdAsync(studentId));
+        }
+
+        /// <summary>
+        /// Hàm này sẽ check phụ huynh có ghi xác nhận tiêm chủng cho học sinh hay không nếu không thì sẽ thông báo cho phụ huynh biết điền phiếu đi
+        /// </summary>
+        /// <param name="parentId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<VaccinConfirmationDTOResponse?> GetVaccinConfirmationByParentIdAsync(int parentId)
+        {
+            var entity = await _unitOfWork.VaccinConfirmations.GetVaccinConfirmationByParentIdAsync(parentId);
+            if (entity == null)
+            {
+                _logger.LogError("Parent with ID {ParentId} has not filled out the Vaccin Confirmation form", parentId);
+                throw new ArgumentException($"Parent with ID {parentId} has not filled out the Vaccin Confirmation form");
+            }
+
+            var confirmationDto = _mapper.Map<VaccinConfirmationDTOResponse>(entity);
+
+            _logger.LogInformation("Parent with ID {ParentId} has filled out the Vaccin Confirmation form", parentId);
+            return confirmationDto;
+
         }
     }
 }

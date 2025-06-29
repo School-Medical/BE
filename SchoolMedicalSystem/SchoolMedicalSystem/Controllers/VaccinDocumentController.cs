@@ -75,13 +75,13 @@ namespace SchoolMedicalSystem.Controllers
                 var document = await _vaccinDocumentService.GetVaccinDocumentByIdAsync(id);
                 if (document == null)
                 {
-                    return NotFound($"Vaccin Document with ID {id} not found.");
+                    return NotFound(new ApiResponse<object>($"Vaccin Document with ID {id} not found for update.", null, 404));
                 }
                 return Ok(new ApiResponse<VaccinDocumentDTOResponse>("Vaccin Document retrieved successfully", document));
             }
             catch (KeyNotFoundException knfEx)
             {
-                return NotFound(knfEx.Message);
+                return NotFound(new ApiResponse<object>(knfEx.Message, null, 404));
             }
             catch (Exception ex)
             {
@@ -126,11 +126,11 @@ namespace SchoolMedicalSystem.Controllers
             try
             {
                 var updated = await _vaccinDocumentService.UpdateVaccinDocumentAsync(id, vaccinDocument);
-                if (!updated)
+                if (updated == null)
                 {
-                    return NotFound($"Vaccin Document with ID {id} not found for update.");
+                    return NotFound(new ApiResponse<object>($"Vaccin Document with ID {id} not found for update.", null, 404));
                 }
-                return NoContent();
+                return Ok(new ApiResponse<VaccinDocumentDTOResponse>("Update success", updated, 200));
             }
             catch (Exception ex)
             {
@@ -146,7 +146,7 @@ namespace SchoolMedicalSystem.Controllers
                 var deleted = await _vaccinDocumentService.DeleteVaccinDocumentAsync(id);
                 if (!deleted)
                 {
-                    return NotFound($"Vaccin Document with ID {id} not found for deletion.");
+                    return NotFound(new ApiResponse<object>($"Vaccin Document with ID {id} not found for deletion.", null, 404));
                 }
                 return NoContent();
             }
@@ -157,7 +157,7 @@ namespace SchoolMedicalSystem.Controllers
 
         }
 
-        [HttpGet("/paging")]
+        [HttpGet("paging")]
         public async Task<IActionResult> GetVaccinDocumentsPaging(int pageSize, int pageNumber)
         {
             try
@@ -169,7 +169,6 @@ namespace SchoolMedicalSystem.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving paginated documents: {ex.Message}");
             }
-
         }
     }
 }
