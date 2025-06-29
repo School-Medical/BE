@@ -12,7 +12,9 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<VaccinCampaign> CreateAsync(VaccinCampaign campaign);
         Task<VaccinCampaign?> GetByIdAsync(int id);
         Task<IEnumerable<VaccinCampaign>> GetAllAsync();
-        Task<bool> UpdateAsync(VaccinCampaign campaign);
+        Task<VaccinCampaign?> UpdateAsync(VaccinCampaign campaign);
         Task<bool> DeleteAsync(int id);
+        Task<int> CountAsync();
+        Task<IEnumerable<VaccinCampaign>> GetAllWithPagingAsync(int pageSize, int pageNumber);
     }
 }

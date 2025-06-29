@@ -13,7 +13,8 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<IEnumerable<VaccinCampaignDTOResponse>> GetAllVaccinCampaignsAsync();
         Task<VaccinCampaignDTOResponse?> GetVaccinCampaignByIdAsync(int id);
         Task<VaccinCampaignDTOResponse> CreateVaccinCampaignAsync(VaccinCampaignDTORequest vaccinCampaign);
-        Task<bool> UpdateVaccinCampaignAsync(int id,VaccinCampaignDTORequest vaccinCampaign);
+        Task<VaccinCampaignDTOResponse> UpdateVaccinCampaignAsync(int id, VaccinCampaignDTORequest vaccinCampaign);
         Task<bool> DeleteVaccinCampaignAsync(int id);
+        Task<PaginatedResponse<VaccinCampaignDTOResponse>> GetVaccinCampaignsPaginatedAsync(int pageSize, int pageNumber);
     }
 }

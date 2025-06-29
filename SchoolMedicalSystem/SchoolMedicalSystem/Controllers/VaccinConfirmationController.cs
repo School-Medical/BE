@@ -22,7 +22,7 @@ namespace SchoolMedicalSystem.Controllers
         public async Task<IActionResult> GetAllVaccinConfirmations()
         {
             var result = await _vaccinConfirmationService.GetAllVaccinConfirmationsAsync();
-            return Ok(result);
+            return Ok(new ApiResponse<IEnumerable<VaccinConfirmationDTOResponse>>("Data retrieved successfully", result));
         }
 
         [HttpGet("{id}")]
@@ -31,9 +31,9 @@ namespace SchoolMedicalSystem.Controllers
             var result = await _vaccinConfirmationService.GetVaccinConfirmationByIdAsync(id);
             if (result == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<object>("No campaigns found", null, 404));
             }
-            return Ok(result);
+            return Ok(new ApiResponse<VaccinConfirmationDTOResponse>("Data retrieved successfully", result));
         }
 
         /// <summary>
@@ -50,13 +50,18 @@ namespace SchoolMedicalSystem.Controllers
             }
             try
             {
-                int parentId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new ArgumentException("Parent ID is required"));
+                var idClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //TÔi lấy id từ Claims của JWT Authentication thì check vậy ok chưa
+                if (!int.TryParse(idClaim, out int parentId) || parentId <= 0)
+                {
+                    return BadRequest(new ApiResponse<object>("You must login by parent account", null, 400));
+                }
                 var result = await _vaccinConfirmationService.CreateVaccinConfirmationAsync(parentId, vaccinConfirmation);
                 return Ok(new ApiResponse<VaccinConfirmationDTOResponse>("Vaccin Confirmation created successfully", result));
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(ex.Message);
+                return BadRequest(new ApiResponse<object>(ex.Message, null, 400));
             }
         }
 
@@ -65,14 +70,14 @@ namespace SchoolMedicalSystem.Controllers
         {
             if (vaccinConfirmation == null || vaccinConfirmation.StudentId == null)
             {
-                return BadRequest("Invalid request data");
+                return BadRequest(new ApiResponse<object>("Invalid request data", null, 400));
             }
             var updated = await _vaccinConfirmationService.UpdateVaccinConfirmationAsync(id, vaccinConfirmation);
-            if (!updated)
+            if (updated != null)
             {
-                return NotFound();
+                return Ok(new ApiResponse<VaccinConfirmationDTOResponse>("Vaccin Confirmation updated successfully", updated));                
             }
-            return NoContent();
+            return NotFound(new ApiResponse<object>("No campaigns found to update", null, 404));
         }
 
         [HttpDelete("{id}")]
@@ -81,11 +86,10 @@ namespace SchoolMedicalSystem.Controllers
             var deleted = await _vaccinConfirmationService.DeleteVaccinConfirmationAsync(id);
             if (!deleted)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<object>("No campaigns found to delete", null, 404));
             }
             return NoContent();
         }
-        //Code này ổn ko ta
 
         [HttpGet("paging")]
         public async Task<IActionResult> GetVaccinConfirmationsWithPaging(int pageSize = 10, int pageNumber = 1)

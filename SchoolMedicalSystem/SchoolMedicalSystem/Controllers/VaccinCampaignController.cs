@@ -21,7 +21,7 @@ namespace SchoolMedicalSystem.Controllers
         public async Task<IActionResult> GetAllVaccinCampaigns()
         {
             var campaigns = await _vaccinCampaignService.GetAllVaccinCampaignsAsync();
-            return Ok(new ApiResponse<IEnumerable<VaccinCampaignDTOResponse>>("Success", campaigns,200));
+            return Ok(new ApiResponse<IEnumerable<VaccinCampaignDTOResponse>>("Success", campaigns, 200));
         }
 
         [HttpGet("{id:int}")]
@@ -30,9 +30,9 @@ namespace SchoolMedicalSystem.Controllers
             var campaign = await _vaccinCampaignService.GetVaccinCampaignByIdAsync(id);
             if (campaign == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<object>("No campaigns found", null, 404));
             }
-            return Ok(new ApiResponse<VaccinCampaignDTOResponse>("Success",campaign,200));
+            return Ok(new ApiResponse<VaccinCampaignDTOResponse>("Success", campaign, 200));
         }
 
         [HttpPost]
@@ -57,13 +57,13 @@ namespace SchoolMedicalSystem.Controllers
             {
                 return BadRequest("Vaccin campaign cannot be null");
             }
-            
-            var updated = await _vaccinCampaignService.UpdateVaccinCampaignAsync(id,vaccinCampaign);
-            if (!updated)
+
+            var updated = await _vaccinCampaignService.UpdateVaccinCampaignAsync(id, vaccinCampaign);
+            if (updated == null)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<object>("No campaigns found", null, 404));
             }
-            return NoContent();
+            return Ok(new ApiResponse<VaccinCampaignDTOResponse>("Update success", updated, 200));
         }
 
         [HttpDelete("{id:int}")]
@@ -72,12 +72,22 @@ namespace SchoolMedicalSystem.Controllers
             var deleted = await _vaccinCampaignService.DeleteVaccinCampaignAsync(id);
             if (!deleted)
             {
-                return NotFound();
+                return NotFound(new ApiResponse<object>("No campaigns found", null, 404));
             }
             return NoContent();
 
         }
 
-        
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetVaccinCampaignsWithPaging(int pageSize = 10, int pageNumber = 1)
+        {
+            var campaigns = await _vaccinCampaignService.GetVaccinCampaignsPaginatedAsync(pageSize,pageNumber);
+            if (campaigns == null)
+            {
+                return NotFound(new ApiResponse<object>("No campaigns found", null, 404));
+            }
+            return Ok(new ApiResponse<PaginatedResponse<VaccinCampaignDTOResponse>>("Success", campaigns, 200));
+
+        }
     }
 }
