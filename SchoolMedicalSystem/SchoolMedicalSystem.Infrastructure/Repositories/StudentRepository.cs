@@ -46,10 +46,9 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return student.user_id == parentId;
         }
 
-        public async Task<bool> CheckParentValid2(int studentId, int parentId)
+        public async Task<List<Student>> GetStudentByParentIdAsync(int parentId)
         {
-            return await _dbContext.StudentParents
-                .AnyAsync(sp => sp.student_id == studentId && sp.user_id == parentId);
+            return await _dbContext.Students.Where(s => s.user_id == parentId).ToListAsync();
         }
 
     }

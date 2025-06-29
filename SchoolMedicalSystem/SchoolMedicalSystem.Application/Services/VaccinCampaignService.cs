@@ -89,5 +89,11 @@ namespace SchoolMedicalSystem.Application.Services
                 TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
             };
         }
+
+        public async Task<VaccinCampaignDTOResponse?> GetCurrentCampaignAsync()
+        {
+            var currentCampaign = await _unitOfWork.VaccinCampaigns.GetCurrentCampaignAsync();
+            return _mapper.Map<VaccinCampaignDTOResponse>(currentCampaign);
+        }
     }
 }

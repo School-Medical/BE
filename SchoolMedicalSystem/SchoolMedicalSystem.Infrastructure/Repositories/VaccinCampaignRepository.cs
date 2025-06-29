@@ -41,7 +41,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<IEnumerable<VaccinCampaign>> GetAllWithPagingAsync(int pageSize, int pageNumber)
         {
-            return await _dbContext.VaccinCampaigns.Skip((pageNumber-1)* pageSize).Take(pageSize).ToListAsync();
+            return await _dbContext.VaccinCampaigns.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<VaccinCampaign?> GetByIdAsync(int id)
@@ -58,6 +58,13 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public async Task<int> CountAsync()
         {
             return await _dbContext.VaccinCampaigns.CountAsync();
+        }
+
+        public async Task<VaccinCampaign?> GetCurrentCampaignAsync()
+        {
+            return await _dbContext.VaccinCampaigns
+                .Where(c => c.start_at <= DateTime.Now && c.end_at >= DateTime.Now)
+                .FirstOrDefaultAsync();
         }
     }
 }

@@ -62,5 +62,12 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<List<StudentParent>> GetStudentParentsByParentIdAsync(int parentId)
+        {
+            return await _dbContext.StudentParents.Include(sp => sp.student)
+                .Where(sp => sp.user_id == parentId)
+                .ToListAsync();
+        }
     }
 }

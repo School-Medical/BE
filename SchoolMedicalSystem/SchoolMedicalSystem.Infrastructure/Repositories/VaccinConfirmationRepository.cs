@@ -68,10 +68,18 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        //lấy ra VaccinConfirmation của các học sinh có phụ huynh là parentId
         public async Task<VaccinConfirmation?> GetVaccinConfirmationByParentIdAsync(int parentId)
         {
             return await _dbContext.VaccinConfirmations
                 .Where(v => v.parent_id == parentId)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<VaccinConfirmation?> GetVaccinConfirmationByStudentAndCampaignIdAsync(int studentId, int campaignId)
+        {
+            return await _dbContext.VaccinConfirmations
+                .Where(v => v.student_id == studentId && v.campaign_id == campaignId)
                 .FirstOrDefaultAsync();
         }
 

@@ -17,6 +17,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<bool> DeleteVaccinConfirmationAsync(int id);
         Task<PaginatedResponse<VaccinConfirmationDTOResponse>> GetAllVaccinConfirmationsWithPagingAsync(int pageSize, int pageNumber);
         Task<VaccinConfirmationDTOResponse?> GetVaccinConfirmationByStudentIdAsync(int studentId);
-        Task<VaccinConfirmationDTOResponse?> GetVaccinConfirmationByParentIdAsync(int parentId);
+        Task<VaccinCampaignDTOResponse> GetVaccinConfirmationsByParentIdAsync(int parentId);
+
     }
 }

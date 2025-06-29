@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolMedicalSystem.Application.DTO.Request;
 using SchoolMedicalSystem.Application.DTO.Response;
@@ -17,7 +18,7 @@ namespace SchoolMedicalSystem.Controllers
         {
             _vaccinConfirmationService = vaccinConfirmationService;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> GetAllVaccinConfirmations()
         {
@@ -37,7 +38,7 @@ namespace SchoolMedicalSystem.Controllers
         }
 
         /// <summary>
-        /// Đợi JWT Authentication để lấy User ID từ Claims đã nha
+        /// Tạo mới thông tin xác nhận tiêm chủng của phụ huynh cho học sinh.
         /// </summary>
         /// <param name="vaccinConfirmation"></param>
         /// <returns></returns>
@@ -75,7 +76,7 @@ namespace SchoolMedicalSystem.Controllers
             var updated = await _vaccinConfirmationService.UpdateVaccinConfirmationAsync(id, vaccinConfirmation);
             if (updated != null)
             {
-                return Ok(new ApiResponse<VaccinConfirmationDTOResponse>("Vaccin Confirmation updated successfully", updated));                
+                return Ok(new ApiResponse<VaccinConfirmationDTOResponse>("Vaccin Confirmation updated successfully", updated));
             }
             return NotFound(new ApiResponse<object>("No campaigns found to update", null, 404));
         }
@@ -101,8 +102,8 @@ namespace SchoolMedicalSystem.Controllers
             var result = await _vaccinConfirmationService.GetAllVaccinConfirmationsWithPagingAsync(pageSize, pageNumber);
             return Ok(new ApiResponse<PaginatedResponse<VaccinConfirmationDTOResponse>>("Data retrieved successfully", result));
         }
-
-        [HttpGet("parent/{parentId}")]
+        [Authorize(Roles = "parent")]
+        [HttpGet("student")]
         public async Task<IActionResult> GetVaccinConfirmationByParentId()
         {
             var idClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -110,11 +111,12 @@ namespace SchoolMedicalSystem.Controllers
             {
                 return BadRequest(new ApiResponse<object>("You must login by parent account", null, 400));
             }
-            var result = await _vaccinConfirmationService.GetVaccinConfirmationByParentIdAsync(parentId);
+            var result = await _vaccinConfirmationService.GetVaccinConfirmationsByParentIdAsync(parentId);
             if (result == null)
             {
                 return NotFound(new ApiResponse<object>("No confirmation found for this parent", null, 404));
             }
-            return Ok(new ApiResponse<VaccinConfirmationDTOResponse>("Data retrieved successfully", result));
+            return Ok(new ApiResponse<VaccinCampaignDTOResponse>("Data retrieved successfully", result));
         }
+    }
 }

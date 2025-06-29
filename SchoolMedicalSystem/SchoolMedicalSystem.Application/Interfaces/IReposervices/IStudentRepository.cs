@@ -12,5 +12,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<Student?> GetStudentById(int id);
         Task<Student?> GetStudentByStudentCode(string studentCode);
         Task<List<Student?>> GetStudentByStudentName(string studentName);
+        Task<List<Student>> GetStudentByParentIdAsync(int parentId);
     }
 }
