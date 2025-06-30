@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolMedicalSystem.Application.Interfaces.IServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,5 +21,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         IBatchRepository Batch { get; }
         IStudentRepository Students { get; }
         IHealthProfileRepository HealthProfiles { get; }
+        IMedicationHistoryService MedicationHistory { get; }
     }
 }
