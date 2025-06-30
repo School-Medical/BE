@@ -19,14 +19,14 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         }
 
 
-        public async Task<List<GivenDose>> GetMedicationHistoryAsync(int id)
+        public async Task<List<GivenDose>> GetMedicationHistoryAsync(int studentId)
         {
             return await _dbContext.GivenDoses
                 .Include(gd => gd.Medications)
                 .Include(gd => gd.student)
                 .Include(gd => gd.parent)
                 .Include(gd => gd.nurse)
-                .Where(gd => gd.student_id == id || gd.parent_id == id)
+                .Where(gd => gd.student_id == studentId)
                 .OrderByDescending(gd => gd.create_at)
                 .ToListAsync();
         }

@@ -9,6 +9,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
 {
     public interface IMedicationHistoryService
     {
-        Task<List<MedicationHistoryDTOResponse>> GetMedicationHistory(int id);
+        Task<List<MedicationHistoryDTOResponse>> GetMedicationHistory(int studentId);
     }
 }

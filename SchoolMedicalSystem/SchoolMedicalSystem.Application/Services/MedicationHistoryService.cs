@@ -24,12 +24,12 @@ namespace SchoolMedicalSystem.Application.Services
             _mapper = mapper;
             _logger = logger;
         }
-        public async Task<List<MedicationHistoryDTOResponse>> GetMedicationHistory(int id)
+        public async Task<List<MedicationHistoryDTOResponse>> GetMedicationHistory(int studentId)
         {
 
             try
             {
-                var list = await _unitOfWork.MedicationHistory.GetMedicationHistory(id);
+                var list = await _unitOfWork.MedicationHistory.GetMedicationHistory(studentId);
                 return _mapper.Map<List<MedicationHistoryDTOResponse>>(list);
             }
             catch (Exception ex)

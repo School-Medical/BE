@@ -9,6 +9,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
 {
     public interface IMedicationHistoryRepository
     {
-        Task<List<GivenDose>> GetMedicationHistoryAsync(int id);
+        Task<List<GivenDose>> GetMedicationHistoryAsync(int studentId);
     }
 }

@@ -18,11 +18,11 @@ namespace SchoolMedicalSystem.Controllers
             _medicationHistoryService = medicationHistoryService;
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetMedicationHistory(int id)
+        public async Task<IActionResult> GetMedicationHistory(int studentId)
         {
             try
             {
-                var history = await _medicationHistoryService.GetMedicationHistory(id);
+                var history = await _medicationHistoryService.GetMedicationHistory(studentId);
                 return Ok(new ApiResponse<List<MedicationHistoryDTOResponse>>("Medical history read successfully", history, 201));
 
                 return Ok(history);
