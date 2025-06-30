@@ -31,6 +31,7 @@ namespace SchoolMedicalSystem.Controllers
             if (user == null)
             {
                 return Unauthorized("Invalid account or password.");
+                //return BadRequest( new ApiResponse<Object>("Invalid account or password."))
             }   
             user.Token = _jwtService.GenerateJwtToken(user);
             return Ok(new ApiResponse<UserLoginDTOResponse>("Login success fully!",user));

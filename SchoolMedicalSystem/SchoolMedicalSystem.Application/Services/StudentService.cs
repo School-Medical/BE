@@ -1,10 +1,11 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
 using SchoolMedicalSystem.Application.DTO.Request;
 using SchoolMedicalSystem.Application.DTO.Response;
 using SchoolMedicalSystem.Application.Interfaces.IReposervices;
 using SchoolMedicalSystem.Application.Interfaces.IServices;
 using SchoolMedicalSystem.Domain.Entities;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.Services
 {
+
     public class StudentService : IStudentService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -249,5 +251,6 @@ namespace SchoolMedicalSystem.Application.Services
                 throw;
             }
         }
+
     }
 }

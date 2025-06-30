@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using SchoolMedicalSystem.Application.DTO.Request;
 using SchoolMedicalSystem.Application.DTO.Response;
 using SchoolMedicalSystem.Domain.Entities;

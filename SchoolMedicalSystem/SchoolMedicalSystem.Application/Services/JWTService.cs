@@ -28,7 +28,8 @@ namespace SchoolMedicalSystem.Application.Services
         {
             new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
             new Claim(ClaimTypes.Name, user.LastName ?? ""),
-            new Claim(ClaimTypes.Role, user.RoleName ?? "User")
+            new Claim(ClaimTypes.Role, user.RoleName ?? "User"),
+            new Claim("RoleId", user.RoleId.ToString() ?? "5")
         };
 
             var tokenDescriptor = new SecurityTokenDescriptor

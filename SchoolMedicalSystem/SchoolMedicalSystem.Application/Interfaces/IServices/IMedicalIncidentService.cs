@@ -12,10 +12,10 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
     public interface IMedicalIncidentService
     {
         Task<PaginatedResponse<MedicalIncidentDTOResponse>> GetAllAsync(int pageSize, int pageNumber);
-        Task<MedicalIncidentDTOResponse?> GetByIdAsync(int id);
+        Task<MedicalIncidentDTOResponse?> GetByIdAsync(int medicalIncidentID);
         Task<MedicalIncidentDTOResponse> AddAsync(MedicalIncidentDTORequest medicalIncidentDTO);
         Task<MedicalIncidentDTOResponse> UpdateAsync(int medicalIncidentId, MedicalIncidentDTORequest dto);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(int medicalIncidentID);
         Task<MedicalIncidentDTOResponse?> GetByStudentCodeOrByNameAsync(string studentCode);
     }
 }

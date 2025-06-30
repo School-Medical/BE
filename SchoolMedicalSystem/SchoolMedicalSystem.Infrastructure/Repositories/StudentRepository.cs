@@ -54,16 +54,32 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return await _dbContext.Students.Include(s => s._class).FirstOrDefaultAsync(s => s.student_code!.Equals(studentCode));
         }
 
-        // Nếu tên học sinh mà có dấu thì chưa làm được
+        
         public async Task<List<Student?>> GetStudentByStudentName(string studentName)
         {
             if (string.IsNullOrWhiteSpace(studentName)) return null;
 
             var normalizedName = studentName.Trim().ToLower();
 
-            return await _dbContext.Students!
+            return await _dbContext.Students
                 .Where(s => (s.last_name + " " + s.first_name).ToLower().Contains(normalizedName)).ToListAsync();
         }
+
+
+        public async Task<bool> CheckParentValid(int studentId, int parentId)
+        {
+            var student = await _dbContext.Students.Where(s => s.student_id == studentId && s.user_id == parentId)
+
+                .FirstOrDefaultAsync();
+            if (student == null) return false;
+            return student.user_id == parentId;
+        }
+
+        public async Task<List<Student>> GetStudentByParentIdAsync(int parentId)
+        {
+            return await _dbContext.Students.Where(s => s.user_id == parentId).ToListAsync();
+        }
+
 
         public async Task<List<Student?>> GetStudentsByClassId(int classId)
         {
@@ -77,5 +93,6 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _dbContext.Update(student);
             return student;
         }
+
     }
 }

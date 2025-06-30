@@ -12,6 +12,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<Student?> GetStudentById(int id);
         Task<Student?> GetStudentByStudentCode(string studentCode);
         Task<List<Student?>> GetStudentByStudentName(string studentName);
+        Task<List<Student>> GetStudentByParentIdAsync(int parentId);
 
         Task<List<Student?>> GetStudentsByClassId(int classId);
 
@@ -22,5 +23,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<Student> UpdateStudent(Student student);
 
         Task<List<Student>> AddStudentsToClass(List<Student> students, int classId);
+
     }
 }
