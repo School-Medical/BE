@@ -40,5 +40,26 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .FirstOrDefaultAsync(u => u.user_id == userId);
             return result;
         }
+
+        public async Task<(List<User> users, int totalItems)> GetPagedAsync(int pageSize, int pageNumber)
+        {
+            var query = _dbContext.Users.Include(u => u.role).Include(u => u.Students);
+
+            var totalItems = await query.CountAsync();
+
+            var users = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (users, totalItems);
+        }
+
+
+        public async Task<User> UpdateAsync(User user)
+        {
+            _dbContext.Update(user);
+            return user;
+        }
     }
 }
