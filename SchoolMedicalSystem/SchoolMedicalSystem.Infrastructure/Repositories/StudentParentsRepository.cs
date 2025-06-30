@@ -53,9 +53,11 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<StudentParent?> GetStudentParentByStudentIdAsync(int studentId)
+        public async Task<StudentParent?> GetStudentParentByStudentIdAsync(int studentId)
         {
-            throw new NotImplementedException();
+            return await _dbContext.StudentParents.Include(sp => sp.student)
+                .Include(sp => sp.student)
+                .FirstOrDefaultAsync(sp => sp.student_id == studentId);
         }
 
         public Task<bool> UpdateAsync(StudentParent studentParents)
@@ -69,5 +71,6 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .Where(sp => sp.user_id == parentId)
                 .ToListAsync();
         }
+        
     }
 }

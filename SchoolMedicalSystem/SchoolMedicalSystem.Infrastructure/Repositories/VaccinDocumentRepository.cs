@@ -36,17 +36,32 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<IEnumerable<VaccinDocument>> GetAllAsync()
         {
-            return await _dbContext.VaccinDocuments.Include(v => v.student).Include(v => v.nurse).Include(v=> v.vaccin_confirm).ToListAsync();
+            return await _dbContext.VaccinDocuments
+                .Include(v => v.student)
+                .Include(v => v.nurse)
+                .Include(v => v.vaccin_confirm)
+                .Include(v => v.campaign)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<VaccinDocument>> GetAllWithPagingAsync(int pageSize, int pageNumber)
         {
-            return await _dbContext.VaccinDocuments.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            return await _dbContext.VaccinDocuments
+                .Include(v => v.student)
+                .Include(v => v.nurse)
+                .Include(v => v.vaccin_confirm)
+                .Include(v => v.campaign)
+                .Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
         public async Task<VaccinDocument?> GetByIdAsync(int id)
         {
-            return await _dbContext.VaccinDocuments.FindAsync(id);
+            return await _dbContext.VaccinDocuments
+                .Include(v => v.student)
+                .Include(v => v.nurse)
+                .Include(v => v.vaccin_confirm)
+                .Include(v => v.campaign)
+                .FirstOrDefaultAsync(v => v.vaccin_document_id == id);
         }
 
         public async Task<VaccinDocument> UpdateAsync(VaccinDocument document)
@@ -63,6 +78,10 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public async Task<VaccinDocument?> GetVaccinDocumentByStudentIdAsync(int studentId)
         {
             return await _dbContext.VaccinDocuments
+                .Include(v => v.student)
+                .Include(v => v.nurse)
+                .Include(v => v.vaccin_confirm)
+                .Include(v => v.campaign)
                 .Where(v => v.student_id == studentId)
                 .FirstOrDefaultAsync();
         }

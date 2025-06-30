@@ -1,4 +1,5 @@
-﻿using SchoolMedicalSystem.Application.Interfaces.IReposervices;
+﻿using SchoolMedicalSystem.Application.DTO.Response;
+using SchoolMedicalSystem.Application.Interfaces.IReposervices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.Services
 {
-    public class HealthCheckConfirmationService
+    public class StudentParentsService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public HealthCheckConfirmationService(IUnitOfWork unitOfWork)
+        public StudentParentsService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

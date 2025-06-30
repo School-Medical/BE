@@ -35,14 +35,22 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<IEnumerable<VaccinConfirmation>> GetAllAsync()
         {
-            return await _dbContext.VaccinConfirmations.Include(v => v.student).Include(v => v.parent).ToListAsync();
+            return await _dbContext.VaccinConfirmations
+                .Include(v => v.campaign)
+                .Include(v => v.student)
+                .Include(v => v.parent).ToListAsync();
         }
 
-        public async Task<IEnumerable<VaccinConfirmation>> GetAllWithPagingAsync(int pageSize, int pageNumber)
+        public async Task<IEnumerable<VaccinConfirmation>> GetAllWithPagingByCampaignIdAsync(int pageSize, int pageNumber, int campaignId)
         {
             return await _dbContext.VaccinConfirmations
                 .Include(v => v.student)
-                .Include(v => v.parent).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+                .Include(v => v.parent)
+                .Include(v => v.campaign)
+                .Where(v => v.campaign_id == campaignId)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task<VaccinConfirmation?> GetByIdAsync(int id)
@@ -61,9 +69,19 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return await _dbContext.VaccinConfirmations.CountAsync();
         }
 
+        public async Task<int> CountByCampaignIdAsync(int campaignId)
+        {
+            return await _dbContext.VaccinConfirmations
+                .Where(v => v.campaign_id == campaignId)
+                .CountAsync();
+        }
+
         public async Task<VaccinConfirmation?> GetVaccinConfirmationByStudentIdAsync(int studentId)
         {
             return await _dbContext.VaccinConfirmations
+                .Include(v => v.student)
+                .Include(v => v.parent)
+                .Include(v => v.campaign)
                 .Where(v => v.student_id == studentId)
                 .FirstOrDefaultAsync();
         }
@@ -72,6 +90,9 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public async Task<VaccinConfirmation?> GetVaccinConfirmationByParentIdAsync(int parentId)
         {
             return await _dbContext.VaccinConfirmations
+                .Include(v => v.student)
+                .Include(v => v.parent)
+                .Include(v => v.campaign)
                 .Where(v => v.parent_id == parentId)
                 .FirstOrDefaultAsync();
         }
@@ -79,6 +100,9 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public async Task<VaccinConfirmation?> GetVaccinConfirmationByStudentAndCampaignIdAsync(int studentId, int campaignId)
         {
             return await _dbContext.VaccinConfirmations
+                .Include(v => v.student)
+                .Include(v => v.parent)
+                .Include(v => v.campaign)
                 .Where(v => v.student_id == studentId && v.campaign_id == campaignId)
                 .FirstOrDefaultAsync();
         }
