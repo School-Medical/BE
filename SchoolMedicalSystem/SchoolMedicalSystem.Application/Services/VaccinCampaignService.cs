@@ -77,16 +77,16 @@ namespace SchoolMedicalSystem.Application.Services
 
         public async Task<PaginatedResponse<VaccinCampaignDTOResponse>> GetVaccinCampaignsPaginatedAsync(int pageSize, int pageNumber)
         {
-            var totalCount = await _unitOfWork.VaccinCampaigns.CountAsync();
+            var totalItems = await _unitOfWork.VaccinCampaigns.CountAsync();
             var items = await _unitOfWork.VaccinCampaigns.GetAllWithPagingAsync(pageSize, pageNumber);
             var mappedItems = _mapper.Map<IEnumerable<VaccinCampaignDTOResponse>>(items);
             return new PaginatedResponse<VaccinCampaignDTOResponse>
             {
-                TotalCount = totalCount,
+                TotalItems = totalItems,
                 Items = mappedItems,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                TotalPages = (int)Math.Ceiling((double)totalCount / pageSize)
+                TotalPages = (int)Math.Ceiling((double)totalItems / pageSize)
             };
         }
 

@@ -36,5 +36,11 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public DateOnly? UpdateAt { get; set; }
 
         public string? StudentName { get; set; }
+        public int StudentId { get; set; }
+        public string? StudentCode { get; set; }
+        public string? ParentPhoneNumber { get; set; }
+        public string? ImageUrl { get; set; }
+        public int? UserId { get; set; }
+        public int? ClassId { get; set; }
     }
 }

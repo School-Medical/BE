@@ -17,10 +17,13 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public ulong? Status { get; set; }
 
         public int? ParentId { get; set; }
-
+        public string? ParentName { get; set; } = string.Empty;
         public int? StudentId { get; set; }
+        public string? StudentName { get; set; } = string.Empty;
 
         public int? CampaignId { get; set; }
+        public string? CampaignName { get; set; } = string.Empty;
+        public string? VaccinName { get; set; } = string.Empty;
 
     }
 }

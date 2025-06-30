@@ -56,7 +56,6 @@ namespace SchoolMedicalSystem
                         ValidAudience = builder.Configuration["Jwt:Audience"],
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-
                         IssuerSigningKey = new SymmetricSecurityKey(key),
                         ClockSkew = TimeSpan.Zero 
                     };

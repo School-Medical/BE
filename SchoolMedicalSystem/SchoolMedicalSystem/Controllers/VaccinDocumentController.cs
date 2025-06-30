@@ -158,7 +158,7 @@ namespace SchoolMedicalSystem.Controllers
         }
 
         [HttpGet("paging")]
-        public async Task<IActionResult> GetVaccinDocumentsPaging(int pageSize, int pageNumber)
+        public async Task<IActionResult> GetVaccinDocumentsPaging(int pageSize = 10, int pageNumber = 1)
         {
             try
             {

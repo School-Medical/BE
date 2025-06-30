@@ -60,10 +60,11 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return await _dbContext.VaccinCampaigns.CountAsync();
         }
 
+        //Chỉ lấy chiến dịch tiêm chủng hiện tại với staus 1 (đang hoạt động)
         public async Task<VaccinCampaign?> GetCurrentCampaignAsync()
         {
             return await _dbContext.VaccinCampaigns
-                .Where(c => c.start_at <= DateTime.Now && c.end_at >= DateTime.Now)
+                .Where(c => c.start_at <= DateTime.Now && c.end_at >= DateTime.Now && c.status == 1)
                 .FirstOrDefaultAsync();
         }
     }

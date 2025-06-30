@@ -42,6 +42,8 @@ namespace SchoolMedicalSystem.Controllers
         /// </summary>
         /// <param name="vaccinConfirmation"></param>
         /// <returns></returns>
+        /// 
+        [Authorize(Roles = "parent")]
         [HttpPost]
         public async Task<IActionResult> CreateVaccinConfirmation([FromBody] VaccinConfirmationDTORequest vaccinConfirmation)
         {
@@ -62,7 +64,7 @@ namespace SchoolMedicalSystem.Controllers
             }
             catch (ArgumentException ex)
             {
-                return BadRequest(new ApiResponse<object>(ex.Message, null, 400));
+                return BadRequest(new ApiResponse<object>("Invalid request", new List<string> { ex.Message },400));
             }
         }
 
@@ -92,16 +94,19 @@ namespace SchoolMedicalSystem.Controllers
             return NoContent();
         }
 
-        [HttpGet("paging")]
-        public async Task<IActionResult> GetVaccinConfirmationsWithPaging(int pageSize = 10, int pageNumber = 1)
+        [HttpGet("campaignId/{id}")]
+        public async Task<IActionResult> GetVaccinConfirmationsWithPaging(int id, int pageSize = 10, int pageNumber = 1)
         {
             if (pageSize <= 0 || pageNumber <= 0)
             {
                 return BadRequest("Page size and number must be greater than zero.");
             }
-            var result = await _vaccinConfirmationService.GetAllVaccinConfirmationsWithPagingAsync(pageSize, pageNumber);
-            return Ok(new ApiResponse<PaginatedResponse<VaccinConfirmationDTOResponse>>("Data retrieved successfully", result));
+
+            var result = await _vaccinConfirmationService.GetAllVaccinConfirmationsWithPagingAsync(id, pageSize, pageNumber);
+            return Ok(new ApiResponse<VaccinCampainPagingDTOResponse>("Data retrieved successfully", result));
         }
+
+
         [Authorize(Roles = "parent")]
         [HttpGet("student")]
         public async Task<IActionResult> GetVaccinConfirmationByParentId()

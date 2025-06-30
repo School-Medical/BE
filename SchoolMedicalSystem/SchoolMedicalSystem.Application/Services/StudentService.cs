@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.Services
 {
-    public class HealthCheckConfirmationService
+    public class StudentService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public HealthCheckConfirmationService(IUnitOfWork unitOfWork)
+        public StudentService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
+
 
     }
 }

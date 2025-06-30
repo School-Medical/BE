@@ -8,6 +8,7 @@ using SchoolMedicalSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,16 +38,41 @@ namespace SchoolMedicalSystem.Application.Services
 
         public async Task<VaccinConfirmationDTOResponse> CreateVaccinConfirmationAsync(int parentId, VaccinConfirmationDTORequest vaccinConfirmation)
         {
-            //Chỉ cho phép phụ huynh có ID hợp lệ tạo Vaccin Confirmation
-            var parentValid = await _unitOfWork.StudentParents.CheckParentValid(parentId, vaccinConfirmation.StudentId!.Value);
-            if (!parentValid)
+            try
             {
-                _logger.LogError("Parent with ID {ParentId} is not valid for Student ID {StudentId}", parentId, vaccinConfirmation.StudentId);
-                throw new ArgumentException($"Parent with ID {parentId} is not valid for Student ID {vaccinConfirmation.StudentId}");
+                //Chỉ cho phép phụ huynh có ID hợp lệ tạo Vaccin Confirmation
+                var parentValid = await _unitOfWork.StudentParents.CheckParentValid(vaccinConfirmation.StudentId!.Value, parentId);
+                if (!parentValid)
+                {
+                    _logger.LogError("Parent with ID {ParentId} is not valid for Student ID {StudentId}", parentId, vaccinConfirmation.StudentId);
+                    throw new ArgumentException($"Parent with ID {parentId} is not valid for Student ID {vaccinConfirmation.StudentId}");
+                }
+
+                //Kiểm tra chiến dịch tiêm chủng nào có đang hoạt động không
+                var campaign = await _unitOfWork.VaccinCampaigns.GetCurrentCampaignAsync();
+                if (campaign == null)
+                {
+                    _logger.LogError("No active Vaccin Campaign found for Student ID {StudentId}", vaccinConfirmation.StudentId);
+                    throw new ArgumentException($"No active Vaccin Campaign found for Student ID {vaccinConfirmation.StudentId}");
+                }
+
+                //Kiểm tra xem học sinh đã có xác nhận tiêm chủng nào chưa
+                var existingConfirmation = await _unitOfWork.VaccinConfirmations.GetVaccinConfirmationByStudentAndCampaignIdAsync(vaccinConfirmation.StudentId.Value, campaign.vaccin_campaign_id);
+                if (existingConfirmation != null)
+                {
+                    _logger.LogError("Vaccin Confirmation already exists for Student ID {StudentId} in Campaign ID {CampaignId}", vaccinConfirmation.StudentId, campaign.vaccin_campaign_id);
+                    throw new ArgumentException($"Vaccin Confirmation already exists for Student ID {vaccinConfirmation.StudentId} in Campaign ID {campaign.vaccin_campaign_id}");
+                }
+
+                var createdVaccinConfirmation = await _unitOfWork.VaccinConfirmations.CreateAsync(_mapper.Map<VaccinConfirmation>(vaccinConfirmation));
+                await _unitOfWork.SaveChangesAsync();
+                return _mapper.Map<VaccinConfirmationDTOResponse>(createdVaccinConfirmation);
             }
-            var createdVaccinConfirmation = await _unitOfWork.VaccinConfirmations.CreateAsync(_mapper.Map<VaccinConfirmation>(vaccinConfirmation));
-            await _unitOfWork.SaveChangesAsync();
-            return _mapper.Map<VaccinConfirmationDTOResponse>(createdVaccinConfirmation);
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error creating Vaccin Confirmation for Parent ID {ParentId}", parentId);
+                throw;
+            }           
         }
 
         public async Task<VaccinConfirmationDTOResponse> UpdateVaccinConfirmationAsync(int id, VaccinConfirmationDTORequest vaccinConfirmation)
@@ -80,23 +106,43 @@ namespace SchoolMedicalSystem.Application.Services
             return deleted;
         }
 
-        public async Task<PaginatedResponse<VaccinConfirmationDTOResponse>> GetAllVaccinConfirmationsWithPagingAsync(int pageSize, int pageNumber)
+        public async Task<VaccinCampainPagingDTOResponse> GetAllVaccinConfirmationsWithPagingAsync(int campaignId, int pageSize, int pageNumber)
         {
-            var totalItems = await _unitOfWork.VaccinConfirmations.CountAsync();
-            if (pageSize <= 0 || pageNumber <= 0 || pageSize > totalItems)
+            if (pageSize <= 0 || pageNumber <= 0)
             {
                 _logger.LogWarning("Invalid paging parameters: pageSize={PageSize}, pageNumber={PageNumber}", pageSize, pageNumber);
-                return new PaginatedResponse<VaccinConfirmationDTOResponse>();
+                throw new ArgumentException("Invalid paging parameters.");
             }
-            var items = _mapper.Map<IEnumerable<VaccinConfirmationDTOResponse>>(await _unitOfWork.VaccinConfirmations.GetAllWithPagingAsync(pageSize, pageNumber));
 
-            return new PaginatedResponse<VaccinConfirmationDTOResponse>
+            var campaign = await _unitOfWork.VaccinCampaigns.GetByIdAsync(campaignId);
+            if (campaign == null)
             {
+                _logger.LogWarning("Campaign with ID {Id} not found", campaignId);
+                throw new ArgumentException($"Campaign with ID {campaignId} not found.");
+            }
+
+            //if (campaign.status == 0)
+            //{
+            //    _logger.LogWarning("Campaign {Id} is not active", campaignId);
+            //    throw new ArgumentException($"Campaign {campaignId} is not active.");
+            //}
+
+            var totalItems = await _unitOfWork.VaccinConfirmations.CountByCampaignIdAsync(campaignId);
+
+            var items = await _unitOfWork.VaccinConfirmations
+                .GetAllWithPagingByCampaignIdAsync(pageSize, pageNumber, campaignId);
+
+            var mapped = _mapper.Map<IEnumerable<VaccinConfirmationDTOResponse>>(items);
+
+            return new VaccinCampainPagingDTOResponse
+            {
+                CampaignId = campaignId,
                 PageNumber = pageNumber,
                 PageSize = pageSize,
                 TotalItems = totalItems,
-                Items = items,
-                TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
+                //TotalCount = totalItems,
+                TotalPages = (int)Math.Ceiling((double)totalItems / pageSize),
+                Items = mapped
             };
         }
 
@@ -113,6 +159,7 @@ namespace SchoolMedicalSystem.Application.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task<VaccinCampaignDTOResponse> GetVaccinConfirmationsByParentIdAsync(int parentId)
         {
+            //Lấy ra chiến dịch tiêm chủng hiện tại đang có
             var campaign = await _unitOfWork.VaccinCampaigns.GetCurrentCampaignAsync();
 
             var students = await _unitOfWork.StudentParents.GetStudentParentsByParentIdAsync(parentId);

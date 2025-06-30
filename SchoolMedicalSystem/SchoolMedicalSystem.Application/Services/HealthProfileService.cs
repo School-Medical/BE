@@ -139,6 +139,10 @@ namespace SchoolMedicalSystem.Application.Services
             }
         }
 
-        
+        public async Task<HealthProfileDTOResponse> GetByStudentIdAsync(int studentId)
+        {
+            var healthProfiles = await _unitOfWork.HealthProfiles.GetByStudentIdAsync(studentId);
+            return _mapper.Map<HealthProfileDTOResponse>(healthProfiles);
+        }
     }
 }
