@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.Interfaces.IServices
 {
-    public interface IPrescriptionsService
+    public interface IPrescriptionMedicineService
     {
-
     }
 }

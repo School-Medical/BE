@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolMedicalSystem.Application.Interfaces.IReposervices;
+using SchoolMedicalSystem.Domain.Entities;
 using SchoolMedicalSystem.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,25 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
+        public Task<PrescriptionMedicine> AddAsync(PrescriptionMedicine entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PrescriptionMedicine?> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateAsync(PrescriptionMedicine entity)
+        {
+            throw new NotImplementedException();
+        }
         public async Task<bool> DeleteByPrescriptionIdAsync(int prescriptionId)
         {
             var prescription = await _dbContext.PrescriptionMedicines
