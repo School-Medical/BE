@@ -23,7 +23,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         IUserRepository Users { get; }
         IMedicalSuppliesRepository MedicalSupplies { get; }
         IBatchRepository Batch { get; }
-        IStudentRepository Students { get; }
         IHealthProfileRepository HealthProfiles { get; }
         IMedicationHistoryService MedicationHistory { get; }
         IVaccinCampaignRepository VaccinCampaigns { get; }

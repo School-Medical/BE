@@ -100,7 +100,6 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         }
         //This place to start progress dependency injection
         public IUserRepository Users { get; private set; }
-        public IMedicalIncidentRepository MedicalIncidents { get; private set; }
         public IMedicalSuppliesRepository MedicalSupplies { get; private set; }
         public IBatchRepository Batch { get; private set; }
         public IHealthProfileRepository HealthProfiles { get; private set; }
