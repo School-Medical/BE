@@ -22,5 +22,13 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         IStudentRepository Students { get; }
         IHealthProfileRepository HealthProfiles { get; }
         IMedicationHistoryService MedicationHistory { get; }
+        IVaccinCampaignRepository VaccinCampaigns { get; }
+        IVaccinConfirmationRepository VaccinConfirmations { get; }
+        IVaccinDocumentRepository VaccinDocuments { get; }
+        IBlogRepository Blogs { get; }
+        IPrescriptionRepository Prescriptions { get; }
+        IPrescriptionMedicineRepository PrescriptionMedicines { get; }
+        IStudentParentsRepository StudentParents { get; }
+        IHealthCheckConfirmationRepository HealthCheckConfirmations { get; }
     }
 }

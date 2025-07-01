@@ -27,7 +27,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             var healthProfile = await _dbContext.HealthProfiles.FindAsync(id);
             if (healthProfile == null)
             {
-                return false; 
+                return false;
                 throw new Exception("Health Profile not found");
             }
             _dbContext.Remove(healthProfile);
@@ -49,13 +49,28 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<HealthProfile?> GetByIdAsync(int id)
         {
-            return await _dbContext.HealthProfiles.FirstOrDefaultAsync(x => x.health_profile_id == id);
+            return await _dbContext.HealthProfiles.Include(h => h.student).FirstOrDefaultAsync(x => x.health_profile_id == id);
         }
 
         public async Task<bool> UpdateAsync(HealthProfile entity)
         {
             _dbContext.Update(entity);
             return true;
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await _dbContext.HealthProfiles.CountAsync();
+        }
+
+        public async Task<HealthProfile?> GetByStudentIdAsync(int studentId)
+        {
+            return await _dbContext.HealthProfiles
+                .Include(h => h.student)
+                .ThenInclude(h => h._class)
+                .Include(h => h.student)
+                .ThenInclude(h => h.StudentParents)
+                .FirstOrDefaultAsync(h => h.student_id == studentId);
         }
     }
 }

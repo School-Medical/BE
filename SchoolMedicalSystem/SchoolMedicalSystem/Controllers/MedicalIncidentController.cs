@@ -8,11 +8,15 @@ using SchoolMedicalSystem.Models;
 
 namespace SchoolMedicalSystem.Controllers
 {
+    /// <summary>
+    /// Author : TinHT
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class MedicalIncidentController : ControllerBase
     {
         private readonly IMedicalIncidentService _medicalIncidentService;
+
         public MedicalIncidentController(IMedicalIncidentService medicalIncidentService)
         {
             _medicalIncidentService = medicalIncidentService;
@@ -45,8 +49,7 @@ namespace SchoolMedicalSystem.Controllers
             }
         }
 
-
-        [HttpGet]
+        [HttpGet("paging")]
         public async Task<IActionResult> GetMedicalIncidents([FromQuery] int pageSize = 10, [FromQuery] int pageNumber = 1)
         {
             try

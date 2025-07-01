@@ -21,5 +21,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<HealthProfileDTOResponse> UpdateAsync(int healthProfileId, HealthProfileDTORequest dto);
 
         Task<bool> DeleteAsync(int id);
+        Task<HealthProfileDTOResponse> GetByStudentIdAsync(int studentId);
     }
 }
