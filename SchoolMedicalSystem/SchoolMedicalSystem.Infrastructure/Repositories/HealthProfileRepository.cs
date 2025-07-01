@@ -63,13 +63,14 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return await _dbContext.HealthProfiles.CountAsync();
         }
 
-        public async Task<List<HealthProfile>> GetByStudentIdAsync(int parentId)
+        public async Task<HealthProfile?> GetByStudentIdAsync(int studentId)
         {
             return await _dbContext.HealthProfiles
                 .Include(h => h.student)
                 .ThenInclude(h => h._class)
-                .Where(h => h.student!.user_id == parentId)
-                .ToListAsync();
+                .Include(h => h.student)
+                .ThenInclude(h => h.StudentParents)
+                .FirstOrDefaultAsync(h => h.student_id == studentId);
         }
     }
 }

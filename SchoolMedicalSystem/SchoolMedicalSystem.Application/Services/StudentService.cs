@@ -88,8 +88,8 @@ namespace SchoolMedicalSystem.Application.Services
                     TotalItems = students.Count,
                     TotalPages = totalPages,
                     Items = _mapper.Map<List<StudentDTOResponse>>(students),
-                    HasPreviousPage = pageNumber > 1,
-                    HasNextPage = pageNumber < totalPages
+                    //HasPreviousPage = pageNumber > 1,
+                    //HasNextPage = pageNumber < totalPages
                 };
             }
             catch (Exception ex)
@@ -109,6 +109,7 @@ namespace SchoolMedicalSystem.Application.Services
                     _logger.LogWarning("Student with ID {Id} not found", id);
                     throw new KeyNotFoundException($"Student with ID {id} not found");
                 }
+                
                 return _mapper.Map<StudentDTOResponse>(entity);
             }
             catch (Exception ex)
@@ -189,8 +190,8 @@ namespace SchoolMedicalSystem.Application.Services
                         TotalItems = 0,
                         TotalPages = 0,
                         Items = new List<StudentDTOResponse>(),
-                        HasPreviousPage = false,
-                        HasNextPage = false
+                        //HasPreviousPage = false,
+                        //HasNextPage = false
                     };
                 }
 
@@ -208,8 +209,8 @@ namespace SchoolMedicalSystem.Application.Services
                     TotalItems = totalItems,
                     TotalPages = totalPages,
                     Items = _mapper.Map<List<StudentDTOResponse>>(pagedStudents),
-                    HasPreviousPage = pageNumber > 1,
-                    HasNextPage = pageNumber < totalPages
+                    //HasPreviousPage = pageNumber > 1,
+                    //HasNextPage = pageNumber < totalPages
                 };
             }
             catch (Exception ex)

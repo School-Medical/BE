@@ -112,5 +112,27 @@ namespace SchoolMedicalSystem.Controllers
                 return StatusCode(500, new ApiResponse<object>("Internal server error", new List<string> { ex.Message }, 500));
             }
         }
+
+        [HttpGet("{studentId}/health-profile")]
+        public async Task<IActionResult> GetHealthProfileByStudentId(int studentId)
+        {
+            try
+            {
+                if (studentId <= 0)
+                {
+                    return BadRequest(new ApiResponse<object>("Invalid student ID", new List<string> { "Student ID must be greater than 0" }, 400));
+                }
+                var healthProfile = await _healthProfileService.GetByStudentIdAsync(studentId);
+                if (healthProfile == null)
+                {
+                    return NotFound(new ApiResponse<object>("Health profile not found for the given student ID.", null, 404));
+                }
+                return Ok(new ApiResponse<HealthProfileDTOResponse>("Health profile retrieved successfully.", healthProfile, 200));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<object>("Internal server error", new List<string> { ex.Message }, 500));
+            }
+        }
     }
 }

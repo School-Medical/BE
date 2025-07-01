@@ -38,7 +38,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<List<Student>> GetAllStudents(int pageSize, int pageNumber)
         {
-            return await _dbContext.Students.Include(s => s._class)
+            return await _dbContext.Students.Include(s => s._class).Include(s => s.StudentParents)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -46,12 +46,13 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<Student?> GetStudentById(int id)
         {
-            return await _dbContext.Students.Include(s => s._class).FirstOrDefaultAsync(s => s.student_id.Equals(id));
+            return await _dbContext.Students.Include(s => s._class)
+                .Include(s => s.StudentParents).FirstOrDefaultAsync(s => s.student_id == id);
         }
 
         public async Task<Student?> GetStudentByStudentCode(string studentCode)
         {
-            return await _dbContext.Students.Include(s => s._class).FirstOrDefaultAsync(s => s.student_code!.Equals(studentCode));
+            return await _dbContext.Students.Include(s => s._class).Include(s => s.StudentParents).FirstOrDefaultAsync(s => s.student_code!.Equals(studentCode));
         }
 
         
@@ -83,7 +84,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<List<Student?>> GetStudentsByClassId(int classId)
         {
-            return await _dbContext.Students.Include(s => s._class)
+            return await _dbContext.Students.Include(s => s._class).Include(s => s.StudentParents)
                 .Where(stu => stu.class_id == classId)
                 .ToListAsync();
         }

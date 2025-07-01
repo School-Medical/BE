@@ -16,7 +16,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<bool> UpdateAsync(HealthProfile entity);
         Task<bool> DeleteAsync(int id);
         Task<int> CountAsync();
-        Task<List<HealthProfile>> GetByStudentIdAsync(int studentId);
+        Task<HealthProfile?> GetByStudentIdAsync(int studentId);
 
     }
 }

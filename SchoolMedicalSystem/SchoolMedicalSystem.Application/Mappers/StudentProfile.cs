@@ -22,7 +22,9 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.StudentCode, opt => opt.MapFrom(src => src.student_code))
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.image_url))
                 .ForMember(dest => dest.ParentPhoneNumber, opt => opt.MapFrom(src => src.parent_phone_number))
-                .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src._class.class_name));
+                .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.StudentParents.Where(sp => sp.student_id == src.student_id).FirstOrDefault()!.user_id))              
+                .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.class_id))
+                .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src._class != null ? src._class.class_name : null));
 
             CreateMap<StudentUpdateDTORequest, Student>()
                 .ForMember(dest => dest.first_name, opt => opt.MapFrom(src => src.FirstName))
