@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using SchoolMedicalSystem.Application.Interfaces.IReposervices;
+using SchoolMedicalSystem.Application.Interfaces.IServices;
+using SchoolMedicalSystem.Domain.Entities;
 using SchoolMedicalSystem.Infrastructure.Data;
 
 namespace SchoolMedicalSystem.Infrastructure.Repositories
@@ -16,10 +18,24 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         {
             _context = context;
             _logger = logger;
+
+            // Repository initialization using Dependency Injection
             MedicalIncidents = new MedicalIncidentRepository(_context);
             Medications = new MedicationRepository(_context);
             GivenDoses = new GivenDoseRepository(_context);
+            Users = new UserRepository(_context);
+            MedicalSupplies = new MedicalSuppliesRepository(_context);
+            Batch = new BatchRepository(_context);
             Students = new StudentRepository(_context);
+            HealthProfiles = new HealthProfileRepository(_context);
+            VaccinCampaigns = new VaccinCampaignRepository(_context);
+            VaccinConfirmations = new VaccinConfirmationRepository(_context);
+            VaccinDocuments = new VaccinDocumentRepository(_context);
+            Blogs = new BlogRepository(_context);
+            Prescriptions = new PrescriptionRepository(_context);
+            PrescriptionMedicines = new PrescriptionMedicineRepository(_context);
+            StudentParents = new StudentParentsRepository(_context);
+            HealthCheckConfirmations = new HealthCheckConfirmationRepository(_context);
         }
 
         public IMedicalIncidentRepository MedicalIncidents { get; private set; }
@@ -82,6 +98,25 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
             return Task.FromResult<ITransaction?>(new EfTransaction(_transaction));
         }
+        //This place to start progress dependency injection
+        public IUserRepository Users { get; private set; }
+        public IMedicalIncidentRepository MedicalIncidents { get; private set; }
+        public IMedicalSuppliesRepository MedicalSupplies { get; private set; }
+        public IBatchRepository Batch { get; private set; }
+        public IHealthProfileRepository HealthProfiles { get; private set; }
+        public IMedicationHistoryService MedicationHistory { get; private set; }
 
+        public IVaccinCampaignRepository VaccinCampaigns { get; private set; }
+
+        public IVaccinConfirmationRepository VaccinConfirmations { get; private set; }
+
+        public IVaccinDocumentRepository VaccinDocuments { get; private set; }
+
+        public IBlogRepository Blogs { get; private set; }
+
+        public IPrescriptionRepository Prescriptions { get; private set; }
+        public IPrescriptionMedicineRepository PrescriptionMedicines { get; private set; }
+        public IStudentParentsRepository StudentParents { get; private set; }
+        public IHealthCheckConfirmationRepository HealthCheckConfirmations { get; private set; }
     }
 }

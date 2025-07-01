@@ -30,10 +30,11 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
                 return new SchoolMedicalDbContext(optionsBuilder.Options);
             }).InstancePerLifetimeScope();
 
-            // Register repository and service
 
-            //builder.RegisterType<JwtService>().As<IJwtService>().InstancePerLifetimeScope();
-            //builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
+            // Register service
+
+            builder.RegisterType<JWTService>().As<IJWTService>().InstancePerLifetimeScope();
+            builder.RegisterType<AuthService>().As<IAuthService>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();    
             builder.RegisterType<MedicalIncidentService>().As<IMedicalIncidentService>().InstancePerLifetimeScope();
             builder.RegisterType<MedicationRepository>().As<IMedicationRepository>().InstancePerLifetimeScope();
@@ -41,6 +42,19 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
 
             builder.RegisterType<GivenDoseService>().As<IGivenDoseService>().InstancePerLifetimeScope();
             builder.RegisterType<MedicationService>().As<IMedicationService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicalSuppliesService>().As<IMedicalSuppliesService>().InstancePerLifetimeScope();
+            builder.RegisterType<HealthProfileService>().As<IHealthProfileService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationHistoryService>().As<IMedicationHistoryService>().InstancePerLifetimeScope();
+
+
+            builder.RegisterType<VaccinCampaignService>().As<IVaccinCampaignService>().InstancePerLifetimeScope();
+            builder.RegisterType<VaccinConfirmationService>().As<IVaccinConfirmationService>().InstancePerLifetimeScope();
+            builder.RegisterType<VaccinDocumentService>().As<IVaccinDocumentService>().InstancePerLifetimeScope();
+            builder.RegisterType<BlogService>().As<IBlogService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<StudentService>().As<IStudentService>().InstancePerLifetimeScope();
+
         }
     }
 }
