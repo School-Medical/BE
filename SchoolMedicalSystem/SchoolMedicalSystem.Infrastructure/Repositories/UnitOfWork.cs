@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using SchoolMedicalSystem.Application.Interfaces.IReposervices;
+using SchoolMedicalSystem.Application.Interfaces.IServices;
 using SchoolMedicalSystem.Domain.Entities;
 using SchoolMedicalSystem.Infrastructure.Data;
 using System;
@@ -99,6 +100,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public IBatchRepository Batch { get; private set; }
         public IStudentRepository Students { get; private set; }
         public IHealthProfileRepository HealthProfiles { get; private set; }
+        public IMedicationHistoryService MedicationHistory { get; private set; }
 
         public IVaccinCampaignRepository VaccinCampaigns { get; private set; }
 
