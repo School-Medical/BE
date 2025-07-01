@@ -17,12 +17,17 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _context = context;
             _logger = logger;
             MedicalIncidents = new MedicalIncidentRepository(_context);
-            Medication = new MedicationRepository(_context);
+            Medications = new MedicationRepository(_context);
+            GivenDoses = new GivenDoseRepository(_context);
         }
 
         public IMedicalIncidentRepository MedicalIncidents { get; private set; }
 
-        public IMedicationRepository Medication { get; private set; }
+        public IMedicationRepository Medications { get; private set; }
+
+        public IGivenDoseRepository GivenDoses { get; private set; }
+
+        public IStudentRepository Students { get; private set; }
 
         public async Task<int> SaveChangesAsync()
         {

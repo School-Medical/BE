@@ -10,6 +10,7 @@ namespace SchoolMedicalSystem.Controllers
     public class MedicationsController : ControllerBase
     {
         private readonly IMedicationService _medicationService;
+        private readonly ILogger<MedicationsController> _logger;
 
         public MedicationsController(IMedicationService medicationService)
         {
@@ -26,7 +27,7 @@ namespace SchoolMedicalSystem.Controllers
             }
             catch (Exception ex) 
             {
-                return BadRequest(ex.Message); // tạm
+                return BadRequest(ex.Message);
             }
             
         }

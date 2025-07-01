@@ -24,7 +24,7 @@ namespace SchoolMedicalSystem.Application.Services
         public async Task<MedicationResponse> AddAsync(MedicationRequest request)
         {
             var entity = _mapper.Map<Medication>(request);
-            await _unitOfWork.Medication.AddAsync(entity);
+            await _unitOfWork.Medications.AddAsync(entity);
             await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<MedicationResponse>(entity);
         }
@@ -36,13 +36,13 @@ namespace SchoolMedicalSystem.Application.Services
 
         public async Task<List<MedicationResponse>> GetAllAsync()
         {
-            var entities = await _unitOfWork.Medication.GetAllAsync();
+            var entities = await _unitOfWork.Medications.GetAllAsync();
             return _mapper.Map<List<MedicationResponse>>(entities);
         }
 
         public async Task<MedicationResponse> GetByNameAsync(string name)
         {
-            var entity = await _unitOfWork.Medication.GetByNameAsync(name);
+            var entity = await _unitOfWork.Medications.GetByNameAsync(name);
             if (entity == null)
                 throw new NotFoundException($"Không tìm thấy thuốc với id = {name}");
 
@@ -51,15 +51,21 @@ namespace SchoolMedicalSystem.Application.Services
 
         public async Task<MedicationResponse> UpdateAsync(MedicationRequest request)
         {
-            var existing = await _unitOfWork.Medication.GetByNameAsync(request.MedicineName);
+            var existing = await _unitOfWork.Medications.GetByNameAsync(request.MedicineName);
             if (existing == null)
                 throw new NotFoundException($"Không tìm thấy thuốc với tên = {request.MedicineName}");
             _mapper.Map(request, existing);
-            await _unitOfWork.Medication.UpdateAsync(existing);
+            await _unitOfWork.Medications.UpdateAsync(existing);
             await _unitOfWork.SaveChangesAsync();
 
             return _mapper.Map<MedicationResponse>(existing);
         }
         
+        public async Task<List<MedicationResponse>> GetMedicationByGivenDoseId(int id)
+        {
+            var list = await _unitOfWork.Medications.GetByGivenDoseId(id);
+            return _mapper.Map<List<MedicationResponse>>(list);
+        }
+
     }
 }

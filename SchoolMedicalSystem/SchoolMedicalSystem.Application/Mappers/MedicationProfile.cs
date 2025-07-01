@@ -20,10 +20,7 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.Unit, opt => opt.MapFrom(src => src.unit ?? string.Empty))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.type))
                 .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.message))
-                .ForMember(dest => dest.GivenDoseId, opt => opt.MapFrom(src => src.given_dose_id))
-                .ForMember(dest => dest.GivenDoseName, opt => opt.MapFrom(src => src.given_dose != null
-                                                                                  ? src.given_dose.student.first_name
-                                                                                  : null));
+                .ForMember(dest => dest.GivenDoseId, opt => opt.MapFrom(src => src.given_dose_id));
         }
     }
 }

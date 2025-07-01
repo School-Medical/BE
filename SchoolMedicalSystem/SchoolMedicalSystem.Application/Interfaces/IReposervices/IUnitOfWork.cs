@@ -8,7 +8,9 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
 {
     public interface IUnitOfWork
     {
-        IMedicationRepository Medication { get; }
+        IMedicationRepository Medications { get; }
+        IGivenDoseRepository GivenDoses { get; }
+        IStudentRepository Students { get; }
 
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();

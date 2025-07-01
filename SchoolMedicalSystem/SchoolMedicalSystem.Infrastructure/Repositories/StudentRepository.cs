@@ -20,5 +20,10 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         {
             return await _dbContext.Students.FirstOrDefaultAsync(s => s.student_id.Equals(id));
         }
+
+        public async Task<IEnumerable<Student>> GetStudentByName(string name)
+        {
+            return await _dbContext.Students.Where(s => (s.first_name + " " + s.last_name).ToLower().Contains(name.ToLower())).ToListAsync();
+        }
     }
 }

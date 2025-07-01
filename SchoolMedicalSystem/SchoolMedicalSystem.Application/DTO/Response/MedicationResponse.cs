@@ -21,7 +21,5 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public string? Message { get; set; }
 
         public int? GivenDoseId { get; set; }
-
-        public string? GivenDoseName { get; set; }
     }
 }

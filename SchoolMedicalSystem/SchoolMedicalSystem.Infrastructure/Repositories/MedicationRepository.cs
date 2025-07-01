@@ -22,5 +22,10 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .FirstOrDefaultAsync(m => m.medicine_name.ToLower() == name.ToLower());
         }
 
+        public async Task<List<Medication>> GetByGivenDoseId(int id)
+        {
+            return await _context.Medications.Where(m => m.given_dose_id == id).ToListAsync();
+        }
+
     }
 }

@@ -19,5 +19,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<MedicationResponse> UpdateAsync(MedicationRequest request);
 
         Task<MedicationResponse> DeleteAsync(int id);
+
+        Task<List<MedicationResponse>> GetMedicationByGivenDoseId(int id);
     }
 }

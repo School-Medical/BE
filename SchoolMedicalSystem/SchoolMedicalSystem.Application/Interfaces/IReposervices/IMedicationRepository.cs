@@ -10,5 +10,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
     public interface IMedicationRepository : IGenericRepository<Medication>
     {
         Task<Medication?> GetByNameAsync(string name);
+
+        Task<List<Medication>> GetByGivenDoseId(int id);
     }
 }
