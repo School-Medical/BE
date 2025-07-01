@@ -21,6 +21,17 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.type))
                 .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.message))
                 .ForMember(dest => dest.GivenDoseId, opt => opt.MapFrom(src => src.given_dose_id));
+
+            CreateMap<MedicationRequest, Medication>()
+               .ForMember(dest => dest.medicine_name, opt => opt.MapFrom(src => src.MedicineName))
+               .ForMember(dest => dest.quantity, opt => opt.MapFrom(src => src.Quantity))
+               .ForMember(dest => dest.unit, opt => opt.MapFrom(src => src.Unit))
+               .ForMember(dest => dest.type, opt => opt.MapFrom(src => src.Type))
+               .ForMember(dest => dest.message, opt => opt.MapFrom(src => src.Message))
+               .ForMember(dest => dest.given_dose_id, opt => opt.MapFrom(src => src.GivenDoseId));
         }
+
+
+
     }
 }

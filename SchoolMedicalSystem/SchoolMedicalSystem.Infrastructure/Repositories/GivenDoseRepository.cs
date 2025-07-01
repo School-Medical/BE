@@ -20,6 +20,13 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                         .ToListAsync();
         }
 
+        public override async Task<GivenDose?> GetByIdAsync(int id)
+        {
+            return await _context.GivenDoses.Include(g => g.student)
+                        .Include(g => g.parent)
+                        .Include(g => g.nurse).FirstOrDefaultAsync(g => g.given_dose_id.Equals(id));
+        }
+
         public async Task<GivenDose?> GetGivenDoseByStudentId(int studentId)
         {
             return await _context.GivenDoses.Include(g => g.student)

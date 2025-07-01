@@ -19,6 +19,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             MedicalIncidents = new MedicalIncidentRepository(_context);
             Medications = new MedicationRepository(_context);
             GivenDoses = new GivenDoseRepository(_context);
+            Students = new StudentRepository(_context);
         }
 
         public IMedicalIncidentRepository MedicalIncidents { get; private set; }

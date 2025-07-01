@@ -25,34 +25,59 @@ namespace SchoolMedicalSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var data = await _givenDoseService.GetAllAsync();
-
-            foreach (var item in data)
+            try
             {
-                var medications = await _medicationService.GetMedicationByGivenDoseId(item.Id);
-                item.ListMedication = medications;
-            }
+                var data = await _givenDoseService.GetAllAsync();
 
-            return Ok(new ApiResponse<List<GivenDoseResponse>>("Lấy danh sách thành công", data));
+                foreach (var item in data)
+                {
+                    var medications = await _medicationService.GetMedicationByGivenDoseId(item.Id);
+                    item.ListMedication = medications;
+                }
+
+                return Ok(new ApiResponse<List<GivenDoseResponse>>("Lấy danh sách thành công", data));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi lấy thông tin danh sách GivenDose");
+                return BadRequest(new ApiResponse<string>("Lấy danh sách thất bại", [ex.Message], 400));
+            }
         }
 
         //manager, nurse
         [HttpGet("parent/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _givenDoseService.GetByIdAsync(id);
-            if (result == null)
-                return NotFound(new ApiResponse<string>("Không tìm thấy GivenDose", ["GivenDose không tồn tại"], 404));
+            try
+            {
+                var result = await _givenDoseService.GetByIdAsync(id);
+                if (result == null)
+                    return NotFound(new ApiResponse<string>("Không tìm thấy GivenDose", ["GivenDose không tồn tại"], 404));
 
-            return Ok(new ApiResponse<GivenDoseResponse>("Lấy dữ liệu thành công", result));
+                return Ok(new ApiResponse<GivenDoseResponse>("Lấy dữ liệu thành công", result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi lấy thông tin GivenDose");
+                return BadRequest(new ApiResponse<string>("Lấy thông tin thất bại", [ex.Message], 400));
+            }
         }
 
         //parent
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] GivenDoseRequest request)
         {
-            var result = await _givenDoseService.AddAsync(request);
-            return Ok(new ApiResponse<GivenDoseResponse>("Thêm thành công", result, 201));
+            try
+            {
+                var result = await _givenDoseService.AddAsync(request);
+                result.ListMedication = await _medicationService.GetMedicationByGivenDoseId(result.Id);
+                return Ok(new ApiResponse<GivenDoseResponse>("Thêm thành công", result, 201));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi tạo mới GivenDose");
+                return BadRequest(new ApiResponse<string>("Tạo mới thất bại", [ex.Message], 400));
+            }
         }
 
         //parent, nurse
@@ -75,8 +100,16 @@ namespace SchoolMedicalSystem.Controllers
         [HttpGet("search-by-student-name")]
         public async Task<IActionResult> SearchByStudentName([FromQuery] string name)
         {
-            var result = await _givenDoseService.SearchByStudentNameAsync(name);
-            return Ok(new ApiResponse<List<GivenDoseResponse>>("Tìm kiếm thành công", result));
+            try
+            {
+                var result = await _givenDoseService.SearchByStudentNameAsync(name);
+                return Ok(new ApiResponse<List<GivenDoseResponse>>("Tìm kiếm thành công", result));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi lấy thông tin GivenDose theo tên học sinh");
+                return BadRequest(new ApiResponse<string>("Lấy thông tin thất bại", [ex.Message], 400));
+            }
         }
     }
 }

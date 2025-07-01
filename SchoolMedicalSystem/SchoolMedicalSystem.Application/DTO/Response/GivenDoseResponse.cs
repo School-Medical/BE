@@ -29,6 +29,6 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public int? ParentId { get; set; }
         public string? ParentName { get; set; }
 
-        public List<MedicationResponse>? ListMedication { get; set; }
+        public List<MedicationResponse> ListMedication { get; set; }
     }
 }
