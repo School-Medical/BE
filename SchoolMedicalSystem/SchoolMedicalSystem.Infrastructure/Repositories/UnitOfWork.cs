@@ -4,11 +4,6 @@ using SchoolMedicalSystem.Application.Interfaces.IReposervices;
 using SchoolMedicalSystem.Application.Interfaces.IServices;
 using SchoolMedicalSystem.Domain.Entities;
 using SchoolMedicalSystem.Infrastructure.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Infrastructure.Repositories
 {
@@ -26,6 +21,8 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
             // Repository initialization using Dependency Injection
             MedicalIncidents = new MedicalIncidentRepository(_context);
+            Medications = new MedicationRepository(_context);
+            GivenDoses = new GivenDoseRepository(_context);
             Users = new UserRepository(_context);
             MedicalSupplies = new MedicalSuppliesRepository(_context);
             Batch = new BatchRepository(_context);
@@ -40,6 +37,14 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             StudentParents = new StudentParentsRepository(_context);
             HealthCheckConfirmations = new HealthCheckConfirmationRepository(_context);
         }
+
+        public IMedicalIncidentRepository MedicalIncidents { get; private set; }
+
+        public IMedicationRepository Medications { get; private set; }
+
+        public IGivenDoseRepository GivenDoses { get; private set; }
+
+        public IStudentRepository Students { get; private set; }
 
         public async Task<int> SaveChangesAsync()
         {
@@ -95,10 +100,8 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         }
         //This place to start progress dependency injection
         public IUserRepository Users { get; private set; }
-        public IMedicalIncidentRepository MedicalIncidents { get; private set; }
         public IMedicalSuppliesRepository MedicalSupplies { get; private set; }
         public IBatchRepository Batch { get; private set; }
-        public IStudentRepository Students { get; private set; }
         public IHealthProfileRepository HealthProfiles { get; private set; }
         public IMedicationHistoryService MedicationHistory { get; private set; }
 

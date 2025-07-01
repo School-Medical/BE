@@ -9,6 +9,10 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
 {
     public interface IUnitOfWork
     {
+        IMedicationRepository Medications { get; }
+        IGivenDoseRepository GivenDoses { get; }
+        IStudentRepository Students { get; }
+
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
@@ -19,7 +23,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         IUserRepository Users { get; }
         IMedicalSuppliesRepository MedicalSupplies { get; }
         IBatchRepository Batch { get; }
-        IStudentRepository Students { get; }
         IHealthProfileRepository HealthProfiles { get; }
         IMedicationHistoryService MedicationHistory { get; }
         IVaccinCampaignRepository VaccinCampaigns { get; }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolMedicalSystem.Infrastructure.Data;
 
 namespace SchoolMedicalSystem.Controllers
-{
+{   
     [Route("api/[controller]")]
     [ApiController]
     public class TestController : ControllerBase
