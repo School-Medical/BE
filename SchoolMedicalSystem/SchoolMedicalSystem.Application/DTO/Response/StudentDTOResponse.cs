@@ -14,8 +14,9 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public string? LastName { get; set; }
         public string? ParentPhoneNumber { get; set; }
         public string? ImageUrl { get; set; }
-        public int? UserId { get; set; }
+        public int? ParentId { get; set; }
         public int? ClassId { get; set; }
 
+        public string? ClassName { get; set; }
     }
 }

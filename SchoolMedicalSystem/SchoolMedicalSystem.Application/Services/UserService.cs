@@ -39,9 +39,7 @@ namespace SchoolMedicalSystem.Application.Services
                 PageSize = pageSize,
                 TotalItems = totalItems,
                 TotalPages = totalPage,
-                Items = result,
-                HasPreviousPage = pageNumber > 1,
-                HasNextPage = pageNumber < totalPage
+                Items = result,           
             };
         }
 

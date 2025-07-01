@@ -33,8 +33,11 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.StudentCode, opt => opt.MapFrom(src => src.student!.student_code))
                 .ForMember(dest => dest.ParentPhoneNumber, opt => opt.MapFrom(src => src.student!.parent_phone_number))
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.student!.image_url))
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.student!.user_id))
-                .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.student!.class_id));
+                .ForMember(dest => dest.ParentId, opt => opt.MapFrom(src => src.student!.StudentParents.
+                Where(sp => sp.student_id == src.student_id).FirstOrDefault()!.user_id))
+                .ForMember(dest => dest.ClassId, opt => opt.MapFrom(src => src.student!.class_id))
+                .ForMember(dest => dest.ClassName, opt => opt.MapFrom(src => src.student!._class!.class_name));
+                
 
             CreateMap<HealthProfileDTORequest, HealthProfile>()
                 .ForMember(dest => dest.weight_index, opt => opt.MapFrom(src => src.WeightIndex))
