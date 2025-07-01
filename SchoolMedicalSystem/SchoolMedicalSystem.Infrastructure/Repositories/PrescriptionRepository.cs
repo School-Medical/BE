@@ -19,8 +19,20 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         }
         public async Task<Prescription> AddAsync(Prescription entity)
         {
-            await _dbContext.AddAsync(entity);
-            return entity;
+            try
+            {
+                await _dbContext.Prescriptions.AddAsync(entity);
+                await _dbContext.SaveChangesAsync();
+                return entity;
+            }
+            catch (DbUpdateException)
+            {
+                return null!;
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -30,9 +42,23 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             {
                 return false; // Prescription not found
             }
-            _dbContext.Remove(prescription);
-            return true;
+
+            try
+            {
+                _dbContext.Prescriptions.Remove(prescription);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
+
 
         public async Task<List<Prescription>> GetAllAsync()
         {
@@ -49,14 +75,51 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<Prescription?> GetByIdAsync(int id)
         {
-            return await _dbContext.Prescriptions.FirstOrDefaultAsync(x => x.prescription_id == id);
+            if (id <= 0)
+            {
+                return null;
+            }
+
+            try
+            {
+                return await _dbContext.Prescriptions
+                    .FirstOrDefaultAsync(x => x.prescription_id == id);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
+
 
         public async Task<bool> UpdateAsync(Prescription entity)
         {
-            _dbContext.Update(entity);
-            return true; // Assuming update always succeeds, consider adding error handling
+            // Check if the prescription exists in the database
+            var existingPrescription = await _dbContext.Prescriptions
+                .AsNoTracking()
+                .FirstOrDefaultAsync(p => p.prescription_id == entity.prescription_id);
+
+            if (existingPrescription == null)
+            {
+                return false;
+            }
+
+            try
+            {
+                _dbContext.Prescriptions.Update(entity);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
+
 
         public async Task<int> CountAsync()
         {
@@ -82,4 +145,5 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             return prescription.prescription_id;
         }
     }
+    
 }

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using SchoolMedicalSystem.Application.DTO.Request;
+using SchoolMedicalSystem.Application.DTO.Response;
 using SchoolMedicalSystem.Application.Interfaces.IReposervices;
 using SchoolMedicalSystem.Application.Interfaces.IServices;
 using System;
@@ -22,5 +24,24 @@ namespace SchoolMedicalSystem.Application.Services
             _logger = logger;
         }
 
+        public Task<PrescriptionDTORespone> AddAsync(PrescriptionDTORequest entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PrescriptionDTORespone?> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateAsync(PrescriptionDTORequest entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
