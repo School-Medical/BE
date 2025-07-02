@@ -15,5 +15,6 @@ namespace SchoolMedicalSystem.Application.DTO.Request
         public DateTime? CreateAt { get; set; }
 
         public int? MedicalIncidentId { get; set; }
+        public List<PrescriptionMedicineDTORequest>? PrescriptionMedicines { get; set; }
     }
 }

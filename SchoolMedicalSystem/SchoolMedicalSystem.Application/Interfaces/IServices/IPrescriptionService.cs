@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.Interfaces.IServices
 {
-    public interface IPrescriptionsService
+    public interface IPrescriptionService
     {
         Task<PrescriptionDTORespone?> GetByIdAsync(int id);
         Task<PrescriptionDTORespone> AddAsync(PrescriptionDTORequest entity);

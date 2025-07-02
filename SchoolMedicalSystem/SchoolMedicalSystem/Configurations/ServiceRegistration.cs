@@ -49,6 +49,8 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<StudentService>().As<IStudentService>().InstancePerLifetimeScope();
+            builder.RegisterType<PrescriptionService>().As<IPrescriptionService>().InstancePerLifetimeScope();
+            builder.RegisterType<PrescriptionMedicineService>().As<IPrescriptionMedicineService>().InstancePerLifetimeScope();
 
         }
     }

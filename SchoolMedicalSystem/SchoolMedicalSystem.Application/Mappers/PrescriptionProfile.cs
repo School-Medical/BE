@@ -13,7 +13,7 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.PrescriptionId, opt => opt.MapFrom(src => src.prescription_id))
                 .ForMember(dest => dest.Instruction, opt => opt.MapFrom(src => src.instruction))
                 .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => src.create_at))
-                .ForMember(dest => dest.MedicalIncidentId, opt => opt.MapFrom(src => src.medical_incident_id))
+                .ForMember(dest => dest.MedicalIncidentId, opt => opt.MapFrom(src => src.medical_incident_id));
 
             CreateMap<PrescriptionDTORequest, Prescription>()
                 .ForMember(dest => dest.prescription_id, opt => opt.MapFrom(src => src.PrescriptionId))

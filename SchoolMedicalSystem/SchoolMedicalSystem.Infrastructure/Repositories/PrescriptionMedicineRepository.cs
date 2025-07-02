@@ -78,5 +78,12 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public Task<List<PrescriptionMedicine>> AddListAsynce(List<PrescriptionMedicine> list)
+        {
+            if (list == null || !list.Any())
+                throw new ArgumentNullException(nameof(list), "List cannot be null or empty");
+            _dbContext.PrescriptionMedicines.AddRange(list);
+            return Task.FromResult(list);
+        }
     }
 }

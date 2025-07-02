@@ -49,6 +49,24 @@ namespace SchoolMedicalSystem.Application.Services
             }
         }
 
+        public Task<List<PrescriptionMedicineDTORespone>> AddListAsynce(List<PrescriptionMedicineDTORequest> list)
+        {
+            try
+            {
+                if (list == null || !list.Any())
+                    throw new ArgumentNullException(nameof(list));
+                var prescriptionMedicines = _mapper.Map<List<PrescriptionMedicine>>(list);
+                var addedList = _unitOfWork.PrescriptionMedicines.AddListAsynce(prescriptionMedicines);
+                _unitOfWork.SaveChangesAsync();
+                return Task.FromResult(_mapper.Map<List<PrescriptionMedicineDTORespone>>(addedList));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding list of PrescriptionMedicines");
+                throw;
+            }
+        }
+
         public async Task<bool> DeleteAsync(int id)
         {
             try

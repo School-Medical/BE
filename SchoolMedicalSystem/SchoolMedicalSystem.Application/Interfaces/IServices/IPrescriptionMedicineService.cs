@@ -13,6 +13,8 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
     {
         Task<PrescriptionMedicineDTORespone> GetByIdAsync(int id);
         Task<PrescriptionMedicineDTORespone> AddAsync(PrescriptionMedicineDTORequest entity);
+        Task<List<PrescriptionMedicineDTORespone>> AddListAsynce(List<PrescriptionMedicineDTORequest> list);
+
         Task<bool> UpdateAsync(PrescriptionMedicineDTORequest entity);
         Task<bool> DeleteAsync(int id);
         Task<List<PrescriptionMedicineDTORespone>> GetByPrescriptionId(int prescriptionId);

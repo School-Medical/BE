@@ -8,13 +8,13 @@ using SchoolMedicalSystem.Domain.Entities;
 
 namespace SchoolMedicalSystem.Application.Services
 {
-    public class PrescriptionsService : IPrescriptionsService
+    public class PrescriptionService : IPrescriptionService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly ILogger<PrescriptionsService> _logger;
+        private readonly ILogger<PrescriptionService> _logger;
 
-        public PrescriptionsService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<PrescriptionsService> logger)
+        public PrescriptionService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<PrescriptionService> logger)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
