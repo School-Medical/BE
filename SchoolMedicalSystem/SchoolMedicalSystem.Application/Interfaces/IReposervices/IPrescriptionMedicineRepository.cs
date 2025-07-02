@@ -13,6 +13,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<PrescriptionMedicine> AddAsync(PrescriptionMedicine entity);
         Task<bool> UpdateAsync(PrescriptionMedicine entity);
         Task<bool> DeleteAsync(int id);
+        Task<List<PrescriptionMedicine>> GetByPrescriptionId(int prescriptionId);
         Task<bool> DeleteByPrescriptionIdAsync(int prescriptionId);
     }
 }
