@@ -96,8 +96,11 @@ namespace SchoolMedicalSystem.Application.Services
                 }
 
                 var prescription = _mapper.Map<Prescription>(entity);
-                var result = await _unitOfWork.Prescriptions.UpdateAsync(prescription);
-                if (result)
+                var resultpPrescription = await _unitOfWork.Prescriptions.UpdateAsync(prescription);
+
+                var listPrescription = _mapper.Map<List<PrescriptionMedicine>>(entity.PrescriptionMedicines);
+                var resultListPrescription = await _unitOfWork.PrescriptionMedicines.UpdateListAsynce(listPrescription);
+                if (resultpPrescription )
                 {
                     await _unitOfWork.SaveChangesAsync();
                     return true;

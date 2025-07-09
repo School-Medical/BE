@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolMedicalSystem.Application.DTO.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,7 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public DateTime? CreateAt { get; set; }
 
         public int? MedicalIncidentId { get; set; }
+        public List<PrescriptionMedicineDTORespone>? PrescriptionMedicines { get; set; }
+
     }
 }
