@@ -50,6 +50,10 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .Include(s => s.StudentParents).FirstOrDefaultAsync(s => s.student_id == id);
         }
 
+        public async Task<IEnumerable<Student>> GetStudentByName(string name)
+        {
+            return await _dbContext.Students.Where(s => (s.first_name + " " + s.last_name).ToLower().Contains(name.ToLower())).ToListAsync();
+        }
         public async Task<Student?> GetStudentByStudentCode(string studentCode)
         {
             return await _dbContext.Students.Include(s => s._class).Include(s => s.StudentParents).FirstOrDefaultAsync(s => s.student_code!.Equals(studentCode));

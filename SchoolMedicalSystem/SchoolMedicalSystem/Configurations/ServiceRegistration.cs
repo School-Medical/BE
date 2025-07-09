@@ -37,6 +37,11 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
             builder.RegisterType<AuthService>().As<IAuthService>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();    
             builder.RegisterType<MedicalIncidentService>().As<IMedicalIncidentService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationRepository>().As<IMedicationRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationService>().As<IMedicationService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<GivenDoseService>().As<IGivenDoseService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationService>().As<IMedicationService>().InstancePerLifetimeScope();
             builder.RegisterType<MedicalSuppliesService>().As<IMedicalSuppliesService>().InstancePerLifetimeScope();
             builder.RegisterType<HealthProfileService>().As<IHealthProfileService>().InstancePerLifetimeScope();
             builder.RegisterType<MedicationHistoryService>().As<IMedicationHistoryService>().InstancePerLifetimeScope();
