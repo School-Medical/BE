@@ -21,7 +21,7 @@ namespace SchoolMedicalSystem.Application.Services
             _logger = logger;
         }
 
-        public async Task<PrescriptionDTORespone> AddAsync(PrescriptionDTORequest entity)
+        public async Task<PrescriptionDTORespone> AddAsync(AddPrescriptionDTORequest entity)
         {
             try
             {

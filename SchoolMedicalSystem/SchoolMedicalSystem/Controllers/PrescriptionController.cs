@@ -21,7 +21,7 @@ namespace SchoolMedicalSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPrescription([FromBody] PrescriptionDTORequest request)
+        public async Task<IActionResult> AddPrescription([FromBody] AddPrescriptionDTORequest request)
         {
             try
             {

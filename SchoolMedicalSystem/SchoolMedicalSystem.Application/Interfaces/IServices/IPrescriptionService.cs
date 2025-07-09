@@ -11,7 +11,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
     public interface IPrescriptionService
     {
         Task<PrescriptionDTORespone?> GetByIdAsync(int id);
-        Task<PrescriptionDTORespone> AddAsync(PrescriptionDTORequest entity);
+        Task<PrescriptionDTORespone> AddAsync(AddPrescriptionDTORequest entity);
         Task<bool> UpdateAsync(PrescriptionDTORequest entity);
         Task<bool> DeleteAsync(int id);
     }
