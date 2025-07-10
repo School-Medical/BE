@@ -85,5 +85,27 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _dbContext.PrescriptionMedicines.AddRange(list);
             return Task.FromResult(list);
         }
+
+        public Task<List<PrescriptionMedicine>> UpdateListAsynce(List<PrescriptionMedicine> list)
+        {
+            if (list == null || !list.Any())
+                throw new ArgumentNullException(nameof(list), "List cannot be null or empty");
+
+            foreach (var item in list)
+            {
+                var existing = _dbContext.PrescriptionMedicines
+                    .FirstOrDefault(pm => pm.prescription_medicine_id == item.prescription_medicine_id);
+
+                if (existing != null)
+                {
+                    existing.prescription_id = item.prescription_id;
+                    existing.medicine_id = item.medicine_id;
+                    existing.quantity = item.quantity;
+                    _dbContext.PrescriptionMedicines.Update(existing);
+                }
+            }
+
+            return Task.FromResult(list);
+        }
     }
 }

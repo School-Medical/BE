@@ -21,7 +21,7 @@ namespace SchoolMedicalSystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPrescription([FromBody] PrescriptionDTORequest request)
+        public async Task<IActionResult> AddPrescription([FromBody] AddPrescriptionDTORequest request)
         {
             try
             {
@@ -34,25 +34,22 @@ namespace SchoolMedicalSystem.Controllers
                     return BadRequest(new ApiResponse<object>("Validation failed", errors, 400));
                 }
 
-                // 1. Add prescription
                 var prescriptionResult = await _prescriptionService.AddAsync(request);
 
-                // 2. Add prescription medicines nếu có
-                List<PrescriptionMedicineDTORespone> prescriptionMedicinesResult = new();
-                if (request.PrescriptionMedicines != null && request.PrescriptionMedicines.Count > 0)
-                {
-                    foreach (var pm in request.PrescriptionMedicines)
-                    {
-                        pm.PescriptionId = prescriptionResult.PrescriptionId;
-                    }
-                    prescriptionMedicinesResult = await _prescriptionMedicineService.AddListAsynce(request.PrescriptionMedicines);
-                }
+                //List<PrescriptionMedicineDTORespone> prescriptionMedicinesResult = new();
+                //if (request.PrescriptionMedicines != null && request.PrescriptionMedicines.Count > 0)
+                //{
+                //    foreach (var pm in request.PrescriptionMedicines)
+                //    {
+                //        pm.PescriptionId = prescriptionResult.PrescriptionId;
+                //    }
+                //    prescriptionMedicinesResult = await _prescriptionMedicineService.AddListAsynce(request.PrescriptionMedicines);
+                //}
 
-                // 3. Trả về prescription và danh sách thuốc
                 var response = new
                 {
                     Prescription = prescriptionResult,
-                    PrescriptionMedicines = prescriptionMedicinesResult
+                    //PrescriptionMedicines = prescriptionMedicinesResult
                 };
 
                 return Ok(new ApiResponse<object>("Prescription and medicines created successfully", response, 201));
@@ -84,13 +81,68 @@ namespace SchoolMedicalSystem.Controllers
                 {
                     return NotFound(new ApiResponse<object>("Prescription not found", new List<string> { $"No prescription found with ID: {id}" }, 404));
                 }
-                return Ok(new ApiResponse<object>("Prescription updated successfully", null, 200));
+
+                //// Update prescription medicines if provided
+                //List<PrescriptionMedicineDTORespone> updatedMedicines = new();
+                //if (request.PrescriptionMedicines != null && request.PrescriptionMedicines.Count > 0)
+                //{
+                //    foreach (var pm in request.PrescriptionMedicines)
+                //    {
+                //        pm.PescriptionId = id;
+                //        var updateResult = await _prescriptionMedicineService.UpdateAsync(pm);
+                //        if (updateResult)
+                //        {
+                //            // Lấy lại thông tin sau khi update (nếu cần)
+                //            var updated = await _prescriptionMedicineService.GetByIdAsync(pm.PrescriptionMedicineId);
+                //            if (updated != null)
+                //                updatedMedicines.Add(updated);
+                //        }
+                //    }
+                //}
+
+                //var response = new
+                //{
+                //    Message = "Prescription updated successfully",
+                //    UpdatedMedicines = updatedMedicines
+                //};
+
+                return Ok(new ApiResponse<object>("Prescription and medicines updated successfully", result, 200));
             }
             catch (ArgumentNullException ex)
             {
                 return BadRequest(new ApiResponse<object>("Invalid input", new List<string> { ex.Message }, 400));
             }
             catch (System.Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<object>("Internal server error", new List<string> { ex.Message }, 500));
+            }
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPrescriptionById(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    return BadRequest(new ApiResponse<object>("Invalid ID", new List<string> { "ID must be greater than 0" }, 400));
+                }
+
+                var prescription = await _prescriptionService.GetByIdAsync(id);
+                if (prescription == null)
+                {
+                    return NotFound(new ApiResponse<object>("Prescription not found", new List<string> { $"No prescription found with ID: {id}" }, 404));
+                }
+
+                var prescriptionMedicines = await _prescriptionMedicineService.GetByPrescriptionId(id);
+                prescription.PrescriptionMedicines = prescriptionMedicines;
+                var response = new
+                {
+                    Prescription = prescription,
+                };
+
+                return Ok(new ApiResponse<object>("Prescription fetched successfully", response, 200));
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, new ApiResponse<object>("Internal server error", new List<string> { ex.Message }, 500));
             }
