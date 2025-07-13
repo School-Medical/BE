@@ -17,7 +17,7 @@ namespace SchoolMedicalSystem.Controllers
         {
             _medicationHistoryService = medicationHistoryService;
         }
-        [HttpGet("{id}")]
+        [HttpGet("{studentId}")]
         public async Task<IActionResult> GetMedicationHistory(int studentId)
         {
             try

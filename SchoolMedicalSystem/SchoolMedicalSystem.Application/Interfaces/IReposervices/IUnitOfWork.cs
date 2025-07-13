@@ -18,13 +18,12 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
         Task<ITransaction?> GetCurrentTransactionAsync();
-      
         IMedicalIncidentRepository MedicalIncidents {  get; }
         IUserRepository Users { get; }
         IMedicalSuppliesRepository MedicalSupplies { get; }
         IBatchRepository Batch { get; }
         IHealthProfileRepository HealthProfiles { get; }
-        IMedicationHistoryService MedicationHistory { get; }
+        IMedicationHistoryRepository MedicationHistory { get; }
         IVaccinCampaignRepository VaccinCampaigns { get; }
         IVaccinConfirmationRepository VaccinConfirmations { get; }
         IVaccinDocumentRepository VaccinDocuments { get; }

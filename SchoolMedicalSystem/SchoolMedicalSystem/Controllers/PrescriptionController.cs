@@ -35,21 +35,9 @@ namespace SchoolMedicalSystem.Controllers
                 }
 
                 var prescriptionResult = await _prescriptionService.AddAsync(request);
-
-                //List<PrescriptionMedicineDTORespone> prescriptionMedicinesResult = new();
-                //if (request.PrescriptionMedicines != null && request.PrescriptionMedicines.Count > 0)
-                //{
-                //    foreach (var pm in request.PrescriptionMedicines)
-                //    {
-                //        pm.PescriptionId = prescriptionResult.PrescriptionId;
-                //    }
-                //    prescriptionMedicinesResult = await _prescriptionMedicineService.AddListAsynce(request.PrescriptionMedicines);
-                //}
-
                 var response = new
                 {
                     Prescription = prescriptionResult,
-                    //PrescriptionMedicines = prescriptionMedicinesResult
                 };
 
                 return Ok(new ApiResponse<object>("Prescription and medicines created successfully", response, 201));
@@ -81,30 +69,6 @@ namespace SchoolMedicalSystem.Controllers
                 {
                     return NotFound(new ApiResponse<object>("Prescription not found", new List<string> { $"No prescription found with ID: {id}" }, 404));
                 }
-
-                //// Update prescription medicines if provided
-                //List<PrescriptionMedicineDTORespone> updatedMedicines = new();
-                //if (request.PrescriptionMedicines != null && request.PrescriptionMedicines.Count > 0)
-                //{
-                //    foreach (var pm in request.PrescriptionMedicines)
-                //    {
-                //        pm.PescriptionId = id;
-                //        var updateResult = await _prescriptionMedicineService.UpdateAsync(pm);
-                //        if (updateResult)
-                //        {
-                //            // Lấy lại thông tin sau khi update (nếu cần)
-                //            var updated = await _prescriptionMedicineService.GetByIdAsync(pm.PrescriptionMedicineId);
-                //            if (updated != null)
-                //                updatedMedicines.Add(updated);
-                //        }
-                //    }
-                //}
-
-                //var response = new
-                //{
-                //    Message = "Prescription updated successfully",
-                //    UpdatedMedicines = updatedMedicines
-                //};
 
                 return Ok(new ApiResponse<object>("Prescription and medicines updated successfully", result, 200));
             }

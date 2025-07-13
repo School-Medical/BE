@@ -36,6 +36,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             PrescriptionMedicines = new PrescriptionMedicineRepository(_context);
             StudentParents = new StudentParentsRepository(_context);
             HealthCheckConfirmations = new HealthCheckConfirmationRepository(_context);
+            MedicationHistory = new MedicationHistoryRepository(_context);
         }
 
         public IMedicalIncidentRepository MedicalIncidents { get; private set; }
@@ -103,8 +104,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public IMedicalSuppliesRepository MedicalSupplies { get; private set; }
         public IBatchRepository Batch { get; private set; }
         public IHealthProfileRepository HealthProfiles { get; private set; }
-        public IMedicationHistoryService MedicationHistory { get; private set; }
-
+        public IMedicationHistoryRepository MedicationHistory { get; private set; }
         public IVaccinCampaignRepository VaccinCampaigns { get; private set; }
 
         public IVaccinConfirmationRepository VaccinConfirmations { get; private set; }
