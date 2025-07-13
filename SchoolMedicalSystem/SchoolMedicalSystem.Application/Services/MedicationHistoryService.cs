@@ -29,7 +29,7 @@ namespace SchoolMedicalSystem.Application.Services
 
             try
             {
-                var list = await _unitOfWork.MedicationHistory.GetMedicationHistory(studentId);
+                var list = await _unitOfWork.MedicationHistory.GetMedicationHistoryAsync(studentId);
                 return _mapper.Map<List<MedicationHistoryDTOResponse>>(list);
             }
             catch (Exception ex)
