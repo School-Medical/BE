@@ -41,12 +41,13 @@ namespace SchoolMedicalSystem.Application.Services
         public async Task<BlogDTOResponse> CreateBlogAsync(BlogDTORequest blog)
         {
             var blogEntity = _mapper.Map<Blog>(blog);
-            if(blogEntity.image_url != null)
+
+            if (blog.ImageUrl != null)
             {
-                blogEntity.image_url = await _cloudinaryService.UploadImageAsync(blog.ImageUrl!);
+                blogEntity.image_url = await _cloudinaryService.UploadImageAsync(blog.ImageUrl);
             }
-           
-            await _unitOfWork.Blogs.CreateAsync(blogEntity);
+
+            var created = await _unitOfWork.Blogs.CreateAsync(blogEntity);
             await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<BlogDTOResponse>(blogEntity);
         }

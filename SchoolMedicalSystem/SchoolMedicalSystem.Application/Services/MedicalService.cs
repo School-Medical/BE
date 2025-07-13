@@ -12,11 +12,12 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.Services
 {
-    public class MedicalSuppliesService : IMedicalSuppliesService
+    public class MedicalService : IMedicalService
     {
+
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public MedicalSuppliesService(IUnitOfWork unitOfWork, IMapper mapper)
+        public MedicalService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -31,7 +32,7 @@ namespace SchoolMedicalSystem.Application.Services
             };
             var batchResult = await _unitOfWork.Batch.AddBatchAsync(batch);
             await _unitOfWork.SaveChangesAsync();
-            if( batchResult == null)
+            if (batchResult == null)
             {
                 throw new Exception("Failed to create batch for the medical supply.");
             }
@@ -49,7 +50,7 @@ namespace SchoolMedicalSystem.Application.Services
 
             if (existingEntity == null)
             {
-                throw new KeyNotFoundException($"Medical supply with ID {id} not found.");
+                throw new KeyNotFoundException($"Medical with ID {id} not found.");
             }
 
             var result = await _unitOfWork.Medical.DeleteAsync(id);

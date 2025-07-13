@@ -37,8 +37,15 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
             builder.RegisterType<AuthService>().As<IAuthService>().InstancePerLifetimeScope();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();    
             builder.RegisterType<MedicalIncidentService>().As<IMedicalIncidentService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationRepository>().As<IMedicationRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationService>().As<IMedicationService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<GivenDoseService>().As<IGivenDoseService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationService>().As<IMedicationService>().InstancePerLifetimeScope();
             builder.RegisterType<MedicalSuppliesService>().As<IMedicalSuppliesService>().InstancePerLifetimeScope();
             builder.RegisterType<HealthProfileService>().As<IHealthProfileService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationHistoryService>().As<IMedicationHistoryService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicalService>().As<IMedicalService>().InstancePerLifetimeScope();
 
             builder.RegisterType<VaccinCampaignService>().As<IVaccinCampaignService>().InstancePerLifetimeScope();
             builder.RegisterType<VaccinConfirmationService>().As<IVaccinConfirmationService>().InstancePerLifetimeScope();
@@ -47,6 +54,8 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
 
             builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
             builder.RegisterType<StudentService>().As<IStudentService>().InstancePerLifetimeScope();
+            builder.RegisterType<PrescriptionService>().As<IPrescriptionService>().InstancePerLifetimeScope();
+            builder.RegisterType<PrescriptionMedicineService>().As<IPrescriptionMedicineService>().InstancePerLifetimeScope();
 
         }
     }
