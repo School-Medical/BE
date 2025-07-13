@@ -98,7 +98,7 @@ namespace SchoolMedicalSystem
             builder.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(policy =>
-                    policy.WithOrigins("http://localhost:3000") // Allow the frontend's origin SWD project. Please change it!!!
+                    policy.WithOrigins("http://localhost:5173") // Allow the frontend's origin SWD project. Please change it!!!
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials()); // If you're using credentials (cookies, Authorization headers, etc.)

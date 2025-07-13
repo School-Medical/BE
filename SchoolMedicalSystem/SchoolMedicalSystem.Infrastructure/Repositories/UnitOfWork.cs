@@ -37,6 +37,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             StudentParents = new StudentParentsRepository(_context);
             HealthCheckConfirmations = new HealthCheckConfirmationRepository(_context);
             MedicationHistory = new MedicationHistoryRepository(_context);
+            Medical = new MedicalRepository(_context);
         }
 
         public IMedicalIncidentRepository MedicalIncidents { get; private set; }
@@ -117,5 +118,6 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public IPrescriptionMedicineRepository PrescriptionMedicines { get; private set; }
         public IStudentParentsRepository StudentParents { get; private set; }
         public IHealthCheckConfirmationRepository HealthCheckConfirmations { get; private set; }
+        public IMedicalRepository Medical { get; private set; }
     }
 }
