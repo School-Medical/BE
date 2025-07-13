@@ -81,6 +81,7 @@ public partial class SchoolMedicalDbContext : DbContext
 
             entity.Property(e => e.content).HasColumnType("text");
             entity.Property(e => e.image_url).HasColumnType("text");
+            entity.Property(e => e.title).HasMaxLength(100);
             entity.Property(e => e.type).HasMaxLength(50);
 
             entity.HasOne(d => d.user).WithMany(p => p.Blogs)
