@@ -17,7 +17,7 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.phone_number))
                 .ForMember(dest => dest.Account, opt => opt.MapFrom(src => src.account))
                 .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.role!.role_name))
-                .ForMember(dest => dest.Students, opt => opt.MapFrom(src => src.Students));
+                .ForMember(dest => dest.Students, opt => opt.MapFrom(src => src.role!.role_name == "parent" ? src.StudentParents.Select(sp => sp.student) : src.Students));
 
 
             CreateMap<UserDTORequest, User>()
