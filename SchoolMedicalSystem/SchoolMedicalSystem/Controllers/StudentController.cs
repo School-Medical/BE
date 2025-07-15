@@ -29,7 +29,7 @@ namespace SchoolMedicalSystem.Controllers
                 {
                     return BadRequest(new ApiResponse<object>("Invalid pagination parameters",
                         new List<string> { "PageSize and PageNumber must be greater than 0" }, 400));
-                }
+                }   
 
                 if (pageSize > 100)
                 {
@@ -46,8 +46,29 @@ namespace SchoolMedicalSystem.Controllers
                 return StatusCode(500, new ApiResponse<object>("Internal server error", new List<string> { ex.Message }, 500));
             }
         }
-            // Get student by ID
-            [HttpGet("{id}")]
+
+        // Get all students without pagination
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllStudentsWithoutPaging()
+        {
+            try
+            {
+                var result = await _studentService.GetAll(); // Không có tham số phân trang
+                return Ok(new ApiResponse<List<StudentDTOResponse>>("Data retrieved successfully", result, 200));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<object>(
+                    "Internal server error",
+                    new List<string> { ex.Message },
+                    500));
+            }
+        }
+
+
+
+        // Get student by ID
+        [HttpGet("{id}")]
             public async Task<IActionResult> GetStudentById(int id)
             {
                 try
