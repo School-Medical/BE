@@ -176,8 +176,10 @@ namespace SchoolMedicalSystem.Application.Services
                     StudentId = student.student_id!.Value,
                     StudentCode = student.student!.student_code ?? "",
                     StudentName = $"{student.student!.first_name} {student.student!.last_name}",
-                    SubmitAt = confirmation?.submit_at,
-                    StatusConfirm = confirmation?.status == 1
+                    ConfirmId = confirmation.vaccin_confirmation_id,
+                    ConfirmSubmitAt = confirmation?.submit_at,
+                    ConfirmMessage = confirmation?.message,
+                    StatusConfirm = confirmation?.status,// Nếu nó là null thì con em chưa có xác nhận
                 };
 
                 studentStatusList.Add(studentStatus);

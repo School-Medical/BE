@@ -22,7 +22,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             try
             {
                 await _dbContext.Prescriptions.AddAsync(entity);
-                await _dbContext.SaveChangesAsync();
+                //await _dbContext.SaveChangesAsync();
                 return entity;
             }
             catch (DbUpdateException)
@@ -46,7 +46,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             try
             {
                 _dbContext.Prescriptions.Remove(prescription);
-                await _dbContext.SaveChangesAsync();
+                //await _dbContext.SaveChangesAsync();
                 return true;
             }
             catch (DbUpdateException)
@@ -107,7 +107,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             try
             {
                 _dbContext.Prescriptions.Update(entity);
-                await _dbContext.SaveChangesAsync();
+                //await _dbContext.SaveChangesAsync();
                 return true;
             }
             catch (DbUpdateException)
