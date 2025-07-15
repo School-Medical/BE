@@ -31,7 +31,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         {
             return await _context.GivenDoses.Include(g => g.student)
         .Include(g => g.parent)
-        .Include(g => g.nurse).FirstOrDefaultAsync(s => s.student_id.Equals(studentId));
+        .Include(g => g.nurse).Include(g => g.Medications).FirstOrDefaultAsync(s => s.student_id.Equals(studentId));
         }
 
         public async Task<List<GivenDose>> GetByParentId(int parentId)
