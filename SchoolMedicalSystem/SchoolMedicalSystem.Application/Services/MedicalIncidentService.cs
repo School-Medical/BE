@@ -34,6 +34,15 @@ namespace SchoolMedicalSystem.Application.Services
                 if (medicalIncidentDTO == null) throw new ArgumentNullException(nameof(medicalIncidentDTO));
 
                 var entity = await _unitOfWork.MedicalIncidents.AddAsync(_mapper.Map<MedicalIncident>(medicalIncidentDTO));
+
+                var persistentEntity = _mapper.Map<Prescription>(medicalIncidentDTO.Prescriptions);
+
+                var prescription = await _unitOfWork.Prescriptions.AddAsync(persistentEntity);
+                var prescriptionMedicines = 
+                    await _unitOfWork.PrescriptionMedicines.AddAsync(
+                    _mapper.Map<PrescriptionMedicine>(persistentEntity.PrescriptionMedicines));
+
+
                 await _unitOfWork.SaveChangesAsync();
 
                 var result = _mapper.Map<MedicalIncidentDTOResponse>(entity);

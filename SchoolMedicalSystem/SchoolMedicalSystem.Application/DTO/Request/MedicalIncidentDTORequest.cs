@@ -18,5 +18,6 @@ namespace SchoolMedicalSystem.Application.DTO.Request
         public DateTime? CreatedAt { get; set; }
         public int? StudentId { get; set; }
         public int? NurseId { get; set; }
+        public List<AddPrescriptionDTORequest> Prescriptions { get; set; } = new List<AddPrescriptionDTORequest>();
     }
 }
