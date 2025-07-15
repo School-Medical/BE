@@ -41,6 +41,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .Include(g => g.student)
                 .Include(g => g.parent)
                 .Include(g => g.nurse)
+                .Include(g => g.Medications)
                 .ToListAsync();
         }
     }

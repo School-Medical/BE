@@ -27,7 +27,9 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.NurseId, opt => opt.MapFrom(src => src.nurse_id))
                 .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.student.first_name + " " + src.student.last_name))
                 .ForMember(dest => dest.ParentName, opt => opt.MapFrom(src => src.parent.first_name + " " + src.student.last_name))
-                .ForMember(dest => dest.NurseName, opt => opt.MapFrom(src => src.nurse.first_name + " " + src.student.last_name));
+                .ForMember(dest => dest.NurseName, opt => opt.MapFrom(src => src.nurse.first_name + " " + src.student.last_name))
+                .ForMember(dest => dest.ListMedication, opt => opt.MapFrom(src => src.Medications)); 
+
 
             // Map từ Request sang Entity
             CreateMap<GivenDoseRequest, GivenDose>()
