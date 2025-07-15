@@ -38,6 +38,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             HealthCheckConfirmations = new HealthCheckConfirmationRepository(_context);
             MedicationHistory = new MedicationHistoryRepository(_context);
             Medical = new MedicalRepository(_context);
+            HealthChecks = new HealthCheckRepository(_context);
         }
 
         public IMedicalIncidentRepository MedicalIncidents { get; private set; }
@@ -47,6 +48,8 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public IGivenDoseRepository GivenDoses { get; private set; }
 
         public IStudentRepository Students { get; private set; }
+
+        public IHealthCheckRepository HealthChecks { get; private set; }
 
         public async Task<int> SaveChangesAsync()
         {
