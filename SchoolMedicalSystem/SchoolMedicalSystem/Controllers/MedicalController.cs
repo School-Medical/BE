@@ -56,7 +56,7 @@ namespace SchoolMedicalSystem.Controllers
             {
                 if (userId <= 0) return BadRequest(new ApiResponse<string>("Invalid userId", new List<string> { "User ID is required." }, 400));
                 var result = await _medicalService.AddAsync(medicalSuppliesDTORequest, userId);
-                return CreatedAtAction(nameof(_medicalService), new { id = result.MedicalSupplyId }, new ApiResponse<MedicalSuppliesDTOResponse>("Add medical successfully!", result, 201));
+                return CreatedAtAction(nameof(GetMedicalById), new { id = result.MedicalSupplyId }, new ApiResponse<MedicalSuppliesDTOResponse>("Add medical successfully!", result, 201));
             }
             catch (Exception ex)
             {
