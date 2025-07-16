@@ -16,7 +16,7 @@ namespace SchoolMedicalSystem.Application.Mappers
         {
             CreateMap<PrescriptionMedicine, PrescriptionMedicineDTORespone>()
                 .ForMember(dest => dest.PrescriptionMedicineId, opt => opt.MapFrom(src => src.prescription_medicine_id))
-                .ForMember(dest => dest.PescriptionId, opt => opt.MapFrom(src => src.prescription_id))
+                .ForMember(dest => dest.PrescriptionId, opt => opt.MapFrom(src => src.prescription_id))
                 .ForMember(dest => dest.MedicineId, opt => opt.MapFrom(src => src.medicine_id))
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.quantity));
             CreateMap<PrescriptionMedicineDTORequest, PrescriptionMedicine>()
