@@ -50,11 +50,11 @@ namespace SchoolMedicalSystem.Controllers
         {
             try
             {
-                var result = await _givenDoseService.GetByIdAsync(id);
+                var result = await _givenDoseService.GetByParentId(id);
                 if (result == null)
                     return NotFound(new ApiResponse<string>("Không tìm thấy GivenDose", ["GivenDose không tồn tại"], 404));
 
-                return Ok(new ApiResponse<GivenDoseResponse>("Lấy dữ liệu thành công", result));
+                return Ok(new ApiResponse<List<GivenDoseResponse>>("Lấy dữ liệu thành công", result));
             }
             catch (Exception ex)
             {

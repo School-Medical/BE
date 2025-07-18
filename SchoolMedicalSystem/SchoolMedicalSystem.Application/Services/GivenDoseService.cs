@@ -141,7 +141,8 @@ namespace SchoolMedicalSystem.Application.Services
             try
             {
                 var list = await _unitOfWork.GivenDoses.GetByParentId(id);
-                return _mapper.Map<List<GivenDoseResponse>>(list);
+                var result = _mapper.Map<List<GivenDoseResponse>>(list);
+                return result;
             }
             catch (Exception ex)
             {

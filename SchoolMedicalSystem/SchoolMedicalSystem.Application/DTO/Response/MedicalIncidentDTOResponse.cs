@@ -19,6 +19,8 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public DateTime? CreatedAt { get; set; }
         public string? StudentName { get; set; }
         public string? NurseName { get; set; }
+        public int? NurseId { get; set; }
+        public List<PrescriptionDTORespone> Prescriptions { get; set; } = new List<PrescriptionDTORespone>();
 
     }
 }
