@@ -27,7 +27,9 @@ namespace SchoolMedicalSystem.Application.Services
                 throw new ArgumentNullException(nameof(studentParentDto), "StudentParent cannot be null");
             }
             var studentParent = _mapper.Map<StudentParent>(studentParentDto);
-            return await _unitOfWork.StudentParent.AddAsync(studentParent);
+            studentParent = await _unitOfWork.StudentParent.AddAsync(studentParent);
+            await _unitOfWork.SaveChangesAsync();
+            return studentParent;
         }
     }
 }

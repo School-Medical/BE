@@ -24,7 +24,6 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 throw new ArgumentNullException(nameof(studentParent), "StudentParent cannot be null");
             }
             _dbContext.StudentParents.Add(studentParent);
-            _dbContext.SaveChangesAsync();
             return Task.FromResult(studentParent);
         }
     }

@@ -13,10 +13,9 @@ namespace SchoolMedicalSystem.Application.Mappers
     {
         public StudentParentProfile()
         {
-            CreateMap<StudentParent, StudentParentDTORequest>()
-                .ForMember(dest => dest.StudentParentId, opt => opt.MapFrom(src => src.student_parent_id))
-                .ForMember(dest => dest.StudentId, opt => opt.MapFrom(src => src.student_id))
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.user_id));
+            CreateMap<StudentParentDTORequest, StudentParent>()
+                .ForMember(dest => dest.student_id, opt => opt.MapFrom(src => src.StudentId))
+                .ForMember(dest => dest.user_id, opt => opt.MapFrom(src => src.UserId));
         }
     }
  }
