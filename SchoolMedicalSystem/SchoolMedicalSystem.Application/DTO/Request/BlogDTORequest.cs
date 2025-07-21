@@ -15,6 +15,8 @@ namespace SchoolMedicalSystem.Application.DTO.Request
 
         public string? Content { get; set; }
 
+        public string Title { get; set; }
+
         public string? Type { get; set; }
 
         public DateOnly? UpdatedAt { get; set; } = new DateOnly();
