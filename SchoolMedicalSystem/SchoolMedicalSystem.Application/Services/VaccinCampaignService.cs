@@ -36,12 +36,66 @@ namespace SchoolMedicalSystem.Application.Services
             return _mapper.Map<VaccinCampaignDTOResponse>(await _unitOfWork.VaccinCampaigns.GetByIdAsync(id));
         }
 
+        //public async Task<VaccinCampaignDTOResponse> CreateVaccinCampaignAsync(VaccinCampaignDTORequest vaccinCampaign)
+        //{
+        //    var createdVaccinCampaign = await _unitOfWork.VaccinCampaigns.CreateAsync(_mapper.Map<VaccinCampaign>(vaccinCampaign));
+        //    await _unitOfWork.SaveChangesAsync();
+        //    return _mapper.Map<VaccinCampaignDTOResponse>(createdVaccinCampaign);
+        //}
         public async Task<VaccinCampaignDTOResponse> CreateVaccinCampaignAsync(VaccinCampaignDTORequest vaccinCampaign)
         {
-            var createdVaccinCampaign = await _unitOfWork.VaccinCampaigns.CreateAsync(_mapper.Map<VaccinCampaign>(vaccinCampaign));
+            // Map request to entity
+            var vaccinCampaignEntity = _mapper.Map<VaccinCampaign>(vaccinCampaign);
+            vaccinCampaignEntity.status = 1;
+
+            // Add to DB
+            await _unitOfWork.VaccinCampaigns.CreateAsync(vaccinCampaignEntity);
             await _unitOfWork.SaveChangesAsync();
-            return _mapper.Map<VaccinCampaignDTOResponse>(createdVaccinCampaign);
+
+            var campaignId = vaccinCampaignEntity.vaccin_campaign_id;
+
+            // Get all students
+            var studentList = await _unitOfWork.Students.GetAll();
+            var confirmations = new List<VaccinConfirmation>();
+
+            foreach (var student in studentList)
+            {
+                var parent = await _unitOfWork.StudentParents.GetStudentParentByStudentIdAsync(student.student_id);
+                if (parent == null)
+                {
+                    _logger.LogWarning($"No parent found for student ID {student.student_id}. Skipping vaccin confirmation creation.");
+                    continue;
+                }
+
+                var confirmation = new VaccinConfirmation
+                {
+                    student_id = student.student_id,
+                    campaign_id = campaignId,
+                    parent_id = parent.user_id,
+                    submit_at = null,
+                    message = null,
+                    status = 0
+                };
+
+
+                confirmations.Add(confirmation);
+            }
+
+            if (confirmations.Any())
+            {
+                foreach (var confirmation in confirmations)
+                {
+                    await _unitOfWork.VaccinConfirmations.CreateAsync(confirmation);
+                }
+                await _unitOfWork.SaveChangesAsync();
+            }
+
+            _logger.LogInformation($"Created VaccinCampaign with ID: {campaignId} and {confirmations.Count} confirmations");
+
+            // Return mapped response
+            return _mapper.Map<VaccinCampaignDTOResponse>(vaccinCampaignEntity);
         }
+
 
         public async Task<VaccinCampaignDTOResponse> UpdateVaccinCampaignAsync(int id, VaccinCampaignDTORequest vaccinCampaign)
         {
