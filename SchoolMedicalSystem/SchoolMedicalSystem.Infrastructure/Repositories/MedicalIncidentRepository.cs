@@ -64,6 +64,9 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                                     .Include(m => m.student)
                                     .Include(m => m.nurse)
                                     .Include(m => m.Prescriptions)
+                                    .Include(m => m.Prescriptions)
+                                        .ThenInclude(p => p.PrescriptionMedicines)
+                                        .ThenInclude(pm => pm.medicine)
                                     .FirstOrDefaultAsync(m => m.medical_incident_id == id);
         }
 
