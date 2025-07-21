@@ -11,5 +11,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
     public interface IStudentParentService
     {
         Task<StudentParent> AddAsync(StudentParentDTORequest studentParentDto);
+         Task<bool> DeleteAsync(int id);
     }
 }

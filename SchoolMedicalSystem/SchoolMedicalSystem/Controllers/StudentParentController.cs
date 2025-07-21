@@ -6,7 +6,7 @@ using SchoolMedicalSystem.Models;
 
 namespace SchoolMedicalSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/stdudentparent")]
     [ApiController]
     public class StudentParentController : ControllerBase
     {
@@ -26,6 +26,20 @@ namespace SchoolMedicalSystem.Controllers
             var studentParent = await _studentParentService.AddAsync(studentParentDto);
             return Ok(new ApiResponse<object>("Student parent created successfully", studentParent, 201));
 
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest(new ApiResponse<object>("Invalid ID", null, 400));
+            }
+            var result = await _studentParentService.DeleteAsync(id);
+            if (!result)
+            {
+                return NotFound(new ApiResponse<object>("Student parent not found", null, 404));
+            }
+            return Ok(new ApiResponse<object>("Student parent deleted successfully", null, 200));
         }
     }
 }
