@@ -97,8 +97,8 @@ namespace SchoolMedicalSystem
             //Add Cors to FE can call api from BE SWD392
             builder.Services.AddCors(options =>
             {
-                options.AddDefaultPolicy(policy =>
-                    policy.WithOrigins("http://localhost:5173") // Allow the frontend's origin SWD project. Please change it!!!
+                options.AddPolicy("AllowVercel", policy =>
+                    policy.WithOrigins("https://school-git-main-tran-van-duys-projects.vercel.app") // Allow the frontend's origin SWD project. Please change it!!!
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials()); // If you're using credentials (cookies, Authorization headers, etc.)
@@ -132,8 +132,8 @@ namespace SchoolMedicalSystem
                 app.UseSwaggerUI();
             }
 
-            app.UseCors();
-
+            //app.UseCors();
+            app.UseCors("AllowVercel");
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
