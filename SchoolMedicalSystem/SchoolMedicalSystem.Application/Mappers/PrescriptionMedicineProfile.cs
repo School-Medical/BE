@@ -18,12 +18,15 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.PrescriptionMedicineId, opt => opt.MapFrom(src => src.prescription_medicine_id))
                 .ForMember(dest => dest.PrescriptionId, opt => opt.MapFrom(src => src.prescription_id))
                 .ForMember(dest => dest.MedicineId, opt => opt.MapFrom(src => src.medicine_id))
+                .ForMember(dest => dest.MedicineName, opt => opt.MapFrom(src => src.medicine!.medicine_name))
                 .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.quantity));
+
             CreateMap<PrescriptionMedicineDTORequest, PrescriptionMedicine>()
                 .ForMember(dest => dest.prescription_medicine_id, opt => opt.MapFrom(src => src.PrescriptionMedicineId))
                 .ForMember(dest => dest.prescription_id, opt => opt.MapFrom(src => src.PescriptionId))
                 .ForMember(dest => dest.medicine_id, opt => opt.MapFrom(src => src.MedicineId))
                 .ForMember(dest => dest.quantity, opt => opt.MapFrom(src => src.Quantity));
+
             CreateMap<AddPrescriptionMedicineDTORequest, PrescriptionMedicine>()
                 .ForMember(dest => dest.prescription_id, opt => opt.MapFrom(src => src.PescriptionId))
                 .ForMember(dest => dest.medicine_id, opt => opt.MapFrom(src => src.MedicineId))
