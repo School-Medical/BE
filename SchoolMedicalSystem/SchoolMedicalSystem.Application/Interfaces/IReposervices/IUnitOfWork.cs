@@ -12,8 +12,8 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         IMedicationRepository Medications { get; }
         IGivenDoseRepository GivenDoses { get; }
         IStudentRepository Students { get; }
-
         IHealthCheckRepository HealthChecks { get; }
+        IHealthCheckDocumentRepository HealthCheckDocuments { get; }
 
         Task<int> SaveChangesAsync();
         Task BeginTransactionAsync();

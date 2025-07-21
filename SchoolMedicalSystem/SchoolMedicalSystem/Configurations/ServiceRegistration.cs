@@ -59,6 +59,7 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
             builder.RegisterType<StudentParentService>().As<IStudentParentService>().InstancePerLifetimeScope();
             builder.RegisterType<HealthCheckService>().As<IHealthCheckService>().InstancePerLifetimeScope();
             builder.RegisterType<HealthCheckConfirmationService>().As<IHealthCheckConfirmationService>().InstancePerLifetimeScope();
+            builder.RegisterType<HealthCheckDocumentService>().As<IHealthCheckDocumentService>().InstancePerLifetimeScope();
 
         }
     }
