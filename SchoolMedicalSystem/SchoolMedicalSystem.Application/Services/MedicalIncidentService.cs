@@ -31,22 +31,38 @@ namespace SchoolMedicalSystem.Application.Services
         {
             try
             {
-                if (medicalIncidentDTO == null) throw new ArgumentNullException(nameof(medicalIncidentDTO));
+                if (medicalIncidentDTO == null)
+                    throw new ArgumentNullException(nameof(medicalIncidentDTO));
 
-                var entity = await _unitOfWork.MedicalIncidents.AddAsync(_mapper.Map<MedicalIncident>(medicalIncidentDTO));
-
-                var persistentEntity = _mapper.Map<Prescription>(medicalIncidentDTO.Prescriptions);
-
-                var prescription = await _unitOfWork.Prescriptions.AddAsync(persistentEntity);
-                var prescriptionMedicines = 
-                    await _unitOfWork.PrescriptionMedicines.AddAsync(
-                    _mapper.Map<PrescriptionMedicine>(persistentEntity.PrescriptionMedicines));
-
-
+                // 1. Map và thêm MedicalIncident
+                var medicalIncident = _mapper.Map<MedicalIncident>(medicalIncidentDTO);
+                var insertedMedicalIncident = await _unitOfWork.MedicalIncidents.AddAsync(medicalIncident);
                 await _unitOfWork.SaveChangesAsync();
 
-                var result = _mapper.Map<MedicalIncidentDTOResponse>(entity);
-                //_logger.LogInformation("Successfully created MedicalIncident with ID: {Id}", entity.medical_incident_id);
+                // 2. Map và thêm Prescription
+                var prescriptionDto = medicalIncidentDTO.Prescriptions.FirstOrDefault();
+                if (prescriptionDto != null)
+                {
+                    var prescription = _mapper.Map<Prescription>(prescriptionDto);
+
+                    // giữ lại id để tạo
+                    prescription.medical_incident_id = insertedMedicalIncident.medical_incident_id;
+                    var insertedPrescription = await _unitOfWork.Prescriptions.AddAsync(prescription);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    // 3. Thêm từng PrescriptionMedicine
+                    foreach (var pmDto in prescriptionDto.PrescriptionMedicines)
+                    {
+                        var prescriptionMedicine = _mapper.Map<PrescriptionMedicine>(pmDto);
+                        prescriptionMedicine.prescription_id = insertedPrescription.prescription_id; // gán ID đúng
+                        await _unitOfWork.PrescriptionMedicines.AddAsync(prescriptionMedicine);
+                    }
+
+                    await _unitOfWork.SaveChangesAsync();
+                }
+
+                // 4. Map kết quả
+                var result = _mapper.Map<MedicalIncidentDTOResponse>(insertedMedicalIncident);
                 return result;
             }
             catch (Exception ex)
@@ -55,6 +71,7 @@ namespace SchoolMedicalSystem.Application.Services
                 throw;
             }
         }
+
 
 
         public async Task<bool> DeleteAsync(int medicalIncidentID)
