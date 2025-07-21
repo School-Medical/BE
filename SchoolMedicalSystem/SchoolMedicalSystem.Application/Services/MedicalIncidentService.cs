@@ -142,70 +142,108 @@ namespace SchoolMedicalSystem.Application.Services
         }
 
 
-        public async Task<MedicalIncidentDTOResponse?> GetByStudentCodeOrByNameAsync(string studentCode)
+        //public async Task<MedicalIncidentDTOResponse?> GetByStudentCodeOrByNameAsync(string studentCode)
+        //{
+        //    try
+        //    {
+        //        if (string.IsNullOrEmpty(studentCode) )
+        //        {
+        //            _logger.LogWarning("Both studentCode and studentName are empty");
+        //            return null;
+        //        }
+
+        //        Student? result = null; // Dấu ? Cho phép trả null
+
+        //        if (!string.IsNullOrEmpty(studentCode))
+        //        {
+        //            result = await _unitOfWork.Students.GetStudentByStudentCode(studentCode);
+        //        }
+
+        //        if (result == null)
+        //            return null;
+        //        var medicalIncident = await _unitOfWork.MedicalIncidents.GetByStudentIdAsync(result.student_id);
+        //        //return _mapper.Map<MedicalIncidentDTOResponse>(
+        //        //    await _unitOfWork.MedicalIncidents.GetByStudentIdAsync(result.student_id)
+        //        //);
+        //        return new MedicalIncidentDTOResponse
+        //        {
+        //            MedicalIncidentId = medicalIncident!.medical_incident_id,
+        //            Type = medicalIncident.type,
+        //            Symptom = medicalIncident.symptom,
+        //            Diagnosis = medicalIncident.diagnosis,
+        //            Treatment = medicalIncident.treatment,
+        //            SeverityLevel = medicalIncident.severity_level,
+        //            FollowUp = medicalIncident.follow_up,
+        //            Message = medicalIncident.message,
+        //            CreatedAt = medicalIncident.create_at,
+        //            //StudentId = result.student_id,
+        //            StudentName = result.first_name + " " + result.last_name,
+        //            NurseId = medicalIncident.nurse_id,
+        //            NurseName = medicalIncident.nurse?.first_name + " " + medicalIncident.nurse?.last_name,
+        //            //TÔi trở về map bằng tay vì tôi lười
+        //            Prescriptions = medicalIncident.Prescriptions.Select(p => new PrescriptionDTORespone
+        //            {
+        //                PrescriptionId = p.prescription_id,
+        //                Instruction = p.instruction,
+        //                CreateAt = p.create_at,
+        //                MedicalIncidentId = p.medical_incident_id,
+        //                PrescriptionMedicines = p.PrescriptionMedicines?.Select(pm => new PrescriptionMedicineDTORespone
+        //                {
+        //                    PrescriptionMedicineId = pm.prescription_medicine_id,
+        //                    PrescriptionId = pm.prescription_id,
+        //                    MedicineName = pm.medicine?.medicine_name,
+        //                    MedicineId = pm.medicine_id,
+        //                    Quantity = pm.quantity,
+
+        //                }).ToList()
+        //            }).ToList()
+
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error finding medical incident for student {Name}", studentCode);
+        //        throw;
+        //    }
+        //}
+        public async Task<List<MedicalIncidentDTOResponse>> GetByStudentCodeOrByNameAsync(string studentCode)
         {
             try
             {
-                if (string.IsNullOrEmpty(studentCode) )
+                if (string.IsNullOrWhiteSpace(studentCode))
                 {
-                    _logger.LogWarning("Both studentCode and studentName are empty");
-                    return null;
+                    _logger.LogWarning("studentCode is null or empty.");
+                    return new List<MedicalIncidentDTOResponse>();
                 }
 
-                Student? result = null; // Dấu ? Cho phép trả null
-                
-                if (!string.IsNullOrEmpty(studentCode))
+                var student = await _unitOfWork.Students.GetStudentByStudentCode(studentCode);
+
+                if (student == null)
                 {
-                    result = await _unitOfWork.Students.GetStudentByStudentCode(studentCode);
+                    _logger.LogWarning("Student not found with studentCode: {studentCode}", studentCode);
+                    return new List<MedicalIncidentDTOResponse>();
                 }
 
-                if (result == null)
-                    return null;
-                var medicalIncident = await _unitOfWork.MedicalIncidents.GetByStudentIdAsync(result.student_id);
-                //return _mapper.Map<MedicalIncidentDTOResponse>(
-                //    await _unitOfWork.MedicalIncidents.GetByStudentIdAsync(result.student_id)
-                //);
-                return new MedicalIncidentDTOResponse
+                var medicalIncidents = await _unitOfWork.MedicalIncidents.GetByStudentIdAsync(student.student_id);
+
+                if (medicalIncidents == null)
                 {
-                    MedicalIncidentId = medicalIncident!.medical_incident_id,
-                    Type = medicalIncident.type,
-                    Symptom = medicalIncident.symptom,
-                    Diagnosis = medicalIncident.diagnosis,
-                    Treatment = medicalIncident.treatment,
-                    SeverityLevel = medicalIncident.severity_level,
-                    FollowUp = medicalIncident.follow_up,
-                    Message = medicalIncident.message,
-                    CreatedAt = medicalIncident.create_at,
-                    //StudentId = result.student_id,
-                    StudentName = result.first_name + " " + result.last_name,
-                    NurseId = medicalIncident.nurse_id,
-                    NurseName = medicalIncident.nurse?.first_name + " " + medicalIncident.nurse?.last_name,
-                    //TÔi trở về map bằng tay vì tôi lười
-                    Prescriptions = medicalIncident.Prescriptions.Select(p => new PrescriptionDTORespone
-                    {
-                        PrescriptionId = p.prescription_id,
-                        Instruction = p.instruction,
-                        CreateAt = p.create_at,
-                        MedicalIncidentId = p.medical_incident_id,
-                        PrescriptionMedicines = p.PrescriptionMedicines?.Select(pm => new PrescriptionMedicineDTORespone
-                        {
-                            PrescriptionMedicineId = pm.prescription_medicine_id,
-                            PrescriptionId = pm.prescription_id,
-                            MedicineName = pm.medicine?.medicine_name,
-                            MedicineId = pm.medicine_id,
-                            Quantity = pm.quantity,
+                    _logger.LogInformation("No medical incidents found for studentCode: {studentCode}", studentCode);
+                    return new List<MedicalIncidentDTOResponse>();
+                }
 
-                        }).ToList()
-                    }).ToList()
+                var responseList = _mapper.Map<List<MedicalIncidentDTOResponse>>(medicalIncidents);
 
-                };
+                return responseList;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error finding medical incident for student {Name}", studentCode);
+                _logger.LogError(ex, "Error retrieving medical incidents for studentCode: {studentCode}", studentCode);
                 throw;
             }
         }
+
+
 
 
         public async Task<MedicalIncidentDTOResponse> UpdateAsync(int medicalIncidentId, MedicalIncidentDTORequest dto)

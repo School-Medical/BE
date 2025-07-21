@@ -70,15 +70,26 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                                     .FirstOrDefaultAsync(m => m.medical_incident_id == id);
         }
 
-        public async Task<MedicalIncident?> GetByStudentIdAsync(int studentId)
+        //public async Task<MedicalIncident?> GetByStudentIdAsync(int studentId)
+        //{
+        //    return await _dbContext.MedicalIncidents               
+        //        .Include(m => m.Prescriptions)
+        //            .ThenInclude(m => m.PrescriptionMedicines)
+        //            .ThenInclude(pm => pm.medicine)
+        //        .Include(m => m.nurse)
+        //        .FirstOrDefaultAsync(m => m.student_id == studentId);
+        //}
+        public async Task<List<MedicalIncident>> GetByStudentIdAsync(int studentId)
         {
-            return await _dbContext.MedicalIncidents               
+            return await _dbContext.MedicalIncidents
                 .Include(m => m.Prescriptions)
-                    .ThenInclude(m => m.PrescriptionMedicines)
-                    .ThenInclude(pm => pm.medicine)
+                    .ThenInclude(p => p.PrescriptionMedicines)
+                        .ThenInclude(pm => pm.medicine)
                 .Include(m => m.nurse)
-                .FirstOrDefaultAsync(m => m.student_id == studentId);
+                .Where(m => m.student_id == studentId)
+                .ToListAsync();
         }
+
 
         public async Task<MedicalIncident> UpdateAsync(MedicalIncident entity)
         {

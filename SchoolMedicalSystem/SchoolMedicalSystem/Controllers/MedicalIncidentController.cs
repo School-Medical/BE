@@ -122,7 +122,7 @@ namespace SchoolMedicalSystem.Controllers
                         new List<string> { "No medical incident found for the specified student" }, 404));
                 }
 
-                return Ok(new ApiResponse<MedicalIncidentDTOResponse>("Data retrieved successfully", result, 200));
+                return Ok(new ApiResponse<List<MedicalIncidentDTOResponse>>("Data retrieved successfully", result, 200));
             }
             catch (Exception ex)
             {

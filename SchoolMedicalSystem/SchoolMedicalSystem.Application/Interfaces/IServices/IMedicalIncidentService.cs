@@ -16,6 +16,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<MedicalIncidentDTOResponse> AddAsync(MedicalIncidentDTORequest medicalIncidentDTO);
         Task<MedicalIncidentDTOResponse> UpdateAsync(int medicalIncidentId, MedicalIncidentDTORequest dto);
         Task<bool> DeleteAsync(int medicalIncidentID);
-        Task<MedicalIncidentDTOResponse?> GetByStudentCodeOrByNameAsync(string studentCode);
+        Task<List<MedicalIncidentDTOResponse>> GetByStudentCodeOrByNameAsync(string studentCode);
     }
 }

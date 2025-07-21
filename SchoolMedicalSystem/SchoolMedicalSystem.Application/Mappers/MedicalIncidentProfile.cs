@@ -54,6 +54,20 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.nurse_id, opt => opt.MapFrom(src => src.NurseId))
                 .ForMember(dest => dest.medical_incident_id, opt => opt.Ignore());
 
+            CreateMap<Prescription, PrescriptionDTORespone>()
+                .ForMember(dest => dest.PrescriptionId, opt => opt.MapFrom(src => src.prescription_id))
+                .ForMember(dest => dest.Instruction, opt => opt.MapFrom(src => src.instruction))
+                .ForMember(dest => dest.CreateAt, opt => opt.MapFrom(src => src.create_at))
+                .ForMember(dest => dest.MedicalIncidentId, opt => opt.MapFrom(src => src.medical_incident_id))
+                .ForMember(dest => dest.PrescriptionMedicines, opt => opt.MapFrom(src => src.PrescriptionMedicines));
+
+            // PrescriptionMedicine -> PrescriptionMedicineDTORespone
+            CreateMap<PrescriptionMedicine, PrescriptionMedicineDTORespone>()
+                .ForMember(dest => dest.PrescriptionMedicineId, opt => opt.MapFrom(src => src.prescription_medicine_id))
+                .ForMember(dest => dest.PrescriptionId, opt => opt.MapFrom(src => src.prescription_id))
+                .ForMember(dest => dest.MedicineId, opt => opt.MapFrom(src => src.medicine_id))
+                .ForMember(dest => dest.MedicineName, opt => opt.MapFrom(src => src.medicine != null ? src.medicine.medicine_name : null))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.quantity));
         }
     }
 }
