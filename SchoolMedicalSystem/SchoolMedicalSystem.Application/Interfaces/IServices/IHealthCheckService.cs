@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.Interfaces.IServices
 {
-    interface IHealthCheckService
+    public interface IHealthCheckService
     {
         Task<IEnumerable<HealthCheckResponse>> GetAllHealthChecksAsync();
         Task<HealthCheckResponse?> GetHealthCheckByIdAsync(int id);

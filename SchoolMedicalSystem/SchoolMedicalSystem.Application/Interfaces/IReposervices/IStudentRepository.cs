@@ -28,7 +28,5 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
 
         Task<List<Student>> AddStudentsToClass(List<Student> students, int classId);
 
-        Task<List<Student>> GetAll();
-
     }
 }
