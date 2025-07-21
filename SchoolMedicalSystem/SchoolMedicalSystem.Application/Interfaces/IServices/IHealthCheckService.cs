@@ -17,6 +17,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<PaginatedResponse<HealthCheckResponse>> GetHealthChecksPaginatedAsync(int pageSize, int pageNumber);
         Task<IEnumerable<HealthCheckResponse>> GetActiveHealthChecksAsync();
         Task<IEnumerable<HealthCheckResponse>> GetHealthChecksByStatusAsync(int status);
+        Task<PaginatedResponse<HealthCheckResponse>> GetPagedHealthChecksAsync(int pageNumber, int pageSize);
 
     }
 }

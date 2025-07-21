@@ -128,6 +128,28 @@ namespace SchoolMedicalSystem.Application.Services
             }
         }
 
+        public async Task<PaginatedResponse<HealthCheckResponse>> GetPagedHealthChecksAsync(int pageNumber, int pageSize)
+        {
+            var query = await _unitOfWork.HealthChecks.GetAllAsync(); // or IQueryable if possible
+            var totalRecords = query.Count();
+
+            var pagedData = query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            var result = _mapper.Map<List<HealthCheckResponse>>(pagedData);
+
+            return new PaginatedResponse<HealthCheckResponse>
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = totalRecords,
+                Items = result
+            };
+        }
+
+
         public Task<PaginatedResponse<HealthCheckResponse>> GetHealthChecksPaginatedAsync(int pageSize, int pageNumber)
         {
             throw new NotImplementedException();

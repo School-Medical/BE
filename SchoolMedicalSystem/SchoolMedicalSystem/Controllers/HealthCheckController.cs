@@ -120,5 +120,20 @@ namespace SchoolMedicalSystem.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpGet("/paging")]
+        public async Task<IActionResult> GetAllHealthChecks([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            try
+            {
+                var result = await _healthCheckService.GetPagedHealthChecksAsync(pageNumber, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting paginated health checks");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
