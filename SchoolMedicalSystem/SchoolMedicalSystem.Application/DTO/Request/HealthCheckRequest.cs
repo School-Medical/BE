@@ -15,5 +15,7 @@ namespace SchoolMedicalSystem.Application.DTO.Request
         public DateTime? EndAt { get; set; }
         public DateTime? RegisterStart {  get; set; }
         public DateTime? RegisterEnd { get; set; }
+
+        public int status { get; set; }
     }
 }
