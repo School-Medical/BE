@@ -14,5 +14,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<UserDTOResponse?> GetByIdAsync(int userId);
 
         Task<UserDTOResponse> UpdateAsync(int userId, UserDTORequest userDto);
+        Task<List<UserDTOResponse>> GetAllNursesAsync();
     }
 }

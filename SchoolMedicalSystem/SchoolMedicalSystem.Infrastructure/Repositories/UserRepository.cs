@@ -68,5 +68,14 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _dbContext.Update(user);
             return user;
         }
+
+        public async Task<List<User>> GetNursesAsync()
+        {
+            return await _dbContext.Users
+                .Include(u => u.role)
+                .Where(u => u.role_id == 3)
+                .ToListAsync();
+        }
+
     }
 }

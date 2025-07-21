@@ -14,5 +14,6 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
         Task<User?> GetByIdAsync(int userId);
         Task<(List<User> users, int totalItems)> GetPagedAsync(int pageSize, int pageNumber);
         Task<User> UpdateAsync(User user);
+        Task<List<User>> GetNursesAsync();
     }
 }
