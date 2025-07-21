@@ -13,7 +13,9 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public string StudentCode { get; set; } = string.Empty;
         public int? CampaignId { get; set; }
         public string CampaignName { get; set; } = string.Empty;
-        public DateTime? SubmitAt { get; set; }
-        public bool? StatusConfirm { get; set; }
+        public int ConfirmId { get; set; }
+        public DateTime? ConfirmSubmitAt { get; set; }
+        public string? ConfirmMessage { get; set; }
+        public ulong? StatusConfirm { get; set; }
     }
 }

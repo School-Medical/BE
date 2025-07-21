@@ -44,6 +44,11 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Student>> GetAll()
+        {
+            return await _dbContext.Students.Include(s => s._class).Include(s => s.StudentParents).ToListAsync();
+        }
+
         public async Task<Student?> GetStudentById(int id)
         {
             return await _dbContext.Students.Include(s => s._class)

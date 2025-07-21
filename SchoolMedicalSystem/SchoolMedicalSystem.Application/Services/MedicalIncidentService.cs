@@ -34,6 +34,15 @@ namespace SchoolMedicalSystem.Application.Services
                 if (medicalIncidentDTO == null) throw new ArgumentNullException(nameof(medicalIncidentDTO));
 
                 var entity = await _unitOfWork.MedicalIncidents.AddAsync(_mapper.Map<MedicalIncident>(medicalIncidentDTO));
+
+                var persistentEntity = _mapper.Map<Prescription>(medicalIncidentDTO.Prescriptions);
+
+                var prescription = await _unitOfWork.Prescriptions.AddAsync(persistentEntity);
+                var prescriptionMedicines = 
+                    await _unitOfWork.PrescriptionMedicines.AddAsync(
+                    _mapper.Map<PrescriptionMedicine>(persistentEntity.PrescriptionMedicines));
+
+
                 await _unitOfWork.SaveChangesAsync();
 
                 var result = _mapper.Map<MedicalIncidentDTOResponse>(entity);
@@ -135,10 +144,44 @@ namespace SchoolMedicalSystem.Application.Services
 
                 if (result == null)
                     return null;
+                var medicalIncident = await _unitOfWork.MedicalIncidents.GetByStudentIdAsync(result.student_id);
+                //return _mapper.Map<MedicalIncidentDTOResponse>(
+                //    await _unitOfWork.MedicalIncidents.GetByStudentIdAsync(result.student_id)
+                //);
+                return new MedicalIncidentDTOResponse
+                {
+                    MedicalIncidentId = medicalIncident!.medical_incident_id,
+                    Type = medicalIncident.type,
+                    Symptom = medicalIncident.symptom,
+                    Diagnosis = medicalIncident.diagnosis,
+                    Treatment = medicalIncident.treatment,
+                    SeverityLevel = medicalIncident.severity_level,
+                    FollowUp = medicalIncident.follow_up,
+                    Message = medicalIncident.message,
+                    CreatedAt = medicalIncident.create_at,
+                    //StudentId = result.student_id,
+                    StudentName = result.first_name + " " + result.last_name,
+                    NurseId = medicalIncident.nurse_id,
+                    NurseName = medicalIncident.nurse?.first_name + " " + medicalIncident.nurse?.last_name,
+                    //TÔi trở về map bằng tay vì tôi lười
+                    Prescriptions = medicalIncident.Prescriptions.Select(p => new PrescriptionDTORespone
+                    {
+                        PrescriptionId = p.prescription_id,
+                        Instruction = p.instruction,
+                        CreateAt = p.create_at,
+                        MedicalIncidentId = p.medical_incident_id,
+                        PrescriptionMedicines = p.PrescriptionMedicines?.Select(pm => new PrescriptionMedicineDTORespone
+                        {
+                            PrescriptionMedicineId = pm.prescription_medicine_id,
+                            PrescriptionId = pm.prescription_id,
+                            MedicineName = pm.medicine?.medicine_name,
+                            MedicineId = pm.medicine_id,
+                            Quantity = pm.quantity,
 
-                return _mapper.Map<MedicalIncidentDTOResponse>(
-                    await _unitOfWork.MedicalIncidents.GetByStudentIdAsync(result.student_id)
-                );
+                        }).ToList()
+                    }).ToList()
+
+                };
             }
             catch (Exception ex)
             {
