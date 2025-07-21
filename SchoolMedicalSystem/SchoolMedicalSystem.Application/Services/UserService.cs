@@ -4,6 +4,7 @@ using SchoolMedicalSystem.Application.DTO.Request;
 using SchoolMedicalSystem.Application.DTO.Response;
 using SchoolMedicalSystem.Application.Interfaces.IReposervices;
 using SchoolMedicalSystem.Application.Interfaces.IServices;
+using SchoolMedicalSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +85,11 @@ namespace SchoolMedicalSystem.Application.Services
                 _logger.LogError(ex, "Error updating User with ID: {Id}", userId);
                 throw;
             }
+        }
+
+        public async Task<List<UserDTOResponse>> GetAllNursesAsync()
+        {
+            return _mapper.Map<List<UserDTOResponse>>(await _unitOfWork.Users.GetNursesAsync());
         }
     }
 }

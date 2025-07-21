@@ -96,5 +96,19 @@ namespace SchoolMedicalSystem.Controllers
                 return StatusCode(500, new ApiResponse<object>("Internal server error", new List<string> { ex.Message }, 500));
             }
         }
+
+        [HttpGet("nurses")]
+        public async Task<IActionResult> GetAllNurses()
+        {
+            try
+            {
+                var nurses = await _userService.GetAllNursesAsync();
+                return Ok(new ApiResponse<IEnumerable<UserDTOResponse>>("Nurses retrieved successfully", nurses, 200));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<object>("Internal server error", new List<string> { ex.Message }, 500));
+            }
+        }
     }
 }

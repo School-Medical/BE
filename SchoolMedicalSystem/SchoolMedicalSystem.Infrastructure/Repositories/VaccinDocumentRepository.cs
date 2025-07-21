@@ -28,7 +28,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var existingEntity = await _dbContext.VaccinCampaigns.FindAsync(id);
+            var existingEntity = await _dbContext.VaccinDocuments.FindAsync(id);
             if (existingEntity == null) return false;
             _dbContext.Remove(existingEntity);
             return true;
