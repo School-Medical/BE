@@ -25,7 +25,7 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.RegisteredAt, opt => opt.MapFrom(src => src.register_start ?? DateTime.MinValue))
                 .ForMember(dest => dest.RegisteredBy, opt => opt.MapFrom(src => src.register_close ?? DateTime.MinValue))
                 .ForMember(dest => dest.HealthCheckStatus, opt => opt.MapFrom(src =>
-                    src.status.HasValue ? (src.status.Value == 1 ? "Đang mở" : "Đã đóng") : "Không xác định"));
+                    src.status));
 
             // Request -> Entity
             CreateMap<HealthCheckRequest, HealthCheck>()
