@@ -16,6 +16,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IServices
         Task<List<StudentDTOResponse>> GetStudentByStudentNameAsync(string studentName);
         Task<PaginatedResponse<StudentDTOResponse>> GetStudentsByClassIdAsync(int classId, int pageSize, int pageNumber);
         Task<PaginatedResponse<StudentDTOResponse>> GetAllStudentsAsync(int pageSize, int pageNumber);
+        //Task<List<StudentAddDTORequest>> GetAll();
         Task<StudentDTOResponse> AddStudentAsync(StudentAddDTORequest student);
         Task<StudentDTOResponse> UpdateStudentAsync(int id, StudentUpdateDTORequest student);
         Task<List<StudentDTOResponse>> AddStudentsToClassAsync(List<StudentAddDTORequest> students, int classId);

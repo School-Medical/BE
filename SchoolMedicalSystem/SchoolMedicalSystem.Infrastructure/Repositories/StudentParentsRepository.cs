@@ -56,7 +56,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public async Task<StudentParent?> GetStudentParentByStudentIdAsync(int studentId)
         {
             return await _dbContext.StudentParents.Include(sp => sp.student)
-                .Include(sp => sp.student)
+                .Include(sp => sp.user)
                 .FirstOrDefaultAsync(sp => sp.student_id == studentId);
         }
 
