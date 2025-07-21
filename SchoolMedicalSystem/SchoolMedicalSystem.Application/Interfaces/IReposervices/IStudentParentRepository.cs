@@ -10,5 +10,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
     public interface IStudentParentRepository
     {
          Task<StudentParent> AddAsync(StudentParent studentParent);
+        Task<bool> DeleteAsync(int id);
+
     }
 }
