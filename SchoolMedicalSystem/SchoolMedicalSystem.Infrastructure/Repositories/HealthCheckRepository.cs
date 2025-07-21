@@ -95,15 +95,6 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<HealthCheck>> GetHealthChecksByStatusAsync(ulong status)
-        {
-            return await _dbSet
-                .Include(hc => hc.HealthCheckConfirmations)
-                .Include(hc => hc.HealthCheckDocuments)
-                .Where(hc => hc.status == status)
-                .ToListAsync();
-        }
-
         public async Task<IEnumerable<HealthCheck>> GetHealthChecksByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             return await _dbSet

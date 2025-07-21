@@ -20,6 +20,8 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
 
         Task<List<Student>> GetAllStudents(int pageSize, int pageNumber);
 
+        Task<List<Student>> GetAll();
+
         Task<Student> AddStudent(Student student);
 
         Task<Student> UpdateStudent(Student student);

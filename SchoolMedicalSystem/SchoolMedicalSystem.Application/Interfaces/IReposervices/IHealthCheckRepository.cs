@@ -11,6 +11,7 @@ namespace SchoolMedicalSystem.Application.Interfaces.IReposervices
     {
         Task<HealthCheck> CreateAsync(HealthCheck healthCheck);
         Task<int> CountAsync();
+        Task<IEnumerable<HealthCheck>> GetAllAsync();
         Task<IEnumerable<HealthCheck>> GetAllWithPagingAsync(int pageSize, int pageNumber);
         Task<HealthCheck?> GetCurrentHealthCheckAsync();
         Task<IEnumerable<HealthCheck>> GetActiveHealthChecksAsync();
