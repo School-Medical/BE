@@ -26,5 +26,16 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
             _dbContext.StudentParents.Add(studentParent);
             return Task.FromResult(studentParent);
         }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            var studentParent = _dbContext.StudentParents.Find(id);
+            if (studentParent == null)
+            {
+                return Task.FromResult(false);
+            }
+            _dbContext.StudentParents.Remove(studentParent);
+            return Task.FromResult(true);
+        }
     }
 }

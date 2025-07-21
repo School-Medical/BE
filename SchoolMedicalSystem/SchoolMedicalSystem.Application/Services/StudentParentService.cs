@@ -31,5 +31,16 @@ namespace SchoolMedicalSystem.Application.Services
             await _unitOfWork.SaveChangesAsync();
             return studentParent;
         }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException("Invalid ID", nameof(id));
+            }
+            var result = _unitOfWork.StudentParent.DeleteAsync(id);
+            _unitOfWork.SaveChangesAsync();
+            return result;
+        }
     }
 }
