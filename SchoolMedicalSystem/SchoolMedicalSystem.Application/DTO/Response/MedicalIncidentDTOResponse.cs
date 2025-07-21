@@ -17,6 +17,7 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public ulong? FollowUp { get; set; }
         public string? Message { get; set; }
         public DateTime? CreatedAt { get; set; }
+        public int? StudentId { get; set; }
         public string? StudentName { get; set; }
         public string? NurseName { get; set; }
         public int? NurseId { get; set; }

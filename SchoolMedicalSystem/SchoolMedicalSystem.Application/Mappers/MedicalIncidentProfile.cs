@@ -42,7 +42,8 @@ namespace SchoolMedicalSystem.Application.Mappers
                 .ForMember(dest => dest.MedicalIncidentId, opt => opt.MapFrom(src => src.medical_incident_id))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.create_at))
                 .ForMember(dest => dest.FollowUp, opt => opt.MapFrom(src => src.follow_up))
-                .ForMember(dest => dest.SeverityLevel, opt => opt.MapFrom(src => src.severity_level));
+                .ForMember(dest => dest.SeverityLevel, opt => opt.MapFrom(src => src.severity_level))
+                .ForMember(dest => dest.StudentId, opt => opt.MapFrom(src => src.student_id));
 
             
             CreateMap<MedicalIncidentDTORequest, MedicalIncident>()
