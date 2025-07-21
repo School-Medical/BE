@@ -11,7 +11,7 @@ namespace SchoolMedicalSystem.Application.DTO.Response
         public int HealthCheckId { get; set; }
         public string HealthCheckName { get; set; }
         public string HealthCheckDescription { get; set; }
-        public string HealthCheckStatus { get; set; } // 1: đang mở, 0: là đang đóng
+        public int HealthCheckStatus { get; set; } // 1: đa xac nhan, 0: là chua xac nhan
         public string HealthCheckLocation { get; set; }
         public DateTime HealthCheckStart { get; set; }
         public DateTime HealthCheckEnd { get; set; }
