@@ -64,7 +64,7 @@ namespace SchoolMedicalSystem.Infrastructure.Repositories
         public async Task<VaccinCampaign?> GetCurrentCampaignAsync()
         {
             return await _dbContext.VaccinCampaigns
-                .Where(c => c.start_at <= DateTime.Now && c.end_at >= DateTime.Now && c.status == 1)
+                .Where(c => c.register_start <= DateTime.Now && c.register_close >= DateTime.Now && c.status == 1)
                 .FirstOrDefaultAsync();
         }
     }

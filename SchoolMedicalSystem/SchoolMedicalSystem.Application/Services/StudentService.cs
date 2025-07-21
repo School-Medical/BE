@@ -76,6 +76,13 @@ namespace SchoolMedicalSystem.Application.Services
             }
         }
 
+        public async Task<List<StudentDTOResponse>> GetAll()
+        {
+            var students = await _unitOfWork.Students.GetAll();
+            var result = _mapper.Map<List<StudentDTOResponse>>(students);
+            return result;
+        }
+
         public async Task<PaginatedResponse<StudentDTOResponse>> GetAllStudentsAsync(int pageSize, int pageNumber)
         {
             try
