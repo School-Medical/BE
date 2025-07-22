@@ -137,7 +137,7 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
         {
             var message = _env.IsDevelopment()
                 ? $"Internal Server Error: {ex.Message}"
-                : "Đã xảy ra lỗi trong quá trình xử lý";
+                : $"Đã xảy ra lỗi trong quá trình xử lý + {ex.Message}";
 
             return ErrorResponse.Create(message, "INTERNAL_ERROR");
         }
