@@ -17,5 +17,7 @@ public partial class Blog
 
     public DateOnly? update_at { get; set; }
 
+    public string? title { get; set; }
+
     public virtual User? user { get; set; }
 }

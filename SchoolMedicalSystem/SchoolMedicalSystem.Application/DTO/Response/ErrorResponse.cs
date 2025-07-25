@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SchoolMedicalSystem.Application.DTO.Response
 {
-    public class ErrorResponse : ApiResponse
+    public class ErrorResponse : ApiResponseException
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public string ErrorCode { get; set; }
-
+       
         private ErrorResponse() { } // Private constructor
 
         public static ErrorResponse Create(string message, string errorCode)

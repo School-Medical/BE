@@ -1,6 +1,10 @@
 using Autofac;
 using Microsoft.EntityFrameworkCore;
+using SchoolMedicalSystem.Application.Interfaces.IReposervices;
+using SchoolMedicalSystem.Application.Interfaces.IServices;
+using SchoolMedicalSystem.Application.Services;
 using SchoolMedicalSystem.Infrastructure.Data;
+using SchoolMedicalSystem.Infrastructure.Repositories;
 
 namespace SchoolMedicalSystem.Application.ExceptionHandler
 {
@@ -26,11 +30,36 @@ namespace SchoolMedicalSystem.Application.ExceptionHandler
                 return new SchoolMedicalDbContext(optionsBuilder.Options);
             }).InstancePerLifetimeScope();
 
-            // Register repository and service
 
-            //builder.RegisterType<JwtService>().As<IJwtService>().InstancePerLifetimeScope();
-            //builder.RegisterType<UserRepository>().As<IUserRepository>().InstancePerLifetimeScope();
+            // Register service
 
+            builder.RegisterType<JWTService>().As<IJWTService>().InstancePerLifetimeScope();
+            builder.RegisterType<AuthService>().As<IAuthService>().InstancePerLifetimeScope();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();    
+            builder.RegisterType<MedicalIncidentService>().As<IMedicalIncidentService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationRepository>().As<IMedicationRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationService>().As<IMedicationService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<GivenDoseService>().As<IGivenDoseService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationService>().As<IMedicationService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicalSuppliesService>().As<IMedicalSuppliesService>().InstancePerLifetimeScope();
+            builder.RegisterType<HealthProfileService>().As<IHealthProfileService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicationHistoryService>().As<IMedicationHistoryService>().InstancePerLifetimeScope();
+            builder.RegisterType<MedicalService>().As<IMedicalService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<VaccinCampaignService>().As<IVaccinCampaignService>().InstancePerLifetimeScope();
+            builder.RegisterType<VaccinConfirmationService>().As<IVaccinConfirmationService>().InstancePerLifetimeScope();
+            builder.RegisterType<VaccinDocumentService>().As<IVaccinDocumentService>().InstancePerLifetimeScope();
+            builder.RegisterType<BlogService>().As<IBlogService>().InstancePerLifetimeScope();
+
+            builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+            builder.RegisterType<StudentService>().As<IStudentService>().InstancePerLifetimeScope();
+            builder.RegisterType<PrescriptionService>().As<IPrescriptionService>().InstancePerLifetimeScope();
+            builder.RegisterType<PrescriptionMedicineService>().As<IPrescriptionMedicineService>().InstancePerLifetimeScope();
+            builder.RegisterType<StudentParentService>().As<IStudentParentService>().InstancePerLifetimeScope();
+            builder.RegisterType<HealthCheckService>().As<IHealthCheckService>().InstancePerLifetimeScope();
+            builder.RegisterType<HealthCheckConfirmationService>().As<IHealthCheckConfirmationService>().InstancePerLifetimeScope();
+            builder.RegisterType<HealthCheckDocumentService>().As<IHealthCheckDocumentService>().InstancePerLifetimeScope();
 
         }
     }
