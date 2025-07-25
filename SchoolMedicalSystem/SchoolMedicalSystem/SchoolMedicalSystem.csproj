@@ -7,16 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.3.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Configurations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\SchoolMedicalSystem.Application\SchoolMedicalSystem.Application.csproj" />
+    <ProjectReference Include="..\SchoolMedicalSystem.Infrastructure\SchoolMedicalSystem.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
